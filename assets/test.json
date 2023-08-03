@@ -1,0 +1,287 @@
+{
+  "result": [
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 200,
+              "y": 300,
+              "z": 500
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "energy": 1,
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            },
+            "radius": 0.1,
+            "falloff": "quadratic"
+          }
+        ],
+        "camera": {
+          "location": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "coffeecup",
+            "prompt": "coffeecup is near Cookie",
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/"
+          },
+          {
+            "name": "Cookie",
+            "prompt": null,
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Cookie.fbx"
+          }
+        ],
+        "actors": [
+          {
+            "name": "COOKIE",
+            "emotions": [],
+            "audio": "dialogues/COOKIE1",
+            "motions": [],
+            "location": {},
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Cookie.fbx"
+          }
+        ],
+        "actions": [
+          {
+            "type": "AUDIO",
+            "actor": "COOKIE",
+            "start_time": 2,
+            "sequence": 2,
+            "file": "dialogues/COOKIE1"
+          }
+        ],
+        "render_sequence": {
+          "output_name": "1689894205",
+          "resolution": {
+            "x": 1920,
+            "y": 1080
+          },
+          "frame_rate": 24,
+          "quality": 100
+        }
+      }
+    },
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 200,
+              "y": 300,
+              "z": 500
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "energy": 1,
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            },
+            "radius": 0.1,
+            "falloff": "quadratic"
+          }
+        ],
+        "camera": {
+          "location": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "Pie Hole Café",
+            "prompt": null,
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/"
+          },
+          {
+            "name": "Cliff",
+            "prompt": "Cliff is in the Pie Hole Café",
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Named/Cliff.fbx"
+          }
+        ],
+        "actors": [
+          {
+            "name": "CLASSICMOVIE_TRAILER_ANNOUNCER_(_V.O._)_",
+            "emotions": [],
+            "audio": "dialogues/CLASSICMOVIE_TRAILER_ANNOUNCER_(_V.O._)_2",
+            "motions": [],
+            "location": {},
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/"
+          }
+        ],
+        "actions": [
+          {
+            "type": "AUDIO",
+            "actor": "CLASSICMOVIE_TRAILER_ANNOUNCER_(_V.O._)_",
+            "start_time": 3,
+            "sequence": 3,
+            "file": "dialogues/CLASSICMOVIE_TRAILER_ANNOUNCER_(_V.O._)_2"
+          }
+        ],
+        "render_sequence": {
+          "output_name": "1689894205",
+          "resolution": {
+            "x": 1920,
+            "y": 1080
+          },
+          "frame_rate": 24,
+          "quality": 100
+        }
+      }
+    },
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 200,
+              "y": 300,
+              "z": 500
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "energy": 1,
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            },
+            "radius": 0.1,
+            "falloff": "quadratic"
+          }
+        ],
+        "camera": {
+          "location": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "Pie Hole Café",
+            "prompt": "Pie Hole Café is near Cookie",
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/"
+          },
+          {
+            "name": "Finger",
+            "prompt": "Finger is in Cookie's hand",
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/"
+          },
+          {
+            "name": "Cookie",
+            "prompt": "Cookie is near Cliff",
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Cookie.fbx"
+          },
+          {
+            "name": "Cliff",
+            "prompt": null,
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Named/Cliff.fbx"
+          }
+        ],
+        "actors": [
+          {
+            "name": "COOKIE",
+            "emotions": [],
+            "audio": "dialogues/COOKIE3",
+            "motions": [],
+            "location": {},
+            "file": "https://metabull3dassets.s3.amazonaws.com/metabull3dassets/Characters/Cookie.fbx"
+          }
+        ],
+        "actions": [
+          {
+            "type": "AUDIO",
+            "actor": "COOKIE",
+            "start_time": 4,
+            "sequence": 4,
+            "file": "dialogues/COOKIE3"
+          }
+        ],
+        "render_sequence": {
+          "output_name": "1689894205",
+          "resolution": {
+            "x": 1920,
+            "y": 1080
+          },
+          "frame_rate": 24,
+          "quality": 100
+        }
+      }
+    }
+  ]
+}

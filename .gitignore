@@ -1,0 +1,6 @@
+__pycache__
+/.idea
+/output
+/packages
+/assets/tmp
+/assets/s3

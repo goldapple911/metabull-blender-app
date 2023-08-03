@@ -1,0 +1,173 @@
+{
+  "scene": {
+    "environment": "DefaultEnvironment",
+    "time": "Morning",
+    "lighting": [
+      {
+        "type": "PointLight",
+        "location": {
+          "x": 2,
+          "y": 3,
+          "z": 5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "camera": {
+      "location": {
+        "x": -1.06642,
+        "y": -1.69606,
+        "z": 2.04938
+      },
+      "rotation": {
+        "x": 83.4001,
+        "y": 0,
+        "z": 284.8
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    "objects": [
+      {
+        "name": "Pie_Hole_Cafe",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Pie_Hole_Cafe_Packed_4k_Textures.blend",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "actors": [
+      {
+        "name": "Cliff",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "prompt": "Cliff is right in front of Cookie.",
+        "location": {
+          "x": 1.17,
+          "y": -1.5,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": -210.4
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "Cookie",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "prompt": "Cookie is in front of the chair.",
+        "location": {
+          "x": 1.67536,
+          "y": -0.818229,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": -40
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "AUDIO",
+      "actor": "Cookie",
+      "start_time": 15,
+      "file": "/audio/scene3_1.wav",
+      "line": "One, two, three, four."
+    },
+    {
+      "type": "AUDIO",
+      "actor": "Cookie",
+      "start_time": 100,
+      "file": "/audio/scene3_2.wav",
+      "line": "You're my fourth new friend today."
+    },
+    {
+      "type": "ANIM",
+      "actor": "Cookie",
+      "start_time": 0,
+      "end_time": 200,
+      "file": "/animations/Idle.fbx"
+    },
+    {
+      "type": "ANIM",
+      "actor": "Cliff",
+      "start_time": 15,
+      "end_time": 200,
+      "file": "/animations/Idle.fbx"
+    },
+    {
+      "type": "LOOK_AT",
+      "actor": "Cookie",
+      "target": "Cliff",
+      "start_time": 50
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Cookie",
+      "start_time": 20,
+      "end_time": 70,
+      "emotion": "HAPPY"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Cookie",
+      "start_time": 80,
+      "end_time": 110,
+      "emotion": "SAD"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Cookie",
+      "start_time": 120,
+      "end_time": 150,
+      "emotion": "ANGRY"
+    }
+  ],
+  "render_sequence": {
+    "output_name": "Scene3",
+    "resolution": {
+      "x": 1920,
+      "y": 1080
+    },
+    "frame_rate": 24,
+    "quality": 100,
+    "max_frames": 300
+  }
+}

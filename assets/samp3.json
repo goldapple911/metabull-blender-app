@@ -1,0 +1,215 @@
+{
+  "scene": {
+    "environment": "DefaultEnvironment",
+    "time": "Morning",
+    "lighting": [
+      {
+        "type": "PointLight",
+        "location": {
+          "x": 2,
+          "y": 3,
+          "z": 5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "camera": {
+      "location": {
+        "x": 1,
+        "y": -3,
+        "z": 1.35
+      },
+      "rotation": {
+        "x": 86,
+        "y": 0,
+        "z": 12
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    "objects": [
+      {
+        "name": "Pie_Hole_Cafe",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Pie_Hole_Cafe_Packed_no_mats.blend",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "CoffeeCup_01",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Prop_Coffee_Cup_Packed.blend",
+        "prompt": "The coffee cup is in front of Cookie.",
+        "location": {
+          "x": 1,
+          "y": 1,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "actors": [
+      {
+        "name": "Cliff",
+        "file": "/3dmodels/characters/Beta_Rig_Testing_ONLY_52Arkit_test.blend",
+        "prompt": "Cliff is in front of the bar.",
+        "location": {
+          "x": 0.72,
+          "y": 5,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "Cookie",
+        "file": "/3dmodels/characters/lipsync avatar.fbx",
+        "prompt": "Cookie is right in front of Cliff.",
+        "location": {
+          "x": 0.52,
+          "y": -1.8,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 29
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "TRANSFORM",
+      "actor": "Cookie",
+      "start_time": 2,
+      "end_time": 100,
+      "location": {
+        "x": 0,
+        "y": -1,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "type": "TRANSFORM",
+      "actor": "Camera",
+      "start_time": 20,
+      "end_time": 120,
+      "location": {
+        "x": 2,
+        "y": -5,
+        "z": 1.35
+      },
+      "rotation": {
+        "x": 186,
+        "y": 0,
+        "z": 12
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    {
+      "type": "AUDIO",
+      "actor": "Cookie",
+      "start_time": 10,
+      "file": "/audio/scene1.wav",
+      "line": "I always do a double in case they forget and only put in one shot."
+    },
+    {
+      "type": "AUDIO",
+      "actor": null,
+      "start_time": 200,
+      "file": "/audio/scene2.wav",
+      "line": "Wilderness Therapy...a spectacle of biblical proportions."
+    },
+    {
+      "type": "ANIM",
+      "actor": "Cliff",
+      "start_time": 10,
+      "end_time": 100,
+      "file": "/animations/Capoeira.fbx"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Cliff",
+      "start_time": 10,
+      "end_time": 100,
+      "blendshape": "playful"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Cookie",
+      "start_time": 50,
+      "end_time": 150,
+      "blendshape": "sincere"
+    }
+  ],
+  "render_sequence": {
+    "output_name": "MyRender",
+    "resolution": {
+      "x": 1920,
+      "y": 1080
+    },
+    "frame_rate": 24,
+    "quality": 100,
+    "max_frames": 120
+  }
+}

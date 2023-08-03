@@ -1,0 +1,110 @@
+{
+  "sequence_data": {
+    "sequence_name": "NewLevelSequence",
+    "sequence_length": 12
+  },
+  "scene": {
+    "lighting": [
+      {
+        "type": "PointLight",
+        "location": {
+          "x": 200,
+          "y": 300,
+          "z": 500
+        }
+      }
+    ],
+    "objects": [],
+    "actors": [
+      {
+        "name": "Pie_Hole_Cafe_Interior_FINAL_FBX",
+        "directory": "/Game/Pie_Hole_Cafe_Interior_FINAL_FBX+TEX_05-25-23/FBX.FBX'",
+        "location": {
+          "x": -850,
+          "y": -1020,
+          "z": 0
+        },
+        "rotation": {
+          "roll": 0,
+          "pitch": 0,
+          "yaw": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "environment": "DefaultEnvironment"
+  },
+  "characters": [
+    {
+      "name": "Cliff",
+      "location": {
+        "x": 2670,
+        "y": -3960,
+        "z": 310
+      },
+      "motions": [
+        "/Game/MetaHumans/greeting_walkanddrink_m_270750_greeting_walkanddrink_m_270750.greeting_walkanddrink_m_270750_greeting_walkanddrink_m_270750'"
+      ],
+      "emotions": [
+        "Playful",
+        "Sincere"
+      ],
+      "audio": "/Game/Structures/CLASSICMOVIETRAILERANNOUNCER(V.O.)1.wav.CLASSICMOVIETRAILERANNOUNCER(V.O.)1.wav'"
+    }
+  ],
+  "time": "Morning",
+  "dialogues": [
+    {
+      "character": "ANNOUNCER",
+      "line": "Wilderness Therapy...a spectacle of biblical proportions.",
+      "sequence": 1
+    }
+  ],
+  "camera": {
+    "transform": {
+      "location": {
+        "x": -486.527268,
+        "y": -1813.651358,
+        "z": 1756.159965
+      },
+      "rotation": {
+        "pitch": 0,
+        "yaw": -86.600001,
+        "roll": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    "start_location": {
+      "x": -2124.117371,
+      "y": 1413.197074,
+      "z": 1635.657694
+    },
+    "end_location": {
+      "x": -2124.117371,
+      "y": 1413.197074,
+      "z": 1635.657694
+    }
+  },
+  "level_sequence_actor": {
+    "auto_play": true
+  },
+  "render_sequence": {
+    "project_path": "F:/UEProjects/Test_FF/Test_FF/Test_FF.uproject",
+    "output_folder": "F:/UEProjects/Test_FF/Test_FF/VideoOutput",
+    "output_name": "MyRender",
+    "resolution": {
+      "x": 1920,
+      "y": 1080
+    },
+    "frame_rate": 30,
+    "quality": 80
+  }
+}

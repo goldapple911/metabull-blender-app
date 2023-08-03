@@ -1,0 +1,171 @@
+{
+  "result": [
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 2,
+              "y": 3,
+              "z": 5
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "energy": 1.0,
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            },
+            "radius": 0.1,
+            "falloff": "quadratic"
+          }
+        ],
+        "camera": {
+          "location": {
+            "x": -2.5518,
+            "y": -1.10794,
+            "z": 1.4693
+          },
+          "rotation": {
+            "x": 88.6,
+            "y": 0,
+            "z": 297
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "Pie Hole Cafe",
+            "prompt": "Pie Hole Cafe is near COOKIE",
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "file": "https://metabull3dassets.s3.amazonaws.com/Blender_TestAssets/TestVersion1/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+            "location": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          },
+          {
+            "name": "CLIFF",
+            "prompt": "CLIFF is close to COOKIE",
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+            "location": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
+          }
+        ],
+        "actors": [
+          {
+            "name": "COOKIE",
+            "emotions": [],
+            "audio": "dialogues/COOKIE1",
+            "motions": [],
+            "location": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ANIM",
+          "actor": "Cookie",
+          "start_time": 0,
+          "end_time": 5,
+          "action": "step up",
+          "file": "/animations/Idle.fbx"
+        },
+        {
+          "type": "ANIM",
+          "actor": "Cookie",
+          "start_time": 5,
+          "end_time": 9,
+          "action": "tap",
+          "file": "/animations/Idle.fbx"
+        },
+        {
+          "type": "AUDIO",
+          "actor": "Cookie",
+          "start_time": 5,
+          "end_time": 9,
+          "content": "One, two, three, four.",
+          "file": "s3://metabull-ai-audio-generated-output/1691049422/dialogues/Cookie1.wav"
+        },
+        {
+          "type": "ANIM",
+          "actor": "Cliff",
+          "start_time": 9,
+          "end_time": 11,
+          "action": "surprise",
+          "file": "/animations/Idle.fbx"
+        },
+        {
+          "type": "ANIM",
+          "actor": "Cliff",
+          "start_time": 11,
+          "end_time": 14,
+          "action": "look around",
+          "file": "/animations/Idle.fbx"
+        },
+        {
+          "type": "AUDIO",
+          "actor": "Cookie",
+          "start_time": 14,
+          "end_time": 22,
+          "content": "You're my fourth new friend today.",
+          "file": "s3://metabull-ai-audio-generated-output/1691049422/dialogues/Cookie2.wav"
+        }
+      ],
+      "render_sequence": {
+        "output_name": "1691049422",
+        "resolution": {
+          "x": 1920,
+          "y": 1080
+        },
+        "frame_rate": 24,
+        "quality": 100,
+        "max_frames": 300
+      }
+    }
+  ]
+}

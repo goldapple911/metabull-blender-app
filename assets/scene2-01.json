@@ -1,0 +1,134 @@
+{
+  "scene": {
+    "environment": "DefaultEnvironment",
+    "time": "Morning",
+    "lighting": [
+      {
+        "type": "PointLight",
+        "location": {
+          "x": 2,
+          "y": 3,
+          "z": 5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "camera": {
+      "location": {
+        "x": 3.96143,
+        "y": 2.81289,
+        "z": 2.53987
+      },
+      "rotation": {
+        "x": 76.2002,
+        "y": 0,
+        "z": 155.2
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
+    },
+    "objects": [
+      {
+        "name": "Coffee_Cup",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Prop_Coffee_Cup_Packed.blend",
+        "prompt": "The coffee cup is in front of Cookie.",
+        "bone_name" : "mixamorig:LeftHandThumb1",
+        "actor":"Cliff",
+        "location": {
+          "x": 1.83458,
+          "y": -0.707245,
+          "z": 1.42628
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "Pie_Hole_Cafe",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Pie_Hole_Cafe_Packed_4k_Textures.blend",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ],
+    "actors": [
+      {
+        "name": "Cliff",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "prompt": "Cliff is in right of the table.",
+        "location": {
+          "x": 1.67536,
+          "y": -0.818229,
+          "z": 0.32
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": -220.212
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    ]
+  },
+  "actions": [
+    {
+      "type": "AUDIO",
+      "actor": null,
+      "start_time": 15,
+      "file": "/audio/scene2.wav",
+      "line": "Wilderness Therapy...a spectacle of biblical proportions."
+    },
+    {
+      "type": "ANIM",
+      "actor": "Cliff",
+      "start_time": 15,
+      "end_time": 200,
+      "file": "/animations/Drinking_without_skin.fbx"
+    }
+  ],
+  "render_sequence": {
+    "output_name": "Scene2",
+    "resolution": {
+      "x": 1920,
+      "y": 1080
+    },
+    "frame_rate": 24,
+    "quality": 100,
+    "max_frames": 300
+  }
+}

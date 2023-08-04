@@ -99,16 +99,17 @@ def add_lip_sync(actors: dict, data: dict):
         try:
             results = model.recognize(audio_file, lang_id="eng", timestamp=True)
         except Exception as e:
-            # Read and rewrite the file with soundfile to make sure it's readable by the recognizer
             print("Error reading audio, re-encoding file..")
+
+        # Reread the audio file
+        if not results:
+            # Read and rewrite the file with soundfile to make sure it's readable by the recognizer
             file_path = audio_file
             audio_file_2 = str(audio_file).replace(".wav", "_2.wav")
             data, samplerate = soundfile.read(file_path)
             soundfile.write(audio_file_2, data, samplerate)
             audio_file = pathlib.Path(audio_file_2)
 
-        # Reread the audio file
-        if not results:
             try:
                 results = model.recognize(audio_file, lang_id="eng", timestamp=True)
             except Exception as e:

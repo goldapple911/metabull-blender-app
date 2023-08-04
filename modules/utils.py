@@ -123,6 +123,7 @@ def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path):
 def open_in_blender(path: pathlib.Path):
     # Save current scene as blend file
     blend_file = path / "tmp" / "opened.blend"
+    blend_file.parent.mkdir(parents=True, exist_ok=True)
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_file))
 
     # Open the blend file with Blender

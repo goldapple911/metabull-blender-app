@@ -158,6 +158,21 @@ def import_file(path: pathlib.Path, allow_link=False):
     else:
         raise Exception(f"Unknown import file type: {file_type} in {path}")
 
+    # If there are multiple imported top-level objects, create a parent for them
+    imported_parent_objs = [obj for obj in bpy.context.selected_objects if not obj.parent]
+    if len(imported_parent_objs) > 1:
+        # Create a parent for all imported objects
+        parent = bpy.data.objects.new(path.stem, None)
+        collection = bpy.data.collections.get("Collection")
+        collection.objects.link(parent)
+
+        # Set the parent and link it to the blend collection
+        for obj in imported_parent_objs:
+            obj.parent = parent
+
+        # Set the parent as active
+        set_active(parent, select=True, deselect_others=True)
+
     # Find the main imported object
     asset = bpy.context.object
     if not asset and not bpy.context.selected_objects:
@@ -213,7 +228,7 @@ def import_blend_file(path: pathlib.Path, link: bool):
             obj.parent = parent
 
     # Set the parent as active
-    set_active(parent, select=True)
+    set_active(parent, select=True, deselect_others=True)
 
     # Set the main collection as active
     bpy.context.view_layer.active_layer_collection = find_layer_collection(collection_blend.name)
@@ -324,5 +339,19 @@ def weight_paint_obj_to_bone(obj, armature, bone_name):
     mod.object = armature
 
 
+def find_armature(asset):
+    # Find the armature object
+    armature = None
+    for obj in asset.children_recursive:
+        if obj.type != "ARMATURE":
+            continue
+        if obj.name.startswith("rig") or obj.name.startswith("metabull_"):
+            armature = obj
+            break
+    if not armature:
+        armature = asset.children[0]
+    if not armature:
+        armature = asset
 
+    return armature
 

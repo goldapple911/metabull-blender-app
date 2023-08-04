@@ -22,7 +22,7 @@
               "y": 1,
               "z": 1
             },
-            "energy": 1.0,
+            "energy": 1,
             "color": {
               "r": 1,
               "g": 1,
@@ -34,14 +34,14 @@
         ],
         "camera": {
           "location": {
-            "x": -2.5518,
-            "y": -1.10794,
-            "z": 1.4693
+            "x": 0.82653,
+            "y": -2.24347,
+            "z": 1.51265
           },
           "rotation": {
-            "x": 88.6,
+            "x": 87.4,
             "y": 0,
-            "z": 297
+            "z": 25.8
           },
           "scale": {
             "x": 1,
@@ -51,8 +51,8 @@
         },
         "objects": [
           {
-            "name": "Pie Hole Cafe",
-            "prompt": "Pie Hole Cafe is near COOKIE",
+            "name": "Coffee cup",
+            "prompt": "Coffee cup is in front of BETA",
             "rotation": {
               "x": 0,
               "y": 0,
@@ -63,101 +63,48 @@
               "y": 1,
               "z": 1
             },
-            "file": "https://metabull3dassets.s3.amazonaws.com/Blender_TestAssets/TestVersion1/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.fbx",
             "location": {
               "x": 0,
               "y": 0,
               "z": 0
-            }
-          },
-          {
-            "name": "CLIFF",
-            "prompt": "CLIFF is close to COOKIE",
-            "rotation": {
-              "x": 0,
-              "y": 0,
-              "z": 0
             },
-            "scale": {
-              "x": 1,
-              "y": 1,
-              "z": 1
-            },
-            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
-            "location": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
+            "actor": "beta",
+            "bone_name": "mixamorig:LeftHandThumb1"
           }
         ],
         "actors": [
           {
-            "name": "COOKIE",
-            "emotions": [],
-            "audio": "dialogues/COOKIE1",
-            "motions": [],
+            "name": "BETA",
             "location": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
+              "x": 0,
+              "y": 0,
+              "z": 0
             },
-            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend"
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_Rig_Testing_ONLY_52Arkit.blend"
           }
         ]
       },
       "actions": [
         {
           "type": "ANIM",
-          "actor": "Cookie",
+          "actor": "BETA",
           "start_time": 0,
-          "end_time": 5,
-          "action": "step up",
-          "file": "/animations/Idle.fbx"
-        },
-        {
-          "type": "ANIM",
-          "actor": "Cookie",
-          "start_time": 5,
-          "end_time": 9,
-          "action": "tap",
-          "file": "/animations/Idle.fbx"
+          "end_time": 150,
+          "action": "lift coffee cup",
+          "file": "/animations/Drinking_without_skin.fbx"
         },
         {
           "type": "AUDIO",
-          "actor": "Cookie",
-          "start_time": 5,
-          "end_time": 9,
-          "content": "One, two, three, four.",
-          "file": "s3://metabull-ai-audio-generated-output/1691049422/dialogues/Cookie1.wav"
-        },
-        {
-          "type": "ANIM",
-          "actor": "Cliff",
-          "start_time": 9,
-          "end_time": 11,
-          "action": "surprise",
-          "file": "/animations/Idle.fbx"
-        },
-        {
-          "type": "ANIM",
-          "actor": "Cliff",
-          "start_time": 11,
-          "end_time": 14,
-          "action": "look around",
-          "file": "/animations/Idle.fbx"
-        },
-        {
-          "type": "AUDIO",
-          "actor": "Cookie",
-          "start_time": 14,
-          "end_time": 22,
-          "content": "You're my fourth new friend today.",
-          "file": "s3://metabull-ai-audio-generated-output/1691049422/dialogues/Cookie2.wav"
+          "actor": "BETA",
+          "start_time": 0,
+          "end_time": 20,
+          "content": "I always do a double in case they forget and only put in one shot.",
+          "file": "s3://metabull-ai-audio-generated-output/1691136855/dialogues/BETA1.wav"
         }
       ],
       "render_sequence": {
-        "output_name": "1691049422",
+        "output_name": "1691136855",
         "resolution": {
           "x": 1920,
           "y": 1080

@@ -1,9 +1,12 @@
 
-from . import retargeting, lipsync, emotions
+from . import retargeting, lipsync, emotions, attach
 from ..camera_movement import camera_movement
 
 
 def handle_actions(actors: dict, data: dict):
+    # Attach objects to the armature
+    attach.attach(actors, data)
+
     # Add animations to actors
     retargeting.automate(actors, data)
 

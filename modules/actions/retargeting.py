@@ -1,3 +1,4 @@
+
 import bpy
 import os
 import time
@@ -183,17 +184,7 @@ def automate(actors, data):
             raise Exception(f"Actor '{action_actor}' from actions not found.")
 
         # Get the armature object
-        armature = None
-        for obj in asset.children_recursive:
-            if obj.type != "ARMATURE":
-                continue
-            if obj.name.startswith("rig") or obj.name.startswith("metabull_"):
-                armature = obj
-                break
-        if not armature:
-            armature = asset.children[0]
-        if not armature:
-            armature = asset
+        armature = utils.find_armature(asset)
         if not armature:
             raise Exception("No armature found in imported file.")
 

@@ -71,26 +71,6 @@
                         },
                         "actor": "BETA",
                         "bone_name": "mixamorig:LeftHandThumb1"
-                    },
-                    {
-                        "name": "Pie Hole Cafe",
-                        "prompt": null,
-                        "rotation": {
-                            "x": 0,
-                            "y": 0,
-                            "z": 0
-                        },
-                        "scale": {
-                            "x": 1,
-                            "y": 1,
-                            "z": 1
-                        },
-                        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
-                        "location": {
-                            "x": 0,
-                            "y": 0,
-                            "z": 0
-                        }
                     }
                 ],
                 "actors": [
@@ -109,6 +89,14 @@
                 ]
             },
             "actions": [
+                {
+                    "type": "ANIM",
+                    "actor": "BETA",
+                    "start_time": 10,
+                    "end_time": 40,
+                    "action": "lift coffee cup",
+                    "file": "/animations/Idle.fbx"
+                },
                 {
                     "type": "ANIM",
                     "actor": "BETA",

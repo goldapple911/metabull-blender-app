@@ -113,6 +113,10 @@ def render(data: dict):
     else:
         print(f"Skipped rendering..")
 
+    # If the output folder exists, add the json file to it
+    if output_dir.exists():
+        shutil.copy(args_handler.json_path, output_dir)
+
     # Upload the rendered result to S3 if any were generated
     if output_file and args_handler.upload_render:
         # Create a small file to indicate when the render is complete, it gets uploaded last

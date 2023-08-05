@@ -124,8 +124,22 @@ from .. import utils
 
 
 def retarget(actors: dict, actions: list[dict]):
-    # Retarget each action
+    actions_tmp = []
+    # Search for the drinking animation and use only that
     for action in actions:
+        if action["type"] == "ANIM" and "drinking" in action["file"].lower():
+            actions_tmp.append(action)
+            break
+
+    # If no drinking anim was found, only use the first anim
+    if not actions_tmp:
+        for action in actions:
+            if action["type"] == "ANIM":
+                actions_tmp.append(action)
+                break
+
+    # Retarget each action
+    for action in actions_tmp:
         action_type = action["type"]
         action_actor = action["actor"]
         if action_type != "ANIM" or not action_actor:

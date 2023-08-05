@@ -114,10 +114,7 @@ def bind_camera_to_frame(camera,frame):
     marker.camera = camera
 
                 
-def set_camera_movement(data):
-    
-    # get the relevant data
-    actions = data["actions"]
+def set_camera_movement(actions: list[dict]):
     
     camera_number = 0 # set the current camera number
     

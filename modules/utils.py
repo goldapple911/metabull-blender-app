@@ -340,7 +340,7 @@ def weight_paint_obj_to_bone(obj, armature, bone_name):
     mod.object = armature
 
 
-def find_armature(asset):
+def find_armature(asset: bpy.types.Object) -> bpy.types.Object:
     # Find the armature object
     armature = None
     for obj in asset.children_recursive:
@@ -353,6 +353,21 @@ def find_armature(asset):
         armature = asset.children[0]
     if not armature:
         armature = asset
-
     return armature
 
+
+def find_body_mesh(asset: bpy.types.Object) -> bpy.types.Object:
+    mesh = None
+    for obj in asset.children_recursive:
+        if obj.type != "MESH":
+            continue
+        if obj.name.startswith("Cliff_body_wip") or obj.name.startswith("metabull_"):
+            mesh = obj
+            break
+    if not mesh:
+        mesh = asset.children[0]
+    return mesh
+
+
+def find_actor(actors: dict, name: str) -> bpy.types.Object:
+    return actors.get(name.lower())

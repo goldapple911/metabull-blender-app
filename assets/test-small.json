@@ -45,7 +45,7 @@
         "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Packed.blend",
         "prompt": "The coffee cup is in front of Cookie.",
         "bone_name" : "mixamorig:LeftHandThumb1",
-        "actor":"Cliff",
+        "actor":"Sarge",
         "location": {
           "x": -3.5269,
           "y": -1.21709,
@@ -88,18 +88,39 @@
   },
   "actions": [
     {
-      "type": "AUDIO",
+      "type": "TRANSFORM",
       "actor": "Sarge",
-      "start_time": 80,
-      "file": "s3://metabull-ai-audio-generated-output/1690921902/dialogues/Cookie1.wav",
-      "line": "I always do a double in case they forget and only put in one shot."
+      "start_time": 2,
+      "end_time": 100,
+      "location": {
+        "x": 1,
+        "y": -1,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     },
     {
-      "type": "ANIM",
+      "type": "EMOTION",
       "actor": "Sarge",
-      "start_time": 0,
-      "end_time": 200,
-      "file": "/animations/Drinking_without_skin.fbx"
+      "start_time": 20,
+      "end_time": 60,
+      "emotion": "HAPPY"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Sarge",
+      "start_time": 70,
+      "end_time": 110,
+      "emotion": "SAD"
     }
   ],
   "render_sequence": {

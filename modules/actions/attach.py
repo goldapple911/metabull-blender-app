@@ -19,13 +19,9 @@ def attach(actors, data):
         print(f"Attaching '{obj['name']}' to {target}'s bone '{bone_name}'")
 
         # Get objects
-        asset = actors.get(obj["name"])
-        target_asset = None
-        for name, actor in actors.items():
-            if name.lower() == target.lower():
-                target_asset = actor
-                break
-        if not asset:
+        asset = utils.find_actor(actors, obj["name"])
+        target_asset = utils.find_actor(actors, target)
+        if not target_asset:
             raise Exception(f"Actor '{target}' from actions not found.")
         armature = utils.find_armature(target_asset)
 

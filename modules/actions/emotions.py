@@ -45,9 +45,9 @@ arkit_to_emotion = {
 }
 
 
-def add_emotions(actors: dict, data: dict):
+def add_emotions(actors: dict, actions: list[dict]):
     # Go over all emotion actions
-    for action in data["actions"]:
+    for action in actions:
         action_type = action["type"]
         if action_type != "EMOTION":
             continue
@@ -61,24 +61,12 @@ def add_emotions(actors: dict, data: dict):
             return
 
         # get the actor objects, ignoring upper and lower case
-        asset = None
-        for name, actor in actors.items():
-            if name.lower() == action_actor.lower():
-                asset = actor
-                break
+        asset = utils.find_actor(actors, action_actor)
         if not asset:
             raise Exception(f"Actor '{action_actor}' from actions not found.")
 
         # Get the mesh with the shapekeys
-        mesh = None
-        for obj in asset.children_recursive:
-            if obj.type != "MESH":
-                continue
-            if obj.name.startswith("Cliff_body_wip") or obj.name.startswith("metabull_"):
-                mesh = obj
-                break
-        if not mesh:
-            mesh = asset.children[0]
+        mesh = utils.find_body_mesh(asset)
         if not mesh or mesh.type != "MESH":
             raise Exception("No body mesh found in imported file.")
         if not hasattr(mesh.data.shape_keys, "key_blocks"):

@@ -118,14 +118,6 @@
                     "file": "/animations/Drinking_without_skin.fbx"
                 },
                 {
-                    "type": "ANIM",
-                    "actor": "BETA",
-                    "start_time": 10,
-                    "end_time": 20,
-                    "action": "put down coffee cup",
-                    "file": "/animations/Idle.fbx"
-                },
-                {
                     "type": "AUDIO",
                     "actor": "BETA",
                     "start_time": 10,

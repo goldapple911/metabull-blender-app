@@ -89,7 +89,7 @@ def _setup_objects(data: dict) -> dict:
         obj_imported.scale = obj_scale
         obj_imported.name = obj_name
 
-        objects[obj_name] = obj_imported
+        objects[obj_name.lower()] = obj_imported
 
     return objects
 
@@ -118,7 +118,7 @@ def _setup_actors(data: dict) -> dict:
         obj_imported.scale *= obj_scale
         obj_imported.name = obj_name
 
-        actors[obj_name] = obj_imported
+        actors[obj_name.lower()] = obj_imported
 
     return actors
 

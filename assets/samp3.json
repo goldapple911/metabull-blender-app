@@ -130,7 +130,7 @@
       "start_time": 2,
       "end_time": 100,
       "location": {
-        "x": 0,
+        "x": 1,
         "y": -1,
         "z": 0
       },
@@ -190,16 +190,16 @@
     {
       "type": "EMOTION",
       "actor": "Cliff",
-      "start_time": 10,
-      "end_time": 100,
-      "blendshape": "playful"
+      "start_time": 20,
+      "end_time": 60,
+      "emotion": "HAPPY"
     },
     {
       "type": "EMOTION",
-      "actor": "Cookie",
-      "start_time": 50,
-      "end_time": 150,
-      "blendshape": "sincere"
+      "actor": "Cliff",
+      "start_time": 70,
+      "end_time": 110,
+      "emotion": "SAD"
     }
   ],
   "render_sequence": {

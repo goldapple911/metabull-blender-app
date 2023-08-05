@@ -32,17 +32,13 @@ arkit_to_visemes = {
 }
 
 
-def add_lip_sync(actors: dict, data: dict):
+def add_lip_sync(actors: dict, actions: list[dict]):
     # Load lip sync model
     model = read_recognizer()
 
     fps = bpy.context.scene.render.fps
     bpy.context.scene.use_audio_scrub = True
     bpy.context.scene.sync_mode = 'FRAME_DROP'
-
-    # Sort the actions by their start time
-    actions: list[dict] = data["actions"]
-    actions.sort(key=lambda x: x.get("start_time"))
 
     prev_dialogue_end = 0
 
@@ -67,24 +63,12 @@ def add_lip_sync(actors: dict, data: dict):
             return
 
         # get the actor objects, ignoring upper and lower case
-        asset = None
-        for name, actor in actors.items():
-            if name.lower() == action_actor.lower():
-                asset = actor
-                break
+        asset = utils.find_actor(actors, action_actor)
         if not asset:
             raise Exception(f"Actor '{action_actor}' from actions not found.")
 
         # Get the mesh with the shapekeys
-        mesh = None
-        for obj in asset.children_recursive:
-            if obj.type != "MESH":
-                continue
-            if obj.name.startswith("Cliff_body_wip") or obj.name.startswith("metabull_"):
-                mesh = obj
-                break
-        if not mesh:
-            mesh = asset.children[0]
+        mesh = utils.find_body_mesh(asset)
         if not mesh or mesh.type != "MESH":
             raise Exception("No body mesh found in imported file.")
         if not hasattr(mesh.data.shape_keys, "key_blocks"):

@@ -158,6 +158,11 @@ def retarget(actors: dict, actions: list[dict]):
         if not armature:
             raise Exception("No armature found in imported file.")
 
+        # If the armature is v4, skip it currently TODO
+        if armature.name.endswith("rig_v4"):
+            print("Skipping retargeting v4 armature:", action_actor)
+            continue
+
         # Get the animations file
         anim_file = utils.get_resource(action["file"])
         print("Adding animation to:", armature.name)
@@ -170,7 +175,8 @@ def retarget(actors: dict, actions: list[dict]):
         # anim.rotation_euler[0] = asset.rotation_euler[0]
         # anim.rotation_euler[1] = asset.rotation_euler[1]
         # anim.rotation_euler[2] = asset.rotation_euler[2]
-        if asset.dimensions[1] * armature.dimensions[1] < 0.2 or asset.dimensions[1] * armature.dimensions[1] > 20:
+        dimension_comparison = anim.dimensions[1] * armature.dimensions[1]
+        if dimension_comparison < 0.2 or dimension_comparison > 20:
             anim.scale = asset.scale
 
         # Retarget animation to the actor

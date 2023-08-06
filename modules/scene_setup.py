@@ -1,3 +1,4 @@
+from math import radians
 
 import bpy
 import bpy.ops
@@ -89,6 +90,11 @@ def _setup_objects(data: dict) -> dict:
         obj_imported.scale = obj_scale
         obj_imported.name = obj_name
 
+        # TODO: Temp solution, remove this when JSON can achieve this
+        if "pie_hole_cafe" in str(obj_file).lower():
+            obj_imported.location = (-0.6, 4.54, -0.309)
+            obj_imported.rotation_euler = (0, 0, radians(141))
+
         objects[obj_name.lower()] = obj_imported
 
     return objects
@@ -140,6 +146,8 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
         if action.name.startswith("faceit"):
             bpy.data.actions.remove(action, do_unlink=True)
 
+    is_actor_v4 = False
+
     # Look for the armature
     armature = None
     for obj in asset.children_recursive:
@@ -150,6 +158,7 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
             # If the armature ends with rigify, use that, otherwise use the first one found
             if obj.name.lower().endswith("rigify"):
                 armature = obj
+                is_actor_v4 = True
                 break
 
             if not armature:
@@ -161,6 +170,11 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
 
     # Rename armature
     armature.name = f"metabull_{asset.name}_rig"
+
+    # If the actor is v4, don't do anything else currently
+    if is_actor_v4:
+        armature.name = f"metabull_{asset.name}_rig_v4"
+        return
 
     for obj in armature.children:
         if obj.type != "MESH":
@@ -187,13 +201,13 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
     # Join all child meshes of the armature
     bpy.ops.object.select_all(action='DESELECT')
     for obj in armature.children:
-        if obj.type != "MESH":  # or obj.children:
+        if obj.type != "MESH" or obj.children:
             continue
 
-        # # Rename all UVMaps to the same name to they are merged correctly
-        # for uv_layer in obj.data.uv_layers:
-        #     uv_layer.name = "UVMap"
-        # # Rename all the curves UV data to UVMap
+        # Rename all UVMaps to the same name to they are merged correctly
+        for uv_layer in obj.data.uv_layers:
+            uv_layer.name = "UVMap"
+        # Rename all the curves UV data to UVMap
         # for child in obj.children:
         #     if child.type == "CURVES":
         #         child.data.surface_uv_map = "UVMap"
@@ -201,11 +215,11 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
         utils.set_active(obj, select=True)
 
     # This is specific for the new character sarge
-    for obj in armature.children:
-        if obj.type == "MESH" and obj.children:
-            utils.set_active(obj, select=True)
+    # for obj in armature.children:
+    #     if obj.type == "MESH" and obj.children:
+    #         utils.set_active(obj, select=True)
 
-    # bpy.ops.object.join()
+    bpy.ops.object.join()
     body_mesh = utils.get_active()
     body_mesh.name = f"metabull_{asset.name}_body"
 

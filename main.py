@@ -94,6 +94,7 @@ def enable_addons():
     sys.path.append(str(plugins_dir / "addons"))
 
     # Enable all required addons
+    addon_utils.enable("rigify", default_set=True)
     addon_utils.enable("auto_rig_pro-metabull", default_set=True)
 
 

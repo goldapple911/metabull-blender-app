@@ -163,13 +163,15 @@ def retarget(actors: dict, actions: list[dict]):
         print("Adding animation to:", armature.name)
         print("Reading animation:", anim_file)
         anim = utils.import_file(anim_file)
+        anim.name = "Anim Armature"
 
         # Get the data for the current actor
         anim.location = asset.location
         # anim.rotation_euler[0] = asset.rotation_euler[0]
         # anim.rotation_euler[1] = asset.rotation_euler[1]
         # anim.rotation_euler[2] = asset.rotation_euler[2]
-        # anim.scale = asset.scale
+        if asset.dimensions[1] * armature.dimensions[1] < 0.2 or asset.dimensions[1] * armature.dimensions[1] > 20:
+            anim.scale = asset.scale
 
         # Retarget animation to the actor
         # copy_keyframes(source=anim, target=armature, start_frame=action_start_frame, end_frame=action_end_frame)

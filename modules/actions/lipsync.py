@@ -67,15 +67,10 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         if not asset:
             raise Exception(f"Actor '{action_actor}' from actions not found.")
 
-        # Get the mesh with the shapekeys
-        mesh = utils.find_body_mesh(asset)
-        if not mesh or mesh.type != "MESH":
-            raise Exception("No body mesh found in imported file.")
-        if not hasattr(mesh.data.shape_keys, "key_blocks"):
-            raise Exception(f"No shapekeys found in body mesh '{mesh.name}' from actor '{action_actor}'!")
-
-        # Generate missing shapekeys if the model has the ARKit blendshapes
-        generate_shapekeys(mesh)
+        # Get the armature containing all the meshes
+        armature = utils.find_armature(asset)
+        if not armature:
+            raise Exception("No armature found in imported file.")
 
         # Read the audio file
         print("Reading audio:", audio_file)
@@ -109,50 +104,57 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             phonemes.append(item)
         # print(phonemes)
 
-        # Add every phoneme as a shapekey to the animation
-        prev_shapekey = None
-        start_frame = 0
-        for item in phonemes:
-            # Get the shapekey
-            shapekey = get_shapekey_from_phoneme(mesh, item[2])
-            start_frame = int(item[0] * fps) + action_start_frame - 2
-            # end_frame = int((item[0] + item[1]) * 24)
-            end_frame = start_frame + 6
-
-            # print(shapekey, start_frame, end_frame, item)
-            if not shapekey:
+        # Add the lip sync to every mesh in the armature
+        for mesh in armature.children:
+            if mesh.type != "MESH":
                 continue
 
-            # End the animation of the previous shapekey
+            # Generate missing shapekeys if the model has the ARKit blendshapes
+            generate_shapekeys(mesh)
+
+            # Add every phoneme as a shapekey to the animation
+            prev_shapekey = None
+            start_frame = 0
+            for item in phonemes:
+                # Get the shapekey
+                shapekey = get_shapekey_from_phoneme(mesh, item[2])
+                start_frame = int(item[0] * fps) + action_start_frame - 2
+                # end_frame = int((item[0] + item[1]) * 24)
+                end_frame = start_frame + 6
+
+                # print(shapekey, start_frame, end_frame, item)
+                if not shapekey:
+                    continue
+
+                # End the animation of the previous shapekey
+                if prev_shapekey:
+                    prev_shapekey.value = 0.6
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                    prev_shapekey.value = 0
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+
+                # Set the shapekey values and save them as keyframes
+                shapekey.value = 0
+                shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                shapekey.value = 1
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                prev_shapekey = shapekey
+
+                # Set frame_end in the scene
+                action_end = end_frame + 20
+                if bpy.context.scene.frame_end < action_end:
+                    bpy.context.scene.frame_end = action_end
+                prev_dialogue_end = end_frame
+
+            # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
                 prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                 prev_shapekey.value = 0
                 prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
-            # Set the shapekey values and save them as keyframes
-            shapekey.value = 0
-            shapekey.keyframe_insert(data_path="value", frame=start_frame)
-            shapekey.value = 1
-            shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
-            prev_shapekey = shapekey
 
-            # Set frame_end in the scene
-            action_end = end_frame + 20
-            if bpy.context.scene.frame_end < action_end:
-                bpy.context.scene.frame_end = action_end
-            prev_dialogue_end = end_frame
-
-
-        # End the animation of the last shapekey
-        if prev_shapekey:
-            prev_shapekey.value = 0.6
-            prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
-            prev_shapekey.value = 0
-            prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
-
-
-def get_shapekey_from_phoneme(mesh: bpy.types.Mesh, phoneme: str) -> bpy.types.ShapeKey | None:
+def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
         "A": ["a", "ɒ", "ʌ", "x", "ɾ", "ɾʲ", "ɛ", "h", "ɑ"],
         "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
@@ -199,6 +201,8 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Mesh, phoneme: str) -> bpy.types.S
 
 
 def generate_shapekeys(mesh: bpy.types.Object):
+    if not mesh.data.shape_keys:
+        return
     # If the character is using the ARKit blendshapes, mix them into visemes
     if "mouthFunnel" not in mesh.data.shape_keys.key_blocks \
             or "mouthRollLower" not in mesh.data.shape_keys.key_blocks:
@@ -208,7 +212,7 @@ def generate_shapekeys(mesh: bpy.types.Object):
             or "L" in mesh.data.shape_keys.key_blocks:
         return
 
-    print("Generating viseme shapekeys from ARKit blendshapes..")
+    print(f"Generating viseme shapekeys in {mesh.name} from ARKit blendshapes..")
     utils.set_active(mesh, select=True)
 
     # Set the shapekey values

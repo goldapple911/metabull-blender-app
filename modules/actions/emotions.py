@@ -65,36 +65,40 @@ def add_emotions(actors: dict, actions: list[dict]):
         if not asset:
             raise Exception(f"Actor '{action_actor}' from actions not found.")
 
-        # Get the mesh with the shapekeys
-        mesh = utils.find_body_mesh(asset)
-        if not mesh or mesh.type != "MESH":
-            raise Exception("No body mesh found in imported file.")
-        if not hasattr(mesh.data.shape_keys, "key_blocks"):
-            raise Exception(f"No shapekeys found in body mesh '{mesh.name}' from actor '{action_actor}'!")
+        # Get the armature containing all the meshes
+        armature = utils.find_armature(asset)
+        if not armature:
+            raise Exception("No armature found in imported file.")
 
-        # Generate missing shapekeys if the model has the ARKit blendshapes
-        shapekey = generate_emotion_shapekey(mesh, action_emotion)
-        if not shapekey:
-            continue
+        for mesh in armature.children:
+            if mesh.type != "MESH":
+                continue
 
-        # Add the emotion as a shapekey to the animation
-        # Set the shapekey values and save them as keyframes
-        shapekey.value = 0
-        shapekey.keyframe_insert(data_path="value", frame=action_start_frame)
-        shapekey.value = 1
-        shapekey.keyframe_insert(data_path="value", frame=action_start_frame + 2)
-        shapekey.value = 1
-        shapekey.keyframe_insert(data_path="value", frame=action_end_frame - 2)
-        shapekey.value = 0
-        shapekey.keyframe_insert(data_path="value", frame=action_end_frame)
+            # Generate missing shapekeys if the model has the ARKit blendshapes
+            shapekey = generate_emotion_shapekey(mesh, action_emotion)
+            if not shapekey:
+                continue
 
-        # Set frame_end in the scene
-        action_end = action_end_frame + 10
-        if bpy.context.scene.frame_end < action_end:
-            bpy.context.scene.frame_end = action_end
+            # Add the emotion as a shapekey to the animation
+            # Set the shapekey values and save them as keyframes
+            shapekey.value = 0
+            shapekey.keyframe_insert(data_path="value", frame=action_start_frame)
+            shapekey.value = 1
+            shapekey.keyframe_insert(data_path="value", frame=action_start_frame + 2)
+            shapekey.value = 1
+            shapekey.keyframe_insert(data_path="value", frame=action_end_frame - 2)
+            shapekey.value = 0
+            shapekey.keyframe_insert(data_path="value", frame=action_end_frame)
+
+            # Set frame_end in the scene
+            action_end = action_end_frame + 10
+            if bpy.context.scene.frame_end < action_end:
+                bpy.context.scene.frame_end = action_end
 
 
 def generate_emotion_shapekey(mesh: bpy.types.Object, emotion: str):
+    if not mesh.data.shape_keys:
+        return
     # If the character is using the ARKit blendshapes, mix them into visemes
     if "mouthFunnel" not in mesh.data.shape_keys.key_blocks \
             or "mouthRollLower" not in mesh.data.shape_keys.key_blocks:

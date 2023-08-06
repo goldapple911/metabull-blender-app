@@ -38,7 +38,7 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.max_bounces = 4
 
     bpy.context.scene.frame_start = 1
-    bpy.context.scene.frame_end = 160
+    bpy.context.scene.frame_end = 100
     bpy.context.scene.render.fps = 24
 
 

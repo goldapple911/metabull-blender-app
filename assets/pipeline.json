@@ -53,13 +53,22 @@
           {
             "name": "Pie Hole Cafe",
             "prompt": "",
-            "location": {
+            "rotation": {
               "x": 0,
               "y": 0,
               "z": 0
             },
-            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend"
-
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+            "location": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
           }
         ],
         "actors": [

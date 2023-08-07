@@ -33,9 +33,9 @@ def _setup_scene_settings():
 
     bpy.context.scene.render.use_persistent_data = True
     bpy.context.scene.render.film_transparent = True
-    # bpy.context.scene.cycles.samples = 2
-    # bpy.context.scene.cycles.adaptive_threshold = 0.1
-    # bpy.context.scene.cycles.max_bounces = 4
+    bpy.context.scene.cycles.samples = 20
+    bpy.context.scene.cycles.adaptive_threshold = 0.2
+    bpy.context.scene.cycles.max_bounces = 5
 
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 100

@@ -48,6 +48,8 @@ class ArgsHandler:
         if "-b" in sys.argv[:index_start] or "--background" in sys.argv[:index_start]:
             self.launched_in_background = True
 
+        print(f"INFO: Launched using arguments: {' '.join(sys.argv)}")
+
         # Handle all arguments
         self.open_blender = self._check_arg_bool(self._arg_open_blender)
         self.render = self._check_arg_bool(self._arg_render)

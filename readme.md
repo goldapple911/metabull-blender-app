@@ -15,9 +15,11 @@ All arguments:
 - `json file`: file path to json, this can either be an absolute path or a relative one (relative to the assets folder)
 - `--render`: fully render the scene as a video
 - `--render-image`: render the first frame of the scene as an image (useful for testing)
-- `--upload_render`: save the rendered result to the output folder and it to the S3 bucket and delete the files after upload
-- `--upload-blend`: save the generated blend file to the output folder and it to the S3 bucket and delete the files after upload
+- `--save-blend`: save the generated .blend file to the output folder
 - `--use-mp4`: use the MP4 format for the rendered video (default is EXR, only effective if rendering a video)
+- `--upload`: upload the full output folder to the S3 bucket "metabull-blender-output" and delete the local files after upload
+- `--trigger-deadline`: upload the generated .blend file to the S3 bucket "metabull-deadline-blend-files"
+                        to trigger the deadline job and delete the local files after upload
 - `--keep-files`: keep the generated files after the upload instead of deleting them
 - `--open`: view the generated .blend file in Blender after the process (useful for testing, only use this on a local machine installed)
 

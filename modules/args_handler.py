@@ -7,28 +7,30 @@ from . import utils
 
 class ArgsHandler:
     _arg_help = ["--help", "-h"]
+    _index_json_path = 0
     _arg_open_blender = "--open"
     _arg_render = "--render"
     _arg_render_image = "--render-image"
+    _arg_save_blend = "--save-blend"
     _arg_use_gpt = "--gpt"
-    _arg_upload_render = "--upload-render"
-    _arg_upload_blend = "--upload-blend"
     _arg_use_mp4 = "--use-mp4"
+    _arg_upload = "--upload"
+    _arg_trigger_deadline = "--trigger-deadline"
     _arg_keep_files = "--keep-files"
-    _index_json_path = 0
 
     def __init__(self):
         self.args = []
-        self.open_blender = False
+        self.json_path: pathlib.Path | None = None
         self.launched_in_background = False
+        self.open_blender = False
         self.render = False
         self.render_image = False
-        self.json_path: pathlib.Path | None = None
+        self.save_blend = False
         self.use_gpt = False
-        self.upload_render = False
-        self.upload_blend = False
-        self.keep_files = False
         self.use_mp4 = False
+        self.upload = False
+        self.trigger_deadline = False
+        self.keep_files = False
 
     def handle_args(self):
         # print(f"INFO: Got {len(sys.argv)} arguments: {str(sys.argv)}")
@@ -50,11 +52,13 @@ class ArgsHandler:
         self.open_blender = self._check_arg_bool(self._arg_open_blender)
         self.render = self._check_arg_bool(self._arg_render)
         self.render_image = self._check_arg_bool(self._arg_render_image)
+        self.save_blend = self._check_arg_bool(self._arg_save_blend)
         self.use_gpt = self._check_arg_bool(self._arg_use_gpt)
-        self.upload_render = self._check_arg_bool(self._arg_upload_render)
-        self.upload_blend = self._check_arg_bool(self._arg_upload_blend)
         self.use_mp4 = self._check_arg_bool(self._arg_use_mp4)
+        self.upload = self._check_arg_bool(self._arg_upload)
+        self.trigger_deadline = self._check_arg_bool(self._arg_trigger_deadline)
         self.keep_files = self._check_arg_bool(self._arg_keep_files)
+
         self.json_path = self._check_arg_path_index(self._index_json_path)
         if self.json_path is None:
             return False

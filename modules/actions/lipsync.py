@@ -75,7 +75,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         try:
             results = model.recognize(audio_file, lang_id="eng", timestamp=True)
         except Exception as e:
-            print("Error reading audio, re-encoding file..")
+            print("Couldn't reading audio, re-encoding file..")
 
         # Reread the audio file
         if not results:

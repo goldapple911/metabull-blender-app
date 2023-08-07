@@ -91,9 +91,7 @@ def download_from_s3(path: str) -> pathlib.Path:
     return target_path
 
 
-def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path):
-    s3_bucket = "metabull-blender-output"
-
+def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path, pattern="*.*", bucket_name="metabull-blender-output"):
     try:
         # s3 = boto3.client("s3")
         s3 = boto3.client(
@@ -103,18 +101,18 @@ def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path):
         )
         if output_path.is_dir():
             print(f"Uploading folder to S3: {output_path}")
-            for file in reversed(list(output_path.rglob("*.*"))):
+            for file in reversed(list(output_path.rglob(pattern))):
                 file_path_rel = str(file.relative_to(parent_folder)).replace("\\", "/")
                 print(f"Uploading: {file_path_rel} ...")
-                s3.upload_file(file, f"{s3_bucket}", file_path_rel)
+                s3.upload_file(file, f"{bucket_name}", file_path_rel)
         elif output_path.is_file():
             file_path_rel = str(output_path.relative_to(parent_folder)).replace("\\", "/")
             print(f"Uploading file to S3: {file_path_rel} ...")
-            s3.upload_file(output_path, s3_bucket, file_path_rel)
+            s3.upload_file(output_path, bucket_name, file_path_rel)
         else:
             raise Exception(f"File/folder not found: {output_path}")
         file_path_rel = str(output_path.relative_to(parent_folder)).replace("\\", "/")
-        print(f"Finished upload! Saved to: {s3_bucket}/{file_path_rel}")
+        print(f"Finished upload! Saved to: {bucket_name}/{file_path_rel}")
     except Exception as e:
         print(f"[ERROR] Unable to upload path to S3: {output_path}")
         print(f"[ERROR Message]: {e}")

@@ -92,7 +92,7 @@ def download_from_s3(path: str) -> pathlib.Path:
 
 
 def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path):
-    s3_bucket = "metabull-blender-render-output"
+    s3_bucket = "metabull-blender-output"
 
     try:
         # s3 = boto3.client("s3")

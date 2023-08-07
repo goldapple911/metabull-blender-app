@@ -118,7 +118,7 @@ def render(data: dict):
         shutil.copy(args_handler.json_path, output_dir)
 
     # Upload the rendered result to S3 if any were generated
-    if output_file and args_handler.upload_render:
+    if args_handler.upload_render:
         # Create a small file to indicate when the render is complete, it gets uploaded last
         (output_dir / ".render_complete.txt").touch()
 

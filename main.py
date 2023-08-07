@@ -4,6 +4,7 @@ import bpy
 import json
 import pathlib
 import pkgutil
+import logging
 import subprocess
 import addon_utils
 
@@ -99,6 +100,8 @@ def enable_addons():
 
 
 def main():
+    logging.getLogger().setLevel(logging.INFO)
+
     args_handler.handle_args()
     enable_addons()
     handle_files()

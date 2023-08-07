@@ -17,6 +17,7 @@ class ArgsHandler:
     _arg_upload = "--upload"
     _arg_trigger_deadline = "--trigger-deadline"
     _arg_keep_files = "--keep-files"
+    _arg_cloud_logger = "--cloud-logger"
 
     def __init__(self):
         self.args = []
@@ -31,6 +32,7 @@ class ArgsHandler:
         self.upload = False
         self.trigger_deadline = False
         self.keep_files = False
+        self.cloud_logger = False
 
     def handle_args(self):
         print(f"INFO: Launched using arguments: {' '.join(sys.argv)}")
@@ -58,6 +60,7 @@ class ArgsHandler:
         self.upload = self._check_arg_bool(self._arg_upload)
         self.trigger_deadline = self._check_arg_bool(self._arg_trigger_deadline)
         self.keep_files = self._check_arg_bool(self._arg_keep_files)
+        self.cloud_logger = self._check_arg_bool(self._arg_cloud_logger)
 
         self.json_path = self._check_arg_path_index(self._index_json_path)
         if self.json_path is None:

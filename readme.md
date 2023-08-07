@@ -21,6 +21,7 @@ All arguments:
 - `--trigger-deadline`: upload the generated .blend file to the S3 bucket "metabull-deadline-blend-files"
                         to trigger the deadline job and delete the local files after upload
 - `--keep-files`: keep the generated files after the upload instead of deleting them
+- `--cloud-logger`: log the progress in the AWS cloud, only use on the AWS server
 - `--open`: view the generated .blend file in Blender after the process (useful for testing, only use this on a local machine installed)
 
 ### Info:

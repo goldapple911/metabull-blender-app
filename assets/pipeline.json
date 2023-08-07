@@ -82,13 +82,13 @@
               "y": 0,
               "z": 0
             },
-            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend"
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Sarge_rigged_packed.blend"
           }
         ]
       },
       "actions": [
         {
-          "type": "ANIM",
+          "type": "ANIMo",
           "actor": "Sarge",
           "start_time": 0,
           "end_time": 10,
@@ -96,7 +96,7 @@
           "file": "/animations/Idle.fbx"
         },
         {
-          "type": "ANIM",
+          "type": "ANIMo",
           "actor": "Sarge",
           "start_time": 10,
           "end_time": 15,
@@ -104,7 +104,7 @@
           "file": "/animations/Drinking.fbx"
         },
         {
-          "type": "AUDIO",
+          "type": "AUDIOo",
           "actor": "Sarge",
           "start_time": 15,
           "end_time": 30,

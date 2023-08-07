@@ -4,6 +4,7 @@ import pathlib
 import subprocess
 from math import radians
 from mathutils import Vector, Euler
+from datetime import datetime as dt
 
 assets_dir = pathlib.Path(__file__).parent.parent / "assets"
 
@@ -33,6 +34,7 @@ def clear_scene():
 
 
 def get_resource(path: str) -> pathlib.Path:
+    logger.log(f"Importing resource {path}")
     # Download the S3 bucket paths first
     if path.lower().startswith("s3://") or aws_object_url_identifier in path.lower():
         path = str(download_from_s3(path))
@@ -369,3 +371,44 @@ def find_body_mesh(asset: bpy.types.Object) -> bpy.types.Object:
 
 def find_actor(actors: dict, name: str) -> bpy.types.Object:
     return actors.get(name.lower())
+
+
+class Logger:
+    def __init__(self):
+        self.logger_client = None
+        self.log_group_name = None
+        self.log_stream_name = None
+
+    def enable(self, json_file: pathlib.Path):
+        self.log_group_name = 'JSON-uploader-logs'
+        self.log_stream_name = json_file.stem
+        self.logger_client = boto3.client('logs', region_name='us-east-2')
+        self.logger_client.create_log_stream(logGroupName=self.log_group_name, logStreamName=self.log_stream_name)
+
+    def log(self, msg: str):
+        '''
+        This Module Writes logs to CloudWatch and prints in console as well
+        '''
+        print("LOG: " + msg)
+
+        if not self.logger_client:
+            return
+
+        timestamp = int(dt.utcnow().timestamp() * 1000)
+        log_event = {
+            'timestamp': timestamp,
+            'message': msg
+        }
+
+        try:
+            self.logger_client.put_log_events(
+                logGroupName=self.log_group_name,
+                logStreamName=self.log_stream_name,
+                logEvents=[log_event]
+            )
+        except Exception as e:
+            print(f"Warning: Failed to log to CloudWatch: {e}")
+            self.logger_client = None
+
+
+logger = Logger()

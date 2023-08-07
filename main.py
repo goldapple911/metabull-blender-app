@@ -65,7 +65,12 @@ def handle_files():
     if "result" in data:
         data = data["result"][0]
 
+    # Setup cloud logger
+    if args_handler.cloud_logger:
+        utils.logger.enable(args_handler.json_path)
+
     # Setup scene and import all assets
+    utils.logger.log("Setting up scene..")
     actors = scene_setup.setup_scene(data)
 
     # handle all the actions like animations, lip sync, emotions, etc.
@@ -78,6 +83,7 @@ def handle_files():
     if args_handler.use_gpt:
         gpt.generate(data)
 
+    utils.logger.log(f"Done!")
     print("Done!")
 
 

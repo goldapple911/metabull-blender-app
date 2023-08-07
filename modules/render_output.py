@@ -85,6 +85,7 @@ def render(data: dict):
 
     # Rendering of the scene
     if args_handler.render:
+        utils.logger.log(f"Rendering..")
         # Render the full animation
         output_file = output_file_video
         render.filepath = str(output_file)
@@ -106,6 +107,7 @@ def render(data: dict):
         )
 
     elif args_handler.render_image:
+        utils.logger.log(f"Rendering..")
         # Render only a single image
         output_file = output_file_image
         render.filepath = str(output_file)
@@ -117,6 +119,7 @@ def render(data: dict):
         print(f"Skipped rendering..")
 
     if args_handler.save_blend:
+        utils.logger.log(f"Saving blend file..")
         # Create the output dir if it doesn't exist, Blender won't create it automatically when saving blend files
         output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -156,12 +159,14 @@ def render(data: dict):
         shutil.copy(args_handler.json_path, output_dir)
 
     if args_handler.upload:
+        utils.logger.log(f"Uploading output..")
         # Create a small file to indicate when the render is complete, it gets uploaded last
         (output_dir / ".render_complete.txt").touch()
 
         utils.upload_to_s3(output_dir, output_dir.parent)
 
     if args_handler.trigger_deadline:
+        utils.logger.log(f"Uploading blend file to deadline..")
         if not output_file_blend.exists():
             print(f"ERROR: No blend file for upload to Deadline found. Use '--save-blend' to save the blend file.")
             return

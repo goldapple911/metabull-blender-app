@@ -37,6 +37,10 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.adaptive_threshold = 0.2
     bpy.context.scene.cycles.max_bounces = 5
 
+    print(f"Samples: {bpy.context.scene.cycles.samples}, "
+          f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
+          f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
+
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 100
     bpy.context.scene.render.fps = 24

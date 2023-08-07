@@ -37,9 +37,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
     model = read_recognizer()
 
     fps = bpy.context.scene.render.fps
-    bpy.context.scene.use_audio_scrub = True
-    bpy.context.scene.sync_mode = 'FRAME_DROP'
-
     prev_dialogue_end = 0
 
     for action in actions:

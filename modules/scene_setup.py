@@ -33,13 +33,16 @@ def _setup_scene_settings():
 
     bpy.context.scene.render.use_persistent_data = True
     bpy.context.scene.render.film_transparent = True
-    bpy.context.scene.cycles.samples = 2
-    bpy.context.scene.cycles.adaptive_threshold = 0.1
-    bpy.context.scene.cycles.max_bounces = 4
+    # bpy.context.scene.cycles.samples = 2
+    # bpy.context.scene.cycles.adaptive_threshold = 0.1
+    # bpy.context.scene.cycles.max_bounces = 4
 
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 100
     bpy.context.scene.render.fps = 24
+
+    bpy.context.scene.use_audio_scrub = True
+    bpy.context.scene.sync_mode = 'FRAME_DROP'
 
 
 def _setup_lights(data: dict):

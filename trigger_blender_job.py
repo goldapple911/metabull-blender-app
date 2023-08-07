@@ -20,13 +20,14 @@ class TriggerBlenderJob:
         self.filename = filename
 
         # Downloaded file Configs
-        self.directory_path = r'OutputJson'  # JSON Output path
+        self.directory_path = 'OutputJson'  # JSON Output path
         self.path_to_output_file = os.path.join(self.directory_path, filename)  # Downloaded JSON can be found here
+        
         self.file_list = []
 
         # Blender Configs, Make Tweaks here to change app location and stuff
         self.blender_app = r'"C:\Program Files\Blender Foundation\Blender 3.6\blender.exe"'
-        self.metabull_blender_app = r'main.py'
+        self.metabull_blender_app = 'main.py'
 
     def upload_logs(self, log_message):
         '''

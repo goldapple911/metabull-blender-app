@@ -107,7 +107,8 @@ class TriggerBlenderJob:
         for file_into_scenes in self.file_list:
             # Once the JSON rendering is fixed please update the command by uncommenting the below line
             if platform.system()=='Windows':
-                command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
+                #command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
+                command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --save-blend --trigger-deadline '
             if platform.system()=='Linux':
                 command = f'blender -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
             self.upload_logs(f'[INFO] Running Command : {command}, on remote machine')

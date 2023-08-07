@@ -90,7 +90,7 @@ def _setup_objects(data: dict) -> dict:
         obj_scale = utils.get_3d_vec(obj.get("scale"), default=(1, 1, 1))
 
         # importing the object
-        obj_imported = utils.import_file(obj_file, allow_link=True)
+        obj_imported = utils.import_file(obj_file)
 
         obj_imported.location = obj_pos
         obj_imported.rotation_euler = obj_rot

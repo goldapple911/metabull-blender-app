@@ -1,6 +1,7 @@
 __pycache__
 /.idea
 /output
+/textures
 /packages
 /assets/tmp
 /assets/s3

@@ -1,3 +1,5 @@
+import os.path
+import pathlib
 
 import bpy
 import shutil
@@ -120,7 +122,32 @@ def render(data: dict):
 
         # Purge unused assets, pack all assets and save the blend file
         bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
+
+        # Unpack all assets
+        bpy.ops.file.unpack_all(method='WRITE_LOCAL')
+
+        # Check all images if their paths exist
+        for img in bpy.data.images:
+            print("Packing", img.filepath)
+            image_file = utils.assets_dir.parent / img.filepath[2:]
+            if not image_file.exists():
+                print(f"Image '{img.filepath}' not found, removing..")
+                bpy.data.images.remove(img)
+                continue
+
+            # Set the new filepath
+            img.filepath_raw = str(image_file)
+            try:
+                img.pack()
+            except RuntimeError:
+                print(f"Image '{image_file}' failed packing, removing..")
+                bpy.data.images.remove(img)
         bpy.ops.file.pack_all()
+
+        # Delete the textures folder
+        textures_dir = utils.assets_dir.parent / "textures"
+        shutil.rmtree(textures_dir, ignore_errors=True)
+
         bpy.ops.wm.save_as_mainfile(filepath=str(output_file_blend))
         print(f"Saved blend file to: {output_file_blend}")
 

@@ -33,7 +33,7 @@ class ArgsHandler:
         self.keep_files = False
 
     def handle_args(self):
-        # print(f"INFO: Got {len(sys.argv)} arguments: {str(sys.argv)}")
+        print(f"INFO: Launched using arguments: {' '.join(sys.argv)}")
 
         # This argument needs to be there in order to pass arguments to this script instead of to Blender
         if "--" not in sys.argv:
@@ -47,8 +47,6 @@ class ArgsHandler:
         # Check background state
         if "-b" in sys.argv[:index_start] or "--background" in sys.argv[:index_start]:
             self.launched_in_background = True
-
-        print(f"INFO: Launched using arguments: {' '.join(sys.argv)}")
 
         # Handle all arguments
         self.open_blender = self._check_arg_bool(self._arg_open_blender)

@@ -77,6 +77,11 @@ def _setup_camera(data: dict):
     camera_obj.data.lens = 50  # adjust the focal length to zoom out
     bpy.context.scene.camera = camera_obj  # make this the active camera
 
+    # TODO: Temp solution, remove this when JSON can achieve this
+    camera_obj.location = (0.328782, -1.91114, 1.91264)
+    camera_obj.rotation_euler = (radians(77.8), 0, radians(19.4))
+    camera_obj.data.lens = 37
+
 
 def _setup_objects(data: dict) -> dict:
     objects = {}
@@ -113,7 +118,13 @@ def _setup_actors(data: dict) -> dict:
     character_data = data["scene"]["actors"]
     for obj in character_data:
         obj_name = obj["name"]
-        obj_file = utils.get_resource(obj["file"])
+
+        # TODO: REMOVE THIS after version 2 test
+        file_name = obj["file"]
+        if file_name.endswith("Sarge_rigged_packed.blend"):
+            file_name = "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Sarge_rigged_packed_v5.blend"
+
+        obj_file = utils.get_resource(file_name)
         obj_pos = utils.get_3d_vec(obj.get("location"))
         obj_rot = utils.get_3d_vec(obj.get("rotation"), use_rad=True)
         obj_scale = utils.get_3d_vec(obj.get("scale"), default=(1, 1, 1))

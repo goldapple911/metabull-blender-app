@@ -82,7 +82,7 @@
               "y": 0,
               "z": 0
             },
-            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Sarge_rigged_packed.blend"
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend"
           }
         ]
       },
@@ -101,7 +101,7 @@
           "start_time": 10,
           "end_time": 15,
           "action": "look around",
-          "file": "/animations/Idle.fbx"
+          "file": "/animations/Drinking.fbx"
         },
         {
           "type": "AUDIO",

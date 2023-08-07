@@ -42,7 +42,7 @@
     "objects": [],
     "actors": [
       {
-        "name": "Cliff",
+        "name": "Sarge",
         "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Sarge_rigged_packed.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
@@ -66,10 +66,10 @@
   "actions": [
     {
       "type": "ANIM",
-      "actor": "Cliff",
+      "actor": "Sarge",
       "start_time": 0,
       "end_time": 200,
-      "file": "/animations/Dodge.fbx"
+      "file": "/animations/Drinking_without_skin.fbx"
     }
   ],
   "render_sequence": {

@@ -128,6 +128,7 @@ def retarget(actors: dict, actions: list[dict]):
     # Search for the drinking animation and use only that
     for action in actions:
         if action["type"] == "ANIM" and "drinking" in action["file"].lower():
+            action["file"] = "/animations/Idle_cup_holding.fbx"  # TODO: Remove this
             actions_tmp.append(action)
             break
 

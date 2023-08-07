@@ -136,7 +136,7 @@ def render(data: dict):
                 continue
 
             # Set the new filepath
-            img.filepath_raw = str(image_file)
+            img.filepath = str(image_file)
             try:
                 img.pack()
             except RuntimeError:
@@ -144,12 +144,12 @@ def render(data: dict):
                 bpy.data.images.remove(img)
         bpy.ops.file.pack_all()
 
+        bpy.ops.wm.save_as_mainfile(filepath=str(output_file_blend))
+        print(f"Saved blend file to: {output_file_blend}")
+
         # Delete the textures folder
         textures_dir = utils.assets_dir.parent / "textures"
         shutil.rmtree(textures_dir, ignore_errors=True)
-
-        bpy.ops.wm.save_as_mainfile(filepath=str(output_file_blend))
-        print(f"Saved blend file to: {output_file_blend}")
 
     # If the output folder exists, add the json file to it
     if output_dir.exists():

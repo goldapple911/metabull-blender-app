@@ -380,16 +380,20 @@ class Logger:
         self.log_stream_name = None
 
     def enable(self, json_file: pathlib.Path):
-        self.log_group_name = 'JSON-uploader-logs'
-        self.log_stream_name = json_file.stem
-        self.logger_client = boto3.client('logs', region_name='us-east-2')
-        self.logger_client.create_log_stream(logGroupName=self.log_group_name, logStreamName=self.log_stream_name)
+        try:
+            self.log_group_name = 'JSON-uploader-logs'
+            self.log_stream_name = json_file.stem
+            self.logger_client = boto3.client('logs', region_name='us-east-2')
+            self.logger_client.create_log_stream(logGroupName=self.log_group_name, logStreamName=self.log_stream_name)
+        except Exception as e:
+            print(f"Warning: Failed to log to CloudWatch: {e}")
+            self.logger_client = None
 
     def log(self, msg: str):
         '''
         This Module Writes logs to CloudWatch and prints in console as well
         '''
-        print("LOG: " + msg)
+        # print("LOG: " + msg)
 
         if not self.logger_client:
             return

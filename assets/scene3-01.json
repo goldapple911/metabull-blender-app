@@ -42,7 +42,7 @@
     "objects": [
       {
         "name": "Pie_Hole_Cafe",
-        "file": "s3://metabull3dassets/Blender_TestAssets/Pie_Hole_Cafe_Packed_4k_Textures.blend",
+        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
         "location": {
           "x": 0,
           "y": 0,

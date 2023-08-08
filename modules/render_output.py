@@ -1,3 +1,5 @@
+import os.path
+import pathlib
 
 import bpy
 import shutil
@@ -35,6 +37,7 @@ def render(data: dict):
     output_file_video = output_dir / f"{render_name}.mp4"
     output_file_image = output_dir / f"{render_name}.png"
     output_file_audio = output_dir / f"{render_name}.wav"
+    output_file_blend = output_dir / f"{render_name}.blend"
     output_folder_jpg_sequence = output_dir / "jpg"
     output_folder_exr_sequence = output_dir / "exr" / f"Image"
 
@@ -82,6 +85,7 @@ def render(data: dict):
 
     # Rendering of the scene
     if args_handler.render:
+        utils.logger.log(f"Rendering..")
         # Render the full animation
         output_file = output_file_video
         render.filepath = str(output_file)
@@ -103,6 +107,7 @@ def render(data: dict):
         )
 
     elif args_handler.render_image:
+        utils.logger.log(f"Rendering..")
         # Render only a single image
         output_file = output_file_image
         render.filepath = str(output_file)
@@ -113,41 +118,66 @@ def render(data: dict):
     else:
         print(f"Skipped rendering..")
 
+    if args_handler.save_blend:
+        utils.logger.log(f"Saving blend file..")
+        # Create the output dir if it doesn't exist, Blender won't create it automatically when saving blend files
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Purge unused assets, pack all assets and save the blend file
+        bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
+
+        # Unpack all assets
+        bpy.ops.file.unpack_all(method='WRITE_LOCAL')
+
+        # Check all images if their paths exist
+        for img in bpy.data.images:
+            print("Packing", img.filepath)
+            image_file = utils.assets_dir.parent / img.filepath[2:]
+            if not image_file.exists():
+                print(f"Image '{img.filepath}' not found, removing..")
+                bpy.data.images.remove(img)
+                continue
+
+            # Set the new filepath
+            img.filepath = str(image_file)
+            try:
+                img.pack()
+            except RuntimeError:
+                print(f"Image '{image_file}' failed packing, removing..")
+                bpy.data.images.remove(img)
+        bpy.ops.file.pack_all()
+
+        bpy.ops.wm.save_as_mainfile(filepath=str(output_file_blend))
+        print(f"Saved blend file to: {output_file_blend}")
+
+        # Delete the textures folder
+        textures_dir = utils.assets_dir.parent / "textures"
+        shutil.rmtree(textures_dir, ignore_errors=True)
+
     # If the output folder exists, add the json file to it
     if output_dir.exists():
         shutil.copy(args_handler.json_path, output_dir)
 
-    # Upload the rendered result to S3 if any were generated
-    if output_file and args_handler.upload_render:
+    if args_handler.upload:
+        utils.logger.log(f"Uploading output..")
         # Create a small file to indicate when the render is complete, it gets uploaded last
         (output_dir / ".render_complete.txt").touch()
 
         utils.upload_to_s3(output_dir, output_dir.parent)
 
-        # After the upload, delete the rendered output folder
+    if args_handler.trigger_deadline:
+        utils.logger.log(f"Uploading blend file to deadline..")
+        if not output_file_blend.exists():
+            print(f"ERROR: No blend file for upload to Deadline found. Use '--save-blend' to save the blend file.")
+            return
+
+        utils.upload_to_s3(output_file_blend, output_dir, bucket_name="metabull-deadline-blend-files")
+
+    # After the upload, delete the output folder
+    if args_handler.upload or args_handler.trigger_deadline:
         if not args_handler.keep_files:
             shutil.rmtree(output_dir, ignore_errors=True)
 
-    # Upload the blend file to S3
-    if args_handler.upload_blend:
-        # Create the output dir if it doesn't exist
-        output_file_blend = output_dir / f"{render_name}.blend"
-        output_dir.mkdir(parents=True, exist_ok=True)
-
-        # Create a small file to indicate when the render is complete, it gets uploaded last
-        (output_dir / ".render_complete.txt").touch()
-
-        # Purge unused assets, pack all assets and save the blend file
-        bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
-        bpy.ops.file.pack_all()
-        bpy.ops.wm.save_as_mainfile(filepath=str(output_file_blend))
-        print(f"Saved blend file to: {output_file_blend}")
-
-        utils.upload_to_s3(output_dir, output_dir.parent)
-
-        # After the upload, delete the rendered output folder
-        if not args_handler.keep_files:
-            shutil.rmtree(output_dir, ignore_errors=True)
     
 
 

@@ -1,3 +1,4 @@
+from math import radians
 
 import bpy
 import bpy.ops
@@ -32,13 +33,20 @@ def _setup_scene_settings():
 
     bpy.context.scene.render.use_persistent_data = True
     bpy.context.scene.render.film_transparent = True
-    bpy.context.scene.cycles.samples = 2
-    bpy.context.scene.cycles.adaptive_threshold = 0.1
-    bpy.context.scene.cycles.max_bounces = 4
+    bpy.context.scene.cycles.samples = 20
+    bpy.context.scene.cycles.adaptive_threshold = 0.2
+    bpy.context.scene.cycles.max_bounces = 5
+
+    print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
+          f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
+          f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
 
     bpy.context.scene.frame_start = 1
-    bpy.context.scene.frame_end = 160
+    bpy.context.scene.frame_end = 100
     bpy.context.scene.render.fps = 24
+
+    bpy.context.scene.use_audio_scrub = True
+    bpy.context.scene.sync_mode = 'FRAME_DROP'
 
 
 def _setup_lights(data: dict):
@@ -69,6 +77,11 @@ def _setup_camera(data: dict):
     camera_obj.data.lens = 50  # adjust the focal length to zoom out
     bpy.context.scene.camera = camera_obj  # make this the active camera
 
+    # TODO: Temp solution, remove this when JSON can achieve this
+    camera_obj.location = (0.328782, -1.91114, 1.91264)
+    camera_obj.rotation_euler = (radians(77.8), 0, radians(19.4))
+    camera_obj.data.lens = 37
+
 
 def _setup_objects(data: dict) -> dict:
     objects = {}
@@ -82,12 +95,17 @@ def _setup_objects(data: dict) -> dict:
         obj_scale = utils.get_3d_vec(obj.get("scale"), default=(1, 1, 1))
 
         # importing the object
-        obj_imported = utils.import_file(obj_file, allow_link=True)
+        obj_imported = utils.import_file(obj_file)
 
         obj_imported.location = obj_pos
         obj_imported.rotation_euler = obj_rot
         obj_imported.scale = obj_scale
         obj_imported.name = obj_name
+
+        # TODO: Temp solution, remove this when JSON can achieve this
+        if "pie_hole_cafe" in str(obj_file).lower():
+            obj_imported.location = (-0.6, 4.54, -0.309)
+            obj_imported.rotation_euler = (0, 0, radians(141))
 
         objects[obj_name.lower()] = obj_imported
 
@@ -100,7 +118,13 @@ def _setup_actors(data: dict) -> dict:
     character_data = data["scene"]["actors"]
     for obj in character_data:
         obj_name = obj["name"]
-        obj_file = utils.get_resource(obj["file"])
+
+        # TODO: REMOVE THIS after version 2 test
+        file_name = obj["file"]
+        if file_name.endswith("Sarge_rigged_packed.blend"):
+            file_name = "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Sarge_rigged_packed_v5.blend"
+
+        obj_file = utils.get_resource(file_name)
         obj_pos = utils.get_3d_vec(obj.get("location"))
         obj_rot = utils.get_3d_vec(obj.get("rotation"), use_rad=True)
         obj_scale = utils.get_3d_vec(obj.get("scale"), default=(1, 1, 1))
@@ -140,6 +164,8 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
         if action.name.startswith("faceit"):
             bpy.data.actions.remove(action, do_unlink=True)
 
+    is_actor_v4 = False
+
     # Look for the armature
     armature = None
     for obj in asset.children_recursive:
@@ -150,6 +176,7 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
             # If the armature ends with rigify, use that, otherwise use the first one found
             if obj.name.lower().endswith("rigify"):
                 armature = obj
+                is_actor_v4 = True
                 break
 
             if not armature:
@@ -161,6 +188,11 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
 
     # Rename armature
     armature.name = f"metabull_{asset.name}_rig"
+
+    # If the actor is v4, don't do anything else currently
+    if is_actor_v4:
+        armature.name = f"metabull_{asset.name}_rig_v4"
+        return
 
     for obj in armature.children:
         if obj.type != "MESH":
@@ -187,13 +219,13 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
     # Join all child meshes of the armature
     bpy.ops.object.select_all(action='DESELECT')
     for obj in armature.children:
-        if obj.type != "MESH":  # or obj.children:
+        if obj.type != "MESH" or obj.children:
             continue
 
-        # # Rename all UVMaps to the same name to they are merged correctly
-        # for uv_layer in obj.data.uv_layers:
-        #     uv_layer.name = "UVMap"
-        # # Rename all the curves UV data to UVMap
+        # Rename all UVMaps to the same name to they are merged correctly
+        for uv_layer in obj.data.uv_layers:
+            uv_layer.name = "UVMap"
+        # Rename all the curves UV data to UVMap
         # for child in obj.children:
         #     if child.type == "CURVES":
         #         child.data.surface_uv_map = "UVMap"
@@ -201,11 +233,11 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
         utils.set_active(obj, select=True)
 
     # This is specific for the new character sarge
-    for obj in armature.children:
-        if obj.type == "MESH" and obj.children:
-            utils.set_active(obj, select=True)
+    # for obj in armature.children:
+    #     if obj.type == "MESH" and obj.children:
+    #         utils.set_active(obj, select=True)
 
-    # bpy.ops.object.join()
+    bpy.ops.object.join()
     body_mesh = utils.get_active()
     body_mesh.name = f"metabull_{asset.name}_body"
 

@@ -4,6 +4,7 @@ import boto3
 import argparse
 import subprocess
 from datetime import datetime as dt
+import platform
 
 
 class TriggerBlenderJob:
@@ -19,14 +20,14 @@ class TriggerBlenderJob:
         self.filename = filename
 
         # Downloaded file Configs
-        self.directory_path = r'C:\apps\OutputJson'  # JSON Output path
-        self.path_to_output_file = os.path.join(self.directory_path, filename)  # Downloaded JSON can be found here
+        self.directory_path = os.getcwd()  # JSON Output path
+        self.path_to_output_file = os.path.join(self.directory_path,'OutputJson', filename)  # Downloaded JSON can be found here
+        
         self.file_list = []
 
         # Blender Configs, Make Tweaks here to change app location and stuff
         self.blender_app = r'"C:\Program Files\Blender Foundation\Blender 3.6\blender.exe"'
-        self.metabull_blender_app = r'C:\apps\metabull_blender_app\main.py'
-        self.temppath_to_outputfile = r'C:\apps\metabull_blender_app\assets\scene1-01.json'
+        self.metabull_blender_app = os.path.join(self.directory_path, 'main.py')
 
     def upload_logs(self, log_message):
         '''
@@ -97,19 +98,19 @@ class TriggerBlenderJob:
         self.upload_logs(f'[INFO] Blender Output: {blender_output.stdout}')
         self.upload_logs(f'[INFO] Blender Error: {blender_output.stderr}')  
         
-        
-        
         '''
 
         self.split_json_into_scene()
         self.upload_logs(f'The list of files are : {self.file_list}')
 
         # Uncomment this part of code once rendering is successfull
-        self.upload_logs(f'[CAUTION] Blender Process started rendering, It will take an 30 mins to 45 mins to complete')
         for file_into_scenes in self.file_list:
             # Once the JSON rendering is fixed please update the command by uncommenting the below line
-            command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --render-image --upload-render --keep-files'
-            command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
+            if platform.system()=='Windows':
+                #command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
+                command = f'{self.blender_app} -b -P {self.metabull_blender_app} -- {file_into_scenes} --save-blend --trigger-deadline '
+            if platform.system()=='Linux':
+                command = f'blender -b -P {self.metabull_blender_app} -- {file_into_scenes} --render --use-mp4 --upload-render --keep-files'
             self.upload_logs(f'[INFO] Running Command : {command}, on remote machine')
             self.upload_logs(f'[CAUTION] The next set of log lines will be printed once Blender finishes processing')
 

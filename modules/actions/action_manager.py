@@ -1,6 +1,7 @@
 
 from . import retargeting, lipsync, emotions, attach
 from ..camera_movement import camera_movement
+from .. import utils
 
 
 def handle_actions(actors: dict, data: dict):
@@ -12,9 +13,11 @@ def handle_actions(actors: dict, data: dict):
     attach.attach(actors, data)
 
     # Add animations to actors
+    utils.logger.log("Retargeting..")
     retargeting.retarget(actors, actions)
 
     # Add lip sync to the actors
+    utils.logger.log("Adding lip sync and emotions..")
     lipsync.add_lip_sync(actors, actions)
 
     # Add emotions

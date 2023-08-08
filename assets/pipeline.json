@@ -1,0 +1,127 @@
+{
+  "result": [
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 2,
+              "y": 3,
+              "z": 5
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "energy": 1,
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            },
+            "radius": 0.1,
+            "falloff": "quadratic"
+          }
+        ],
+        "camera": {
+          "location": {
+            "x": 0.82653,
+            "y": -2.24347,
+            "z": 1.51265
+          },
+          "rotation": {
+            "x": 87.4,
+            "y": 0,
+            "z": 25.8
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "Pie Hole Cafe",
+            "prompt": "",
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            },
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+            "location": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          }
+        ],
+        "actors": [
+          {
+            "name": "SARGE",
+            "emotions": [],
+            "audio": "dialogues/SARGE1",
+            "motions": [],
+            "location": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Sarge_rigged_packed.blend"
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "ANIMo",
+          "actor": "Sarge",
+          "start_time": 0,
+          "end_time": 10,
+          "action": "stand",
+          "file": "/animations/Idle.fbx"
+        },
+        {
+          "type": "ANIMo",
+          "actor": "Sarge",
+          "start_time": 10,
+          "end_time": 15,
+          "action": "look around",
+          "file": "/animations/Drinking.fbx"
+        },
+        {
+          "type": "AUDIOo",
+          "actor": "Sarge",
+          "start_time": 15,
+          "end_time": 30,
+          "content": "Wilderness Therapy...a spectacle of biblical proportions.",
+          "file": "s3://metabull-ai-audio-generated-output/1691295361/dialogues/Sarge1.wav"
+        }
+      ],
+      "render_sequence": {
+        "output_name": "1691295361",
+        "resolution": {
+          "x": 1920,
+          "y": 1080
+        },
+        "frame_rate": 24,
+        "quality": 100,
+        "max_frames": 300
+      }
+    }
+  ]
+}

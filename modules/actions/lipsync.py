@@ -37,9 +37,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
     model = read_recognizer()
 
     fps = bpy.context.scene.render.fps
-    bpy.context.scene.use_audio_scrub = True
-    bpy.context.scene.sync_mode = 'FRAME_DROP'
-
     prev_dialogue_end = 0
 
     for action in actions:
@@ -78,7 +75,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         try:
             results = model.recognize(audio_file, lang_id="eng", timestamp=True)
         except Exception as e:
-            print("Error reading audio, re-encoding file..")
+            print("Couldn't reading audio, re-encoding file..")
 
         # Reread the audio file
         if not results:
@@ -106,7 +103,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
-            if mesh.type != "MESH":
+            if mesh.type != "MESH" or not mesh.data.shape_keys:
+                continue
+            if mesh.name not in bpy.context.view_layer.objects:
                 continue
 
             # Generate missing shapekeys if the model has the ARKit blendshapes
@@ -201,8 +200,6 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
 
 
 def generate_shapekeys(mesh: bpy.types.Object):
-    if not mesh.data.shape_keys:
-        return
     # If the character is using the ARKit blendshapes, mix them into visemes
     if "mouthFunnel" not in mesh.data.shape_keys.key_blocks \
             or "mouthRollLower" not in mesh.data.shape_keys.key_blocks:

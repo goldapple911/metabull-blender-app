@@ -64,7 +64,7 @@
       },
       {
         "name": "Pie_Hole_Cafe",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
         "location": {
           "x": 0,
           "y": 0,
@@ -118,7 +118,7 @@
       "actor": "Cliff",
       "start_time": 0,
       "end_time": 200,
-      "file": "/animations/Drinking_without_skin.fbx"
+      "file": "/animations/Idle_cup_holding.fbx"
     },
     {
       "type": "EMOTION",

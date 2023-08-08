@@ -160,6 +160,27 @@
       "file": "camera_animations/90_Degree_Pan.blend",
       "focal_length": 30,
       "scale": 2.5
+    },
+    {
+      "type": "TRANSFORM",
+      "actor": "cliff",
+      "start_time": 2,
+      "end_time": 100,
+      "location": {
+        "x": 1,
+        "y": -1,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "render_sequence": {

@@ -23,6 +23,9 @@ def handle_actions(actors: dict, data: dict):
     # Add emotions
     emotions.add_emotions(actors, actions)
 
+    # Add random blinking
+    # TODO
+
     # Add camera animations
     camera_movement.set_camera_movement(actions)
 

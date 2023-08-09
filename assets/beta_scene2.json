@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -0.771982,
-        "y": 7.87622,
-        "z": 1.57658
+        "x": -2.17814,
+        "y": -0.846569,
+        "z": 1.51953
       },
       "rotation": {
-        "x": 82.6002,
-        "y": 0,
-        "z": -53.8
+        "x": 85.0002,
+        "y": 0.00001,
+        "z": 8.6
       },
       "scale": {
         "x": 1,
@@ -88,8 +88,8 @@
         "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": 1.04006,
-          "y": 9.05359,
+          "x": -2.07296,
+          "y": 2.00731,
           "z": 0
         },
         "rotation": {
@@ -123,8 +123,8 @@
     {
       "type": "EMOTION",
       "actor": "Cliff",
-      "start_time": 30,
-      "end_time": 80,
+      "start_time": 43,
+      "end_time": 120,
       "emotion": "HAPPY"
     },
     {
@@ -141,27 +141,6 @@
         "x": 0,
         "y": 0,
         "z": -23.8357
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "type": "TRANSFORM",
-      "actor": "Camera",
-      "start_time": 2,
-      "end_time": 100,
-      "location": {
-        "x": -2.17814,
-        "y": -0.846569,
-        "z": 1.51953
-      },
-      "rotation": {
-        "x": 85.0002,
-        "y": 0.00001,
-        "z": 8.6
       },
       "scale": {
         "x": 1,

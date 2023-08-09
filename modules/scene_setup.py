@@ -61,8 +61,8 @@ def _setup_world(data: dict):
     worlds = [world for world in bpy.data.worlds]
 
     world_file = data["scene"]["time"]
-    if not world_file:
-        return
+    if not world_file or not world_file.lower().endswith(".blend"):  # TODO
+        world_file = "s3://metabull3dassets/Blender_TestAssets/TestVersion1/SunnyMorning_Mix_001.blend"
 
     try:
         file_path = utils.get_resource(world_file)

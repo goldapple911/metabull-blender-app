@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -0.771982,
-        "y": 7.87622,
-        "z": 1.57658
+        "x": -3.0676,
+        "y": 2.56424,
+        "z": 0.956495
       },
       "rotation": {
-        "x": 82.6002,
+        "x": 87.4001,
         "y": 0,
-        "z": -53.8
+        "z": -68.9999
       },
       "scale": {
         "x": 1,
@@ -88,8 +88,8 @@
         "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": 1.04006,
-          "y": 9.05359,
+          "x": -1.51243,
+          "y": 3.27606,
           "z": 0
         },
         "rotation": {
@@ -108,60 +108,38 @@
   "actions": [
     {
       "type": "AUDIO",
-      "actor": "Cliff",
+      "actor": null,
       "start_time": 0,
-      "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Sound_Files/Cut1_Beta_ElevenLabs_2023-08-08T19_22_09.000Z_WT-Cliff_vCHMxb5NJlzaDCgkmKd8.mp3",
-      "line": "I always do a double in case they forget and only put in one shot."
+      "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut1_Beta_ElevenLabs.wav"
     },
     {
       "type": "ANIM",
       "actor": "Cliff",
       "start_time": 0,
       "end_time": 200,
-      "file": "/animations/Idle_cup_holding.fbx"
+      "file": "/animations/Stop_Walking.fbx"
     },
     {
       "type": "EMOTION",
       "actor": "Cliff",
-      "start_time": 30,
-      "end_time": 80,
+      "start_time": 80,
+      "end_time": 120,
       "emotion": "HAPPY"
-    },
-    {
-      "type": "TRANSFORM",
-      "actor": "cliff",
-      "start_time": 2,
-      "end_time": 100,
-      "location": {
-        "x": -2.07296,
-        "y": 2.00731,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -23.8357
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
     },
     {
       "type": "TRANSFORM",
       "actor": "Camera",
       "start_time": 2,
-      "end_time": 100,
+      "end_time": 70,
       "location": {
-        "x": -2.17814,
-        "y": -0.846569,
-        "z": 1.51953
+        "x": -2.15427,
+        "y": 0.081134,
+        "z": 1.76411
       },
       "rotation": {
-        "x": 85.0002,
+        "x": 83.3652,
         "y": 0.00001,
-        "z": 8.6
+        "z": 0.797527
       },
       "scale": {
         "x": 1,

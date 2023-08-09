@@ -5,6 +5,7 @@ import soundfile
 from allosaurus.app import read_recognizer
 from .. import utils
 
+# 
 arkit_to_visemes = {
     "A": [{"name": "jawOpen", "weight": 0.4}],
     "Ch": [{"name": "mouthFunnel", "weight": 0.8}],
@@ -93,7 +94,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 print("[ERROR] Error reading audio:", e)
                 return
 
-        # Turn results into phoneme list
+        # Turn results fro mthe audio file voice recognition into a phoneme list (start, duration, phoneme)
         phonemes = []
         for phoneme_item in results.split("\n"):
             items = phoneme_item.split(" ")
@@ -108,7 +109,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             if mesh.name not in bpy.context.view_layer.objects:
                 continue
 
-            # Generate missing shapekeys if the model has the ARKit blendshapes
+            # Generate missing face shapekeys if the mesh has the ARKit blendshapes
             generate_shapekeys(mesh)
 
             # Add every phoneme as a shapekey to the animation
@@ -200,7 +201,9 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
 
 
 def generate_shapekeys(mesh: bpy.types.Object):
-    # If the character is using the ARKit blendshapes, mix them into visemes
+    """If the character is using the ARKit blendshapes, mix them into visemes (mouth shapes)"""
+
+    # Return if the character doesn't have the ARKit shapekeys
     if "mouthFunnel" not in mesh.data.shape_keys.key_blocks \
             or "mouthRollLower" not in mesh.data.shape_keys.key_blocks:
         return

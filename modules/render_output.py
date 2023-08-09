@@ -171,6 +171,7 @@ def render(data: dict):
             print(f"ERROR: No blend file for upload to Deadline found. Use '--save-blend' to save the blend file.")
             return
 
+        utils.upload_to_s3(output_file_audio, output_dir, bucket_name="metabull-deadline-blend-files")
         utils.upload_to_s3(output_file_blend, output_dir, bucket_name="metabull-deadline-blend-files")
 
     # After the upload, delete the output folder

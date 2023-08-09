@@ -1,7 +1,7 @@
 {
   "scene": {
     "environment": "DefaultEnvironment",
-    "time": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/SunnyMorning_Mix_001.blend",
+    "time": "Morning",
     "lighting": [
       {
         "type": "PointLight",
@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -0.771982,
-        "y": 7.87622,
-        "z": 1.57658
+        "x": -5.624,
+        "y": -2.267,
+        "z": 1.815
       },
       "rotation": {
-        "x": 82.6002,
+        "x": 88.6,
         "y": 0,
-        "z": -53.8
+        "z": 297
       },
       "scale": {
         "x": 1,
@@ -88,14 +88,14 @@
         "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": 1.04006,
-          "y": 9.05359,
-          "z": 0
+          "x": -3.34,
+          "y": -1.25,
+          "z": 0.32
         },
         "rotation": {
           "x": 0,
           "y": 0,
-          "z": -23.8357
+          "z": -87
         },
         "scale": {
           "x": 1,
@@ -107,67 +107,24 @@
   },
   "actions": [
     {
-      "type": "AUDIO",
-      "actor": "Cliff",
-      "start_time": 0,
-      "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Sound_Files/Cut2_Beta_ElevenLabs_2023-08-07T23_03_43.000Z_Cliff - closest version so far_XOybmPYKim9jyyYtatnP.mp3",
-      "line": "I always do a double in case they forget and only put in one shot."
+      "type": "CAMERA_MOVEMENT",
+      "name": "360 Track",
+      "actor": "Coffee_Cup",
+      "start_time": 10,
+      "end_time": 150,
+      "file": "camera_animations/360_track.blend",
+      "focal_length": 30,
+      "scale": 2.5
     },
     {
-      "type": "ANIM",
-      "actor": "Cliff",
-      "start_time": 0,
+      "type": "CAMERA_MOVEMENT",
+      "name": "90 Degree Pan",
+      "actor": "Coffee_Cup",
+      "start_time": 110,
       "end_time": 200,
-      "file": "/animations/Idle_cup_holding.fbx"
-    },
-    {
-      "type": "EMOTION",
-      "actor": "Cliff",
-      "start_time": 30,
-      "end_time": 80,
-      "emotion": "HAPPY"
-    },
-    {
-      "type": "TRANSFORM",
-      "actor": "cliff",
-      "start_time": 2,
-      "end_time": 100,
-      "location": {
-        "x": -2.07296,
-        "y": 2.00731,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": -23.8357
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "type": "TRANSFORM",
-      "actor": "Camera",
-      "start_time": 2,
-      "end_time": 100,
-      "location": {
-        "x": -2.17814,
-        "y": -0.846569,
-        "z": 1.51953
-      },
-      "rotation": {
-        "x": 85.0002,
-        "y": 0.00001,
-        "z": 8.6
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
+      "file": "camera_animations/90_Degree_Pan.blend",
+      "focal_length": 30,
+      "scale": 2.5
     }
   ],
   "render_sequence": {

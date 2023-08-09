@@ -178,8 +178,3 @@ def render(data: dict):
         if not args_handler.keep_files:
             shutil.rmtree(output_dir, ignore_errors=True)
 
-    
-
-
-
-

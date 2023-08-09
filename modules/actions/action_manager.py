@@ -25,5 +25,6 @@ def handle_actions(actors: dict, data: dict):
 
     # Add camera animations
     camera_movement.set_camera_movement(actions)
-    
+
+    # Add object transform animations
     transform.transform(actors, actions)

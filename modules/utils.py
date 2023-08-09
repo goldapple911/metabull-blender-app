@@ -196,7 +196,10 @@ def import_file(path: pathlib.Path, allow_link=False):
     return asset
 
 
-def import_blend_file(path: pathlib.Path, link: bool):
+def import_blend_file(path: pathlib.Path, link: bool, import_types: list = None):
+    if import_types is None:
+        import_types = ["collections", "materials"]
+
     # Create new collection
     collection_blend = bpy.data.collections.new(path.name)
     bpy.context.scene.collection.children.link(collection_blend)
@@ -208,8 +211,9 @@ def import_blend_file(path: pathlib.Path, link: bool):
     # link=True means that the objects remain in the other blend file and
     # are only linked to this one. This is much faster than copying the data.
     with bpy.data.libraries.load(str(path), link=link) as (data_from, data_to):
-        for collection in data_from.collections:
-            data_to.collections.append(collection)
+        for type_name in import_types:
+            for data in getattr(data_from, type_name):
+                getattr(data_to, type_name).append(data)
 
     # Link the collections to their blend collection
     for collection in bpy.data.collections:
@@ -370,7 +374,13 @@ def find_body_mesh(asset: bpy.types.Object) -> bpy.types.Object:
 
 
 def find_actor(actors: dict, name: str) -> bpy.types.Object:
-    return actors.get(name.lower())
+    actor = actors.get(name.lower())
+    if not actor:
+        print(f"Warning: Actor '{name}' not found! Looking for object with that name instead")
+        for obj in bpy.data.objects:
+            if obj.name.lower() == name.lower():
+                actor = obj
+    return actor
 
 
 class Logger:

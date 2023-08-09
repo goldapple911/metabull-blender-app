@@ -106,8 +106,6 @@ def enable_addons():
 
 
 def main():
-    logging.getLogger().setLevel(logging.INFO)
-
     args_handler.handle_args()
     enable_addons()
     handle_files()

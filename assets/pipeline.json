@@ -88,7 +88,7 @@
       },
       "actions": [
         {
-          "type": "ANIMo",
+          "type": "ANIM",
           "actor": "Sarge",
           "start_time": 0,
           "end_time": 10,
@@ -96,15 +96,15 @@
           "file": "/animations/Idle.fbx"
         },
         {
-          "type": "ANIMo",
+          "type": "ANIM",
           "actor": "Sarge",
           "start_time": 10,
           "end_time": 15,
           "action": "look around",
-          "file": "/animations/Drinking.fbx"
+          "file": "/animations/Idle.fbx"
         },
         {
-          "type": "AUDIOo",
+          "type": "AUDIO",
           "actor": "Sarge",
           "start_time": 15,
           "end_time": 30,

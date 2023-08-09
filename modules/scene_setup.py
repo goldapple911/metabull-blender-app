@@ -9,6 +9,7 @@ def setup_scene(data: dict) -> dict:
     # Setup scene
     utils.clear_scene()
     _setup_scene_settings()
+    _setup_world(data)
     _setup_lights(data)
     _setup_camera(data)
     objects = _setup_objects(data)
@@ -48,6 +49,29 @@ def _setup_scene_settings():
     bpy.context.scene.use_audio_scrub = True
     bpy.context.scene.sync_mode = 'FRAME_DROP'
 
+    # Bernardo's settings
+    bpy.context.scene.cycles.samples = 256
+    bpy.context.scene.cycles.transparent_max_bounces = 24
+    bpy.context.scene.render.use_simplify = True
+    bpy.context.scene.cycles.texture_limit = '4096'
+    bpy.context.scene.cycles.use_camera_cull = True
+
+
+def _setup_world(data: dict):
+    worlds = [world for world in bpy.data.worlds]
+
+    try:
+        file_path = utils.get_resource(data["scene"]["time"])
+    except Exception as e:
+        print(f"Error loading world: {e}")
+        return
+    utils.import_blend_file(file_path, link=False, import_types=["worlds"])
+
+    # Get the new world and set it as active
+    new_worlds = [world for world in bpy.data.worlds if world not in worlds]
+    if new_worlds:
+        bpy.context.scene.world = new_worlds[0]
+
 
 def _setup_lights(data: dict):
     lights = data["scene"]["lighting"]
@@ -78,8 +102,8 @@ def _setup_camera(data: dict):
     bpy.context.scene.camera = camera_obj  # make this the active camera
 
     # TODO: Temp solution, remove this when JSON can achieve this
-    camera_obj.location = (0.328782, -1.91114, 1.91264)
-    camera_obj.rotation_euler = (radians(77.8), 0, radians(19.4))
+    # camera_obj.location = (0.328782, -1.91114, 1.91264)
+    # camera_obj.rotation_euler = (radians(77.8), 0, radians(19.4))
     camera_obj.data.lens = 37
 
 
@@ -165,6 +189,14 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
             bpy.data.actions.remove(action, do_unlink=True)
 
     is_actor_v4 = False
+
+    # Delete all "cs" objects
+    for obj in asset.children_recursive:
+        try:
+            if obj.name.lower().startswith("cs_"):
+                utils.delete_hierarchy(obj)
+        except ReferenceError:
+            pass
 
     # Look for the armature
     armature = None

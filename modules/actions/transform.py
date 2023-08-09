@@ -1,30 +1,32 @@
-import bpy
-import math
+
+from .. import utils
+
 
 def transform(actors, actions):
     
     # check for all the actions
     for action in actions:
-        if action['type'] == "TRANSFORM":
+        if action['type'] != "TRANSFORM":
+            continue
             
-            # get the actor
-            actor = actors.get(action['actor'])
-            
-            # set the initial keyframe
-            # enter the first keyframe for the current location
-            actor.keyframe_insert(data_path='location',frame=action['start_time'])
-            actor.keyframe_insert(data_path='scale',frame=action['start_time'])
-            actor.keyframe_insert(data_path='rotation_euler',frame=action['start_time'])
+        # Get the action data
+        actor = utils.find_actor(actors, action['actor'])
+        start_time = action['start_time']
+        end_time = action['end_time']
 
-            # set the new locations on the given frame
-            actor.location = (action["location"]["x"],action["location"]["y"],action["location"]["z"])
-            actor.scale = (action["scale"]["x"],action["scale"]["y"],action["scale"]["z"])
+        # set the initial keyframe
+        # enter the starting keyframe for the current transforms
+        actor.keyframe_insert(data_path='location', frame=start_time)
+        actor.keyframe_insert(data_path='scale', frame=start_time)
+        actor.keyframe_insert(data_path='rotation_euler', frame=start_time)
 
-            # now for rotation
-            rotation_degrees = (action["rotation"]["x"],action["rotation"]["y"],action["rotation"]["z"])
-            rotation_radians = tuple(math.radians(deg) for deg in rotation_degrees)
-            actor.rotation_euler = rotation_radians
+        # set the new transforms on the given frame
+        actor.location = utils.get_3d_vec(action.get("location"))
+        actor.scale = utils.get_3d_vec(action.get("scale"), default=(1, 1, 1))
+        actor.rotation_euler = utils.get_3d_vec(action.get("rotation"), use_rad=True)
 
-            actor.keyframe_insert(data_path='location',frame=action['end_time'])
-            actor.keyframe_insert(data_path='scale',frame=action['end_time'])
-            actor.keyframe_insert(data_path='rotation_euler',frame=action['end_time'])
+        # enter the ending keyframe for the current transforms
+        actor.keyframe_insert(data_path='location', frame=end_time)
+        actor.keyframe_insert(data_path='scale', frame=end_time)
+        actor.keyframe_insert(data_path='rotation_euler', frame=end_time)
+

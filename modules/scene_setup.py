@@ -60,8 +60,12 @@ def _setup_scene_settings():
 def _setup_world(data: dict):
     worlds = [world for world in bpy.data.worlds]
 
+    world_file = data["scene"]["time"]
+    if not world_file:
+        return
+
     try:
-        file_path = utils.get_resource(data["scene"]["time"])
+        file_path = utils.get_resource(world_file)
     except Exception as e:
         print(f"Error loading world: {e}")
         return

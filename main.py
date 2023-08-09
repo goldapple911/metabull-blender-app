@@ -1,4 +1,5 @@
 
+import os
 import sys
 import bpy
 import json
@@ -7,6 +8,9 @@ import pkgutil
 import logging
 import subprocess
 import addon_utils
+
+# Seth the working dir to this folder
+os.chdir(pathlib.Path(__file__).parent)
 
 # Add the whole blender app folder to the system path, so all modules in it can be loaded by the script
 main_dir = pathlib.Path(__file__).parent

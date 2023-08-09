@@ -38,10 +38,6 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.adaptive_threshold = 0.2
     bpy.context.scene.cycles.max_bounces = 5
 
-    print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
-          f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
-          f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
-
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 100
     bpy.context.scene.render.fps = 24
@@ -55,6 +51,10 @@ def _setup_scene_settings():
     bpy.context.scene.render.use_simplify = True
     bpy.context.scene.cycles.texture_limit = '4096'
     bpy.context.scene.cycles.use_camera_cull = True
+
+    print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
+          f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
+          f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
 
 
 def _setup_world(data: dict):

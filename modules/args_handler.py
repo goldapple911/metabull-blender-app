@@ -18,6 +18,7 @@ class ArgsHandler:
     _arg_trigger_deadline = "--trigger-deadline"
     _arg_keep_files = "--keep-files"
     _arg_cloud_logger = "--cloud-logger"
+    _arg_check_asset_updates = "--check-asset-updates"
 
     def __init__(self):
         self.args = []
@@ -33,6 +34,7 @@ class ArgsHandler:
         self.trigger_deadline = False
         self.keep_files = False
         self.cloud_logger = False
+        self.check_asset_updates = False
 
     def handle_args(self):
         print(f"INFO: Launched using arguments: {' '.join(sys.argv)}")
@@ -61,6 +63,7 @@ class ArgsHandler:
         self.trigger_deadline = self._check_arg_bool(self._arg_trigger_deadline)
         self.keep_files = self._check_arg_bool(self._arg_keep_files)
         self.cloud_logger = self._check_arg_bool(self._arg_cloud_logger)
+        self.check_asset_updates = self._check_arg_bool(self._arg_check_asset_updates)
 
         self.json_path = self._check_arg_path_index(self._index_json_path)
         if self.json_path is None:

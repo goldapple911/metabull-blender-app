@@ -42,8 +42,8 @@
     "objects": [],
     "actors": [
       {
-        "name": "Sarge",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "name": "Cup",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Prop_Coffee_Cup_Procedural.blend",
         "location": {
           "x": 0,
           "y": 0,
@@ -63,41 +63,6 @@
     ]
   },
   "actions": [
-    {
-      "type": "TRANSFORM",
-      "actor": "Sarge",
-      "start_time": 2,
-      "end_time": 100,
-      "location": {
-        "x": 1,
-        "y": -1,
-        "z": 0
-      },
-      "rotation": {
-        "x": 0,
-        "y": 0,
-        "z": 0
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    {
-      "type": "EMOTION",
-      "actor": "Sarge",
-      "start_time": 20,
-      "end_time": 60,
-      "emotion": "HAPPY"
-    },
-    {
-      "type": "EMOTION",
-      "actor": "Sarge",
-      "start_time": 70,
-      "end_time": 110,
-      "emotion": "SAD"
-    }
   ],
   "render_sequence": {
     "output_name": "Scene1",

@@ -4,11 +4,19 @@ import pathlib
 import subprocess
 from math import radians
 from mathutils import Vector, Euler
+from datetime import timezone
 from datetime import datetime as dt
 
 assets_dir = pathlib.Path(__file__).parent.parent / "assets"
 
 aws_object_url_identifier = ".s3.amazonaws.com"
+check_asset_updates = False
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id="AKIASWELGIRGDL3YZERT",
+    aws_secret_access_key="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"
+)
 
 
 def set_active(obj, select=False, deselect_others=False):
@@ -70,20 +78,38 @@ def download_from_s3(path: str) -> pathlib.Path:
     key = "/".join(path_abs.parts[2:])
     target_path = assets_dir / "s3" / bucket_name / key
 
+    # If the file already exists locally, check for a newer version on S3
     if target_path.exists():
-        print(f"INFO: Skipped S3 file download, already exists: {path_original}")
-        return target_path
+        if not check_asset_updates:
+            print(f"INFO: Skipped S3 file download, already exists: {path_original}")
+            return target_path
+
+        # Get the file info from S3
+        try:
+            response = s3.head_object(Bucket=bucket_name, Key=key)
+        except Exception as e:
+            raise Exception(f"{e}\nUnable to find file on S3. Is the path correct? ('{path_original}')") from None
+
+        last_modified_s3 = response["LastModified"]
+        last_modified_s3 = dt.strptime(str(last_modified_s3), "%Y-%m-%d %H:%M:%S%z")
+
+        last_modified_local = target_path.stat().st_mtime
+        last_modified_local = dt.fromtimestamp(last_modified_local)
+        last_modified_local = last_modified_local.astimezone(timezone.utc)
+
+        # print(f"S3 Modified     : {last_modified_s3}        ({last_modified_s3.timestamp()})")
+        # print(f"Locally modified: {last_modified_local} ({last_modified_local.timestamp()})")
+        if last_modified_s3.timestamp() > last_modified_local.timestamp():
+            print(f"INFO: File on S3 has been updated, re-downloading..")
+        else:
+            print(f"INFO: Skipped S3 file download, already exists and is up-to-date: {path_original}")
+            return target_path
 
     # Create the target folder if it doesn't exist
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Create an S3 client and download the file
+    # Download the file
     print(f"INFO: Downloading file from S3: {path_original} ...")
-    s3 = boto3.client(
-        's3',
-        aws_access_key_id="AKIASWELGIRGDL3YZERT",
-        aws_secret_access_key="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"
-    )
     try:
         s3.download_file(bucket_name, key, target_path)
     except Exception as e:
@@ -95,12 +121,6 @@ def download_from_s3(path: str) -> pathlib.Path:
 
 def upload_to_s3(output_path: pathlib.Path, parent_folder: pathlib.Path, pattern="*.*", bucket_name="metabull-blender-output"):
     try:
-        # s3 = boto3.client("s3")
-        s3 = boto3.client(
-            's3',
-            aws_access_key_id="AKIASWELGIRGDL3YZERT",
-            aws_secret_access_key="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"
-        )
         if output_path.is_dir():
             print(f"Uploading folder to S3: {output_path}")
             for file in reversed(list(output_path.rglob(pattern))):

@@ -111,6 +111,8 @@ def enable_addons():
 
 def main():
     args_handler.handle_args()
+    utils.check_asset_updates = args_handler.check_asset_updates
+
     enable_addons()
     handle_files()
 

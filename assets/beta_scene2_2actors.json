@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -1.67694,
-        "y": 0.614899,
-        "z": 1.66628
+        "x": -2.17814,
+        "y": -0.846569,
+        "z": 1.51953
       },
       "rotation": {
-        "x": 81.800,
+        "x": 85.0002,
         "y": 0.00001,
-        "z": 23.4
+        "z": 8.6
       },
       "scale": {
         "x": 1,
@@ -46,6 +46,28 @@
         "prompt": "The coffee cup is in front of Cookie.",
         "bone_name": "mixamorig:LeftHandThumb1",
         "actor":"Beta",
+        "location": {
+          "x": -3.5269,
+          "y": -1.21709,
+          "z": 1.41035
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      {
+        "name": "Coffee_Cup2",
+        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.blend",
+        "prompt": "The coffee cup is in front of Cookie.",
+        "bone_name": "mixamorig:LeftHandThumb1",
+        "actor":"Sarge",
         "location": {
           "x": -3.5269,
           "y": -1.21709,
@@ -102,6 +124,26 @@
           "y": 1,
           "z": 1
         }
+      },
+      {
+        "name": "Sarge",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Sarge rigged_packed_reduced.blend",
+        "prompt": "Cliff is in front of the bar.",
+        "location": {
+          "x": -3.07296,
+          "y": 2.00731,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": -23.8357
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
       }
     ]
   },
@@ -121,11 +163,25 @@
       "file": "/animations/Idle_cup_holding.fbx"
     },
     {
+      "type": "ANIM",
+      "actor": "Sarge",
+      "start_time": -20,
+      "end_time": 200,
+      "file": "/animations/Idle_cup_holding.fbx"
+    },
+    {
       "type": "EMOTION",
       "actor": "Beta",
       "start_time": 43,
       "end_time": 120,
       "emotion": "HAPPY"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Sarge",
+      "start_time": 0,
+      "end_time": 150,
+      "emotion": "ANGRY"
     }
   ],
   "render_sequence": {

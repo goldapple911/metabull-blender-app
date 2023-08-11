@@ -151,7 +151,7 @@ def open_in_blender(path: pathlib.Path):
     subprocess.run(["blender", current_file], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
-def import_file(path: pathlib.Path, allow_link=False):
+def import_file(path: pathlib.Path, allow_link=False, is_actor=False):
     print(f"INFO: Importing file {path}")
     set_active(None, deselect_others=True)
 
@@ -184,8 +184,6 @@ def import_file(path: pathlib.Path, allow_link=False):
     if len(imported_parent_objs) > 1:
         # Create a parent for all imported objects
         parent = bpy.data.objects.new(path.stem, None)
-        collection = bpy.data.collections.get("Collection")
-        collection.objects.link(parent)
 
         # Set the parent and link it to the blend collection
         for obj in imported_parent_objs:
@@ -203,6 +201,17 @@ def import_file(path: pathlib.Path, allow_link=False):
         set_active(asset, select=True)
     print("Info: Imported Main object:", asset.name)
 
+    # Move the asset into the actor or object collection
+    coll_asset = bpy.data.collections["Objects"] if not is_actor else bpy.data.collections["Actors"]
+    if is_blend_file:
+        # Get the blend collection that was set during blend file import
+        coll_blend = bpy.context.view_layer.active_layer_collection.collection
+        if coll_blend.name not in coll_asset.children:
+            coll_asset.children.link(coll_blend)
+        bpy.context.scene.collection.children.unlink(coll_blend)
+    else:
+        coll_asset.objects.link(asset)
+
     if not asset.animation_data and not is_blend_file:
         # Apply transforms
         apply_transforms_hierarchy(asset, location=True, rotation=True, scale=True)
@@ -216,13 +225,16 @@ def import_file(path: pathlib.Path, allow_link=False):
     return asset
 
 
-def import_blend_file(path: pathlib.Path, link: bool, import_types: list = None):
+def import_blend_file(path: pathlib.Path, link: bool, name: str = None, import_types: list = None, link_scene: str = None):
     if import_types is None:
         import_types = ["collections", "materials"]
 
-    # Create new collection
-    collection_blend = bpy.data.collections.new(path.name)
-    bpy.context.scene.collection.children.link(collection_blend)
+    # Create new collection and link it to the specified scene
+    collection_blend = bpy.data.collections.new(name if name else path.stem)
+    main_collection = bpy.context.scene.collection
+    if link_scene:
+        main_collection = find_layer_collection(name=link_scene).collection
+    main_collection.children.link(collection_blend)
 
     # Create a list of all objects before the import
     objs_before_import = [obj for obj in bpy.data.objects]
@@ -318,7 +330,7 @@ def delete_hierarchy(parent: bpy.types.LayerCollection | bpy.types.Object):
         raise TypeError(f"Invalid type '{type(parent)}' for parent '{parent.name if parent else None}'")
 
 
-def find_layer_collection(name: str, layer_collection=None):
+def find_layer_collection(name: str, layer_collection=None) -> bpy.types.LayerCollection | None:
     """ Recursively traverse layer_collection for a particular name """
     if layer_collection is None:
         layer_collection = bpy.context.view_layer.layer_collection

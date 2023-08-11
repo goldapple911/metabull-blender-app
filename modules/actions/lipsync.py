@@ -78,7 +78,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         except Exception as e:
             print("Couldn't reading audio, re-encoding file..")
 
-        # Reread the audio file
+        # If there was an error reading the audio, try again by reencoding the audio file
         if not results:
             # Read and rewrite the file with soundfile to make sure it's readable by the recognizer
             file_path = audio_file
@@ -94,13 +94,13 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 print("[ERROR] Error reading audio:", e)
                 return
 
-        # Turn results fro mthe audio file voice recognition into a phoneme list (start, duration, phoneme)
+        # Turn results from the audio file voice recognition into a phoneme list (start, duration, phoneme)
         phonemes = []
         for phoneme_item in results.split("\n"):
             items = phoneme_item.split(" ")
             item = (float(items[0]), float(items[1]), items[2])
             phonemes.append(item)
-        # print(phonemes)
+        print(phonemes)
 
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:

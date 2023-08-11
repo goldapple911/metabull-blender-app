@@ -9,6 +9,7 @@ def setup_scene(data: dict) -> dict:
     # Setup scene
     utils.clear_scene()
     _setup_scene_settings()
+    _setup_view_layers()
     _setup_world(data)
     _setup_lights(data)
     _setup_camera(data)
@@ -34,9 +35,6 @@ def _setup_scene_settings():
 
     bpy.context.scene.render.use_persistent_data = True
     bpy.context.scene.render.film_transparent = True
-    bpy.context.scene.cycles.samples = 20
-    bpy.context.scene.cycles.adaptive_threshold = 0.2
-    bpy.context.scene.cycles.max_bounces = 5
 
     bpy.context.scene.frame_start = 1
     bpy.context.scene.frame_end = 100
@@ -47,6 +45,7 @@ def _setup_scene_settings():
 
     # Bernardo's settings
     bpy.context.scene.cycles.samples = 256
+    bpy.context.scene.cycles.max_bounces = 24
     bpy.context.scene.cycles.transparent_max_bounces = 24
     bpy.context.scene.render.use_simplify = True
     bpy.context.scene.cycles.texture_limit = '4096'
@@ -55,6 +54,37 @@ def _setup_scene_settings():
     print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
           f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
           f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
+
+
+def _setup_view_layers():
+    # Delete default collection
+    bpy.data.collections.remove(bpy.data.collections["Collection"])
+
+    # Create actor and object collections
+    coll_scene = bpy.data.collections.new("Scene")
+    coll_objects = bpy.data.collections.new("Objects")
+    coll_actors = bpy.data.collections.new("Actors")
+    bpy.context.scene.collection.children.link(coll_scene)
+    bpy.context.scene.collection.children.link(coll_objects)
+    bpy.context.scene.collection.children.link(coll_actors)
+
+    # Add new view layers
+    vl_objects = bpy.context.scene.view_layers.new("Objects")
+    vl_actors = bpy.context.scene.view_layers.new("Actors")
+
+    # Link collections to view layers
+    # vl_objects.collection = coll_objects
+    # vl_actors.collection = coll_actors
+
+    # # Set up view layers
+    #
+    # bpy.data.scenes["Scene.001"].name = "Background"
+    # bpy.context.view_layer.layer_collection.children["Background"].exclude = False
+    # bpy.context.view_layer.layer_collection.children["Background"].hide_viewport = False
+    #
+    # bpy.data.scenes["Scene.002"].name = "Foreground"
+    # bpy.context.view_layer.layer_collection.children["Foreground"].exclude = False
+    # bpy.context.view_layer.layer_collection.children["Foreground"].hide_viewport = False
 
 
 def _setup_world(data: dict):
@@ -69,7 +99,7 @@ def _setup_world(data: dict):
     except Exception as e:
         print(f"Error loading world: {e}")
         return
-    utils.import_blend_file(file_path, link=False, import_types=["worlds"])
+    utils.import_blend_file(file_path, link=False, import_types=["worlds"], link_scene="Scene")
 
     # Get the new world and set it as active
     new_worlds = [world for world in bpy.data.worlds if world not in worlds]
@@ -78,6 +108,8 @@ def _setup_world(data: dict):
 
 
 def _setup_lights(data: dict):
+    bpy.context.view_layer.active_layer_collection = utils.find_layer_collection("Scene")
+
     lights = data["scene"]["lighting"]
     for light in lights:
         light_type = light["type"].upper().replace("LIGHT", "")
@@ -93,6 +125,8 @@ def _setup_lights(data: dict):
 
 
 def _setup_camera(data: dict):
+    bpy.context.view_layer.active_layer_collection = utils.find_layer_collection("Scene")
+
     camera = bpy.data.cameras.new("Camera")
     camera_obj = bpy.data.objects.new("Camera", camera)
     bpy.context.collection.objects.link(camera_obj)
@@ -158,7 +192,7 @@ def _setup_actors(data: dict) -> dict:
         obj_scale = utils.get_3d_vec(obj.get("scale"), default=(1, 1, 1))
 
         # importing the object
-        obj_imported = utils.import_file(obj_file)
+        obj_imported = utils.import_file(obj_file, is_actor=True)
 
         # Set up the imported character
         _setup_character(obj_imported, bpy.context.view_layer.layer_collection)

@@ -39,13 +39,33 @@
         "z": 1
       }
     },
-    "objects": [],
-    "actors": [
+    "objects": [
       {
         "name": "Cup",
         "file": "s3://metabull3dassets/Blender_TestAssets/Prop_Coffee_Cup_Procedural.blend",
         "location": {
           "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        }
+      }
+    ],
+    "actors": [
+      {
+        "name": "Avatar",
+        "file": "animations/Drinking.fbx",
+        "location": {
+          "x": 1,
           "y": 0,
           "z": 0
         },

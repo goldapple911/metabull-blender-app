@@ -85,7 +85,7 @@
     "actors": [
       {
         "name": "Cliff",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Sarge_rigged_packed.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": 1.04006,

@@ -81,7 +81,7 @@ def handle_files():
     action_manager.handle_actions(actors, data)
 
     # Render the result
-    render_output.render(data)
+    render_output.Renderer(data)
 
     # Test ChatGPT
     if args_handler.use_gpt:

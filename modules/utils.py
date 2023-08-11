@@ -227,7 +227,7 @@ def import_file(path: pathlib.Path, allow_link=False, is_actor=False):
 
 def import_blend_file(path: pathlib.Path, link: bool, name: str = None, import_types: list = None, link_scene: str = None):
     if import_types is None:
-        import_types = ["collections", "materials"]
+        import_types = ["collections"]
 
     # Create new collection and link it to the specified scene
     collection_blend = bpy.data.collections.new(name if name else path.stem)

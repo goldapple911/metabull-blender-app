@@ -121,30 +121,33 @@ class Renderer:
         # Create the output dir if it doesn't exist, Blender won't create it automatically when saving blend files
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Purge unused assets, pack all assets and save the blend file
+        # Purge unused assets
         bpy.ops.outliner.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
 
         # Unpack all assets
+        print("Unpacking textures..")
         bpy.ops.file.unpack_all(method='WRITE_LOCAL')
 
-        # Check all images if their paths exist
+        # Update all image paths to the unpacked textures
         for img in bpy.data.images:
-            print("Packing", img.filepath)
-            image_file = utils.assets_dir.parent / img.filepath[2:]
-            if not image_file.exists():
-                print(f"Image '{img.filepath}' not found, removing..")
+            # Get the new unpacked texture path
+            img_file = img.filepath[2:]
+            image_path = utils.assets_dir.parent / img_file
+
+            # Check if the image exists
+            # If the image is a UDIM tile, check if the first tile exists
+            image_tile_path = str(image_path).replace("<UDIM>", "1001")
+            if not os.path.exists(image_tile_path):
+                print(f"Image '{img_file}' not found, removing..")
                 bpy.data.images.remove(img)
                 continue
 
             # Set the new filepath
-            img.filepath = str(image_file)
-            try:
-                img.pack()
-            except RuntimeError:
-                print(f"Image '{image_file}' failed packing, removing..")
-                bpy.data.images.remove(img)
-        bpy.ops.file.pack_all()
+            img.filepath = str(image_path)
 
+        # Pack all textures and save the blend file
+        print("Packing textures..")
+        bpy.ops.file.pack_all()
         bpy.ops.wm.save_as_mainfile(filepath=str(self.output_file_blend))
         print(f"Saved blend file to: {self.output_file_blend}")
 

@@ -9,7 +9,7 @@ from .. import utils
 def append_camera_collection(context, path, cam_name, camera_focus):
         link = False
         filepath = path
-        print(filepath)
+
         #import saved scene collection
         with bpy.data.libraries.load(filepath, link=link) as (data_from, data_to):
             data_to.collections = [c for c in data_from.collections if c  == 'Camera']
@@ -32,10 +32,13 @@ def append_camera_collection(context, path, cam_name, camera_focus):
         return camera, coll.name
     
 
-def set_target(target, collection_name, filename, scale = None):
+def set_target(target, collection_name, cameraname, filename, scale = None):
     
     # set the camera angle to the defined target
-    target = bpy.context.scene.objects[target]
+    obj_check = False
+    if isinstance(target, str):
+        obj_check = True
+        target = bpy.context.scene.objects[target]
     # get the camera collection
     coll = bpy.data.collections.get(collection_name)
     
@@ -47,14 +50,17 @@ def set_target(target, collection_name, filename, scale = None):
             obj.scale = [scale,scale,scale]
             
     # Get the control object for the camera
-    camera_info = camera_details[filename]
+    camera_info = camera_details[cameraname]
     
     control_name = f'{camera_info["control"]} - {filename}'
     control_obj = bpy.data.objects[control_name] # gets the object from the scene
     
     # Get the value at which the objects needs to move
-    position = target.location.copy()
-    
+    if obj_check:
+        position = target.location.copy()
+    else:
+        position = target
+        
     # Now check if there is a lock for camera available or not
     if "lock" in camera_info:
         # get the lock infrmation
@@ -67,9 +73,9 @@ def set_target(target, collection_name, filename, scale = None):
         position_dif_z = control_obj.location[2] - lock_obj.location[2]
         
         # Add the correction terms
-        position[0] = position[0] + position_dif_x
-        position[1] = position[1] + position_dif_y
-        position[2] = position[2] + position_dif_z
+        position[0] += position_dif_x
+        position[1] += position_dif_y
+        position[2] += position_dif_z
     
     # update the location
     control_obj.location = position
@@ -123,25 +129,58 @@ def set_camera_movement(actions: list[dict]):
             camera_number += 1
             # camera movement is required in this scene, hence, will remove the initial camera
             if camera_number == 1:
+                
+                # Create the camera collection
+                camera_all_collection = bpy.data.collections.new("Cameras")
+                bpy.context.scene.collection.children.link(camera_all_collection)
+                
                 for obj in bpy.context.scene.objects:
                     if obj.type == 'CAMERA':
                         bpy.data.objects.remove(obj, do_unlink=True)
             
             # Get the target actor
-            target = action["actor"]
+            if "actor" in action:
+                target = action["actor"]
+            elif "target_location" in action:
+                target = utils.get_3d_vec(action["target_location"])
+            else:
+                target = (0,0,0)
+                
             file = str(utils.get_resource(action["file"]))
-            focal_length = action["focal_length"]
-            # get the camera name
-            filename = action["name"]
-            filename = filename.replace(" ","_")
-            scale = action["scale"]
+            
+            if "focal_length" in action:
+                focal_length = action["focal_length"]
+            else:
+                focal_length = 50
+            
+            
+            if "name" in action:
+                cameraname = action["name"]
+                cameraname = filename.replace(" ","_")
+            else:
+                cameraname = "Idle"
+            filename = f'{cameraname} - {camera_number}'
+             
+             
+            if "scale" in action:
+                scale = action["scale"]
+            else:
+                scale = None
+                
             start_time = action["start_time"]
             end_time = action["end_time"]
             
             # append the camera to the collection
             camera, collection_name = append_camera_collection(bpy.context, file, filename, focal_length)
+            camera_all_collection.children.link(bpy.data.collections.get(collection_name))
+            bpy.context.scene.collection.children.unlink(bpy.data.collections.get(collection_name))
+            
+            # check location
+            if "location" in action:
+                camera.location = utils.get_3d_vec(action["location"])
+            
             # set to the target
-            set_target(target, collection_name, filename, scale)
+            set_target(target, collection_name, cameraname, filename, scale)
             # scale the animation
             adjust_animation(camera, start_time, end_time)
             

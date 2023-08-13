@@ -127,7 +127,7 @@
       },
       {
         "name": "Sarge",
-        "file": "s3://metabull3dassets/Blender_TestAssets/Sarge rigged_packed_reduced.blend",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Sarge_rigged_packed_reduced.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": -3.07296,

@@ -108,23 +108,33 @@
   "actions": [
     {
       "type": "CAMERA_MOVEMENT",
-      "name": "360 Track",
       "actor": "Coffee_Cup",
-      "start_time": 10,
-      "end_time": 150,
-      "file": "camera_animations/360_track.blend",
-      "focal_length": 30,
-      "scale": 2.5
+      "location":{
+        "x": -6.7787,
+        "y": -0.4553,
+        "z": 1.947
+      },
+      "start_time": 1,
+      "end_time": 50,
+      "file": "camera_animations/Idle.blend",
+      "focal_length": 50
     },
     {
       "type": "CAMERA_MOVEMENT",
-      "name": "90 Degree Pan",
-      "actor": "Coffee_Cup",
-      "start_time": 110,
-      "end_time": 200,
-      "file": "camera_animations/90_Degree_Pan.blend",
-      "focal_length": 30,
-      "scale": 2.5
+      "target_location": {
+        "x": -3.3654,
+        "y": -1.3493,
+        "z": 1.9294
+      },
+      "location":{
+        "x": 1.2677,
+        "y": 1.3918,
+        "z": 1.5885
+      },
+      "start_time": 51,
+      "end_time": 100,
+      "file": "camera_animations/Idle.blend",
+      "focal_length": 50
     }
   ],
   "render_sequence": {

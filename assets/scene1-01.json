@@ -85,7 +85,7 @@
     "actors": [
       {
         "name": "Cliff",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Sarge_rigged_packed.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": 1.04006,
@@ -128,7 +128,7 @@
       "emotion": "HAPPY"
     },
     {
-      "type": "TRANSFORM",
+      "type": "TRANSFORM_NEED",
       "actor": "cliff",
       "start_time": 2,
       "end_time": 100,

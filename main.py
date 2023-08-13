@@ -76,7 +76,7 @@ def handle_files():
     # Setup scene and import all assets
     utils.logger.log("Setting up scene..")
     actors = scene_setup.setup_scene(data)
-    print(actors)
+    
     # handle all the actions like animations, lip sync, emotions, etc.
     action_manager.handle_actions(actors, data)
 

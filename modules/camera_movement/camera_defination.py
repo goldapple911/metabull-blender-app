@@ -139,5 +139,9 @@ camera_details = {
     "Curved_Missle_Strike":{
         "control": "Camera_Control",
         "animation": "Camera_Action"
+    },
+    "Idle": {
+        "control": "Camera_Control",
+        "animation": "Camera_Action"
     }
 }

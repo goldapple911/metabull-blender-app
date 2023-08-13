@@ -69,8 +69,8 @@ def _setup_view_layers():
     bpy.context.scene.collection.children.link(coll_actors)
 
     # Add new view layers
-    vl_objects = bpy.context.scene.view_layers.new("Objects")
-    vl_actors = bpy.context.scene.view_layers.new("Actors")
+    # vl_objects = bpy.context.scene.view_layers.new("Objects")
+    # vl_actors = bpy.context.scene.view_layers.new("Actors")
 
     # Link collections to view layers
     # vl_objects.collection = coll_objects

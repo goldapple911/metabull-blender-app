@@ -1,6 +1,7 @@
 from math import radians
 
 import bpy
+import numpy as np
 from mathutils import Vector, Euler
 from .. import utils
 
@@ -32,14 +33,33 @@ def attach(actors, data):
         armature_rotation = target_asset.rotation_euler.copy()
         target_asset.rotation_euler = Euler((0, 0, 0))
 
+        # Get the global location of the bone
+        # bone = armature.pose.bones[bone_name]
+        # bone_location = get_global_bone_loc(armature, bone_name)
+        # print("Bone location:", bone_location)
+        # bone_location = armature.matrix_world @ bone.matrix @ Vector((0, 0, 0))
+        # print("Bone location2:", bone_location)
+
         # Move and rotate the coffe cup to fit the hand
-        asset.location = target_asset.location
-        asset.location += Vector((0.444931, -0.099295, 0.883269))
-        asset.rotation_euler = Euler((
-            radians(74.157),
-            radians(-10.4915),
-            radians(-19.8468)
-        ))
+
+        if target.lower() != "sarge":
+            # A-pose cup holding
+            asset.location = target_asset.location
+            asset.location += Vector((0.444931, -0.099295, 0.883269))
+            asset.rotation_euler = Euler((
+                radians(74.157),
+                radians(-10.4915),
+                radians(-19.8468)
+            ))
+        else:
+            # T-pose cup holding
+            asset.location = target_asset.location
+            asset.location += Vector((0.834368, 0.133904, 1.45931))
+            asset.rotation_euler = Euler((
+                radians(91.558),
+                radians(-3.82921),
+                radians(-2.17623)
+            ))
 
         # Add constraint to the asset to keep it on the bone
         constraint = asset.constraints.new(type='CHILD_OF')
@@ -50,3 +70,22 @@ def attach(actors, data):
         # Restore the armatures rotation
         target_asset.rotation_euler = armature_rotation
 
+
+def get_global_bone_loc(armature, bone_name):
+    R = armature.matrix_world.to_3x3()
+    R = np.array(R)
+
+    t = armature.matrix_world.translation
+    t = np.array(t)
+
+    print(f"R = {R.shape}\n{R}")
+    print(f"t = {t.shape}\n{t}")
+
+    local_location = armature.data.bones[bone_name].head_local
+    local_location = np.array(local_location)
+    print(f"local position = {local_location.shape}\n{local_location}")
+
+    loc = np.dot(R, local_location) + t
+    print(f"final loc = {loc.shape}\n{loc}")
+
+    return [loc[0], loc[1], loc[2]]

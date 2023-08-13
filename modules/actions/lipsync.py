@@ -100,7 +100,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             items = phoneme_item.split(" ")
             item = (float(items[0]), float(items[1]), items[2])
             phonemes.append(item)
-        print(phonemes)
+        # print(phonemes)
 
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:

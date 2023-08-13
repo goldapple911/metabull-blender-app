@@ -31,6 +31,7 @@ class Renderer:
     def _setup_settings(self):
         # Limit max frames
         if bpy.context.scene.frame_end > self.render_max_frames:
+            print(f"Force limiting frames to {self.render_max_frames}..")
             bpy.context.scene.frame_end = self.render_max_frames
 
         # Set render settings

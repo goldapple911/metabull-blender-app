@@ -42,7 +42,17 @@ def attach(actors, data):
 
         # Move and rotate the coffe cup to fit the hand
 
-        if target.lower() != "sarge":
+        # Find the actor in the data
+        # TODO Remove this, it's a temp fix
+        actor_data = None
+        for actor in data["scene"]["actors"]:
+            if actor["name"].lower() == target.lower():
+                actor_data = actor
+                break
+
+        # Move the cup to the hand, very hacky
+        # TODO Remove this, all chars should have the same pose
+        if "sarge" not in actor_data["file"].lower():
             # A-pose cup holding
             asset.location = target_asset.location
             asset.location += Vector((0.444931, -0.099295, 0.883269))

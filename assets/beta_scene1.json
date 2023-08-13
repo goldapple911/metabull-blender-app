@@ -1,162 +1,165 @@
 {
-  "scene": {
-    "environment": "DefaultEnvironment",
-    "time": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/SunnyMorning_Mix_001.blend",
-    "lighting": [
-      {
-        "type": "PointLight",
-        "location": {
-          "x": 2,
-          "y": 3,
-          "z": 5
-        },
-        "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
-    ],
-    "camera": {
-      "location": {
-        "x": -3.0676,
-        "y": 2.56424,
-        "z": 0.956495
-      },
-      "rotation": {
-        "x": 87.4001,
-        "y": 0,
-        "z": -68.9999
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    },
-    "objects": [
-      {
-        "name": "Coffee_Cup",
-        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.blend",
-        "prompt": "The coffee cup is in front of Cookie.",
-        "bone_name": "mixamorig:LeftHandThumb1",
-        "actor":"Cliff",
-        "location": {
-          "x": -3.5269,
-          "y": -1.21709,
-          "z": 1.41035
-        },
-        "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      },
-      {
-        "name": "Pie_Hole_Cafe",
-        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
-        "location": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": 0
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
-    ],
-    "actors": [
-      {
-        "name": "Cliff",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
-        "prompt": "Cliff is in front of the bar.",
-        "location": {
-          "x": -1.51243,
-          "y": 3.27606,
-          "z": 0
-        },
-        "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": -23.8357
-        },
-        "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
-        }
-      }
+  "result": [
+        {
+            "scene": {
+              "environment": "DefaultEnvironment",
+              "time": "s3://metabull3dassets/Blender_TestAssets/PHC_Scene_RenderTemplate_WithWorldLighting_001.blend",
+              "lighting": [
+                {
+                  "type": "PointLight",
+                  "location": {
+                    "x": 2,
+                    "y": 3,
+                    "z": 5
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  }
+                }
+              ],
+              "camera": {
+                "location": {
+                  "x": -3.0676,
+                  "y": 2.56424,
+                  "z": 0.956495
+                },
+                "rotation": {
+                  "x": 87.4001,
+                  "y": 0,
+                  "z": -68.9999
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                }
+              },
+              "objects": [
+                {
+                  "name": "Coffee_Cup",
+                  "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.blend",
+                  "prompt": "The coffee cup is in front of Cookie.",
+                  "bone_name": "mixamorig:LeftHandThumb1",
+                  "actor":"Beta",
+                  "location": {
+                    "x": -3.5269,
+                    "y": -1.21709,
+                    "z": 1.41035
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  }
+                },
+                {
+                  "name": "Pie_Hole_Cafe",
+                  "file": "s3://metabull3dassets/Approved_Production_Assets/Pie_Hole_Cafe_Light_Zero_Intensity.blend",
+                  "location": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  }
+                }
+              ],
+              "actors": [
+                {
+                  "name": "Beta",
+                  "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+                  "prompt": "Sarge is in front of the bar.",
+                  "location": {
+                    "x": -1.51243,
+                    "y": 3.27606,
+                    "z": 0
+                  },
+                  "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": -23.8357
+                  },
+                  "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                  }
+                }
+              ]
+            },
+            "actions": [
+              {
+                "type": "AUDIO",
+                "actor": null,
+                "start_time": 0,
+                "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut1_Beta_ElevenLabs.wav"
+              },
+              {
+                "type": "ANIM",
+                "actor": "Beta",
+                "start_time": 0,
+                "end_time": 200,
+                "file": "animations/Stop_Walking.fbx"
+              },
+              {
+                "type": "EMOTION",
+                "actor": "Beta",
+                "start_time": 80,
+                "end_time": 120,
+                "emotion": "HAPPY"
+              },
+              {
+                "type": "TRANSFORM",
+                "actor": "Camera",
+                "start_time": 2,
+                "end_time": 70,
+                "location": {
+                  "x": -2.15427,
+                  "y": 0.081134,
+                  "z": 1.76411
+                },
+                "rotation": {
+                  "x": 83.3652,
+                  "y": 0.00001,
+                  "z": 3.14022
+                },
+                "scale": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                }
+              }
+            ],
+            "render_sequence": {
+              "output_name": "Scene1",
+              "resolution": {
+                "x": 1920,
+                "y": 1080
+              },
+              "frame_rate": 24,
+              "quality": 100,
+              "max_frames": 110
+            }
+          }
     ]
-  },
-  "actions": [
-    {
-      "type": "AUDIO",
-      "actor": null,
-      "start_time": 0,
-      "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut1_Beta_ElevenLabs.wav"
-    },
-    {
-      "type": "ANIM",
-      "actor": "Cliff",
-      "start_time": 0,
-      "end_time": 200,
-      "file": "/animations/Stop_Walking.fbx"
-    },
-    {
-      "type": "EMOTION",
-      "actor": "Cliff",
-      "start_time": 80,
-      "end_time": 120,
-      "emotion": "HAPPY"
-    },
-    {
-      "type": "TRANSFORM",
-      "actor": "Camera",
-      "start_time": 2,
-      "end_time": 70,
-      "location": {
-        "x": -2.15427,
-        "y": 0.081134,
-        "z": 1.76411
-      },
-      "rotation": {
-        "x": 83.3652,
-        "y": 0.00001,
-        "z": 0.797527
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      }
-    }
-  ],
-  "render_sequence": {
-    "output_name": "Scene1",
-    "resolution": {
-      "x": 1920,
-      "y": 1080
-    },
-    "frame_rate": 24,
-    "quality": 100,
-    "max_frames": 300
-  }
 }
-  

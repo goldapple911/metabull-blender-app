@@ -354,6 +354,11 @@ def get_top_parent(obj: bpy.types.Object) -> bpy.types.Object:
 
 
 def weight_paint_obj_to_bone(obj, armature, bone_name):
+    # If the mesh is already controlled by the parenting, don't weight paint it
+    if obj.parent_type == "BONE" and obj.parent_bone:
+        print(f"Skipping weight painting:", obj.name, armature.name, bone_name)
+        return
+
     bone = armature.pose.bones.get("head.x")
     if not bone:
         print(f"Warning: Weight Paint failed, bone '{bone_name}' not found in '{armature.name}'!")

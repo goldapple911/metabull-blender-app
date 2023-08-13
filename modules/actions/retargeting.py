@@ -124,20 +124,29 @@ from .. import utils
 
 
 def retarget(actors: dict, actions: list[dict]):
+    # Filter the animations per actor down to one
     actions_tmp = []
-    # Search for the drinking animation and use only that
-    for action in actions:
-        if action["type"] == "ANIM" and "drinking" in action["file"].lower():
-            action["file"] = "/animations/Idle_cup_holding.fbx"  # TODO: Remove this
-            actions_tmp.append(action)
-            break
-
-    # If no drinking anim was found, only use the first anim
-    if not actions_tmp:
+    for actor_name in actors.keys():
+        action_tmp = None
+        # Search for the drinking animation and use only that
         for action in actions:
-            if action["type"] == "ANIM":
-                actions_tmp.append(action)
+            if action["type"] != "ANIM" or actor_name.lower() != action["actor"].lower():
+                continue
+            if "drinking" in action["file"].lower():
+                action["file"] = "/animations/Idle_cup_holding.fbx"  # TODO: Remove this
+                action_tmp = action
                 break
+
+        # If no drinking anim was found, only use the first anim
+        if not action_tmp:
+            for action in actions:
+                if action["type"] != "ANIM" or actor_name.lower() != action["actor"].lower():
+                    continue
+                action_tmp = action
+                break
+
+        if action_tmp:
+            actions_tmp.append(action_tmp)
 
     # Retarget each action
     for action in actions_tmp:
@@ -160,14 +169,13 @@ def retarget(actors: dict, actions: list[dict]):
             raise Exception("No armature found in imported file.")
 
         # If the armature is v4, skip it currently TODO
-        if armature.name.endswith("rig_v4"):
-            print("Skipping retargeting v4 armature:", action_actor)
-            continue
+        # if armature.name.endswith("rig_v4"):
+        #     print("Skipping retargeting v4 armature:", action_actor)
+        #     continue
 
         # Get the animations file
         anim_file = utils.get_resource(action["file"])
-        print("Adding animation to:", armature.name)
-        print("Reading animation:", anim_file)
+        print(f"Adding animation '{anim_file.name}' to actor '{action_actor}'")
         anim = utils.import_file(anim_file)
         anim.name = "Anim Armature"
 

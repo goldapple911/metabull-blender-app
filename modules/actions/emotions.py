@@ -93,9 +93,9 @@ def add_emotions(actors: dict, actions: list[dict]):
             shapekey.keyframe_insert(data_path="value", frame=action_end_frame)
 
             # # Set frame_end in the scene
-            # action_end = action_end_frame + 10
-            # if bpy.context.scene.frame_end < action_end:
-            #     bpy.context.scene.frame_end = action_end
+            action_end = action_end_frame + 10
+            if bpy.context.scene.frame_end < action_end:
+                bpy.context.scene.frame_end = action_end
 
 
 def generate_emotion_shapekey(mesh: bpy.types.Object, emotion: str):

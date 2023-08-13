@@ -52,7 +52,7 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.use_camera_cull = True
 
     print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
-          f"Threshold: {bpy.context.scene.cycles.adaptive_threshold}, "
+          f"Threshold: {round(bpy.context.scene.cycles.adaptive_threshold, 4)}, "
           f"Max Bounces: {bpy.context.scene.cycles.max_bounces}")
 
 
@@ -281,33 +281,41 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
     # If any child meshes of the armature have no armature modifier,
     # weight paint the mesh to the head bone and add an armature modifier
     for obj in armature.children:
-        # Get the list of artmature mods
+        # bpy.context.object.parent_bone = ""
+
+        # Get the list of armature mods
         armature_mods = [mod for mod in obj.modifiers if mod.type == "ARMATURE"]
         if not armature_mods:
             utils.weight_paint_obj_to_bone(obj, armature, "head.x")
 
+        # Remove the armature modifier if the mesh is controlled by bone parenting
+        if obj.parent_type == "BONE" and obj.parent_bone:
+            for mod in obj.modifiers:
+                if mod.type == "ARMATURE":
+                    obj.modifiers.remove(mod)
+
     # Join all child meshes of the armature
     bpy.ops.object.select_all(action='DESELECT')
-    for obj in armature.children:
-        if obj.type != "MESH" or obj.children:
-            continue
-
-        # Rename all UVMaps to the same name to they are merged correctly
-        for uv_layer in obj.data.uv_layers:
-            uv_layer.name = "UVMap"
-        # Rename all the curves UV data to UVMap
-        # for child in obj.children:
-        #     if child.type == "CURVES":
-        #         child.data.surface_uv_map = "UVMap"
-
-        utils.set_active(obj, select=True)
+    # for obj in armature.children:
+    #     if obj.type != "MESH" or obj.children:
+    #         continue
+    #
+    #     # Rename all UVMaps to the same name to they are merged correctly
+    #     for uv_layer in obj.data.uv_layers:
+    #         uv_layer.name = "UVMap"
+    #     # Rename all the curves UV data to UVMap
+    #     # for child in obj.children:
+    #     #     if child.type == "CURVES":
+    #     #         child.data.surface_uv_map = "UVMap"
+    #
+    #     utils.set_active(obj, select=True)
 
     # This is specific for the new character sarge
     # for obj in armature.children:
     #     if obj.type == "MESH" and obj.children:
     #         utils.set_active(obj, select=True)
 
-    bpy.ops.object.join()
+    # bpy.ops.object.join()
     body_mesh = utils.get_active()
     body_mesh.name = f"metabull_{asset.name}_body"
 

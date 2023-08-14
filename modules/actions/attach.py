@@ -61,14 +61,15 @@ def attach(actors, data):
         if "sarge" not in actor_data["file"].lower():
             # A-pose cup holding
             asset.location = target_asset.location
-            asset.location += Vector((0.444931, -0.099295, 0.883269))
+            #asset.location += Vector((0.444931, -0.099295, 0.883269))
+            asset.location = Vector((-1.9461,3.1754,0.87564))
             asset.rotation_euler = Euler((
-                radians(74.157),
-                radians(-10.4915),
-                radians(-19.8468)
+                radians(78.302),
+                radians(-7.2279),
+                radians(-13.157)
             ))
             if use_right_hand:
-                asset.location[0] += 2 * -0.444931 + 0.01
+            #     asset.location[0] += 2 * -0.444931 + 0.01
                 asset.rotation_euler[2] = -asset.rotation_euler[2]
         else:
             # T-pose cup holding

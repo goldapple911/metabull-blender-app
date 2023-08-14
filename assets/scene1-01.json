@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -0.771982,
-        "y": 7.87622,
-        "z": 1.57658
+        "x": 1.1586,
+        "y": 4.3647,
+        "z": 1.7936
       },
       "rotation": {
-        "x": 82.6002,
+        "x": 81.73,
         "y": 0,
-        "z": -53.8
+        "z": -25.537
       },
       "scale": {
         "x": 1,
@@ -88,8 +88,8 @@
         "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": 1.04006,
-          "y": 9.05359,
+          "x": 3.05088,
+          "y": 8.16522,
           "z": 0
         },
         "rotation": {
@@ -118,7 +118,7 @@
       "actor": "Cliff",
       "start_time": 0,
       "end_time": 200,
-      "file": "/animations/greeting_handshake.fbx"
+      "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Motions_Zero Root Animation Files/greeting_walkanddrink_m_270750.fbx"
     },
     {
       "type": "EMOTION",
@@ -128,7 +128,7 @@
       "emotion": "HAPPY"
     },
     {
-      "type": "TRANSFORM_NEED",
+      "type": "TRANSFORM_N",
       "actor": "cliff",
       "start_time": 2,
       "end_time": 100,

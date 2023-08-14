@@ -107,7 +107,7 @@
     "actors": [
       {
         "name": "Beta",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "file": "s3://metabull3dassets/Blender_TestAssets/Beta_rig_rreallstudio_BoneParentedLighting_001.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": -2.07296,

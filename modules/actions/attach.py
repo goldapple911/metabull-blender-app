@@ -17,6 +17,12 @@ def attach(actors, data):
         if not target or not bone_name:
             continue
 
+        use_right_hand = False
+        bone_name_actual = obj.get("bone_name")
+        if bone_name_actual and "right" in bone_name_actual.lower():
+            bone_name = "c_middle1_base.r"
+            use_right_hand = True
+
         print(f"Attaching '{obj['name']}' to {target}'s bone '{bone_name}'")
 
         # Get objects
@@ -61,6 +67,9 @@ def attach(actors, data):
                 radians(-10.4915),
                 radians(-19.8468)
             ))
+            if use_right_hand:
+                asset.location[0] += 2 * -0.444931 + 0.01
+                asset.rotation_euler[2] = -asset.rotation_euler[2]
         else:
             # T-pose cup holding
             asset.location = target_asset.location

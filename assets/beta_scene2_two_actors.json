@@ -1,7 +1,7 @@
 {
   "scene": {
     "environment": "DefaultEnvironment",
-    "time": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/SunnyMorning_Mix_001.blend",
+    "time": "s3://metabull3dassets/Blender_TestAssets/PHC_Scene_RenderTemplate_WithWorldLighting_001.blend",
     "lighting": [
       {
         "type": "PointLight",
@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": -2.17814,
-        "y": -0.846569,
-        "z": 1.51953
+        "x": -1.86461,
+        "y": 0.826071,
+        "z": 1.69966
       },
       "rotation": {
-        "x": 85.0002,
+        "x": 81.800,
         "y": 0.00001,
-        "z": 8.6
+        "z": 23.4
       },
       "scale": {
         "x": 1,
@@ -86,7 +86,7 @@
       },
       {
         "name": "Pie_Hole_Cafe",
-        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Pie_Hole_Cafe_Light_Zero_Intensity.blend",
         "location": {
           "x": 0,
           "y": 0,
@@ -127,17 +127,17 @@
       },
       {
         "name": "Sarge",
-        "file": "s3://metabull3dassets/Blender_TestAssets/Sarge_rigged_packed_reduced.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/sarge_visemes.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": -3.07296,
-          "y": 2.00731,
+          "x": -2.70422,
+          "y": 1.97733,
           "z": 0
         },
         "rotation": {
           "x": 0,
           "y": 0,
-          "z": -23.8357
+          "z": 44.1221
         },
         "scale": {
           "x": 1,
@@ -165,7 +165,7 @@
     {
       "type": "ANIM",
       "actor": "Sarge",
-      "start_time": -20,
+      "start_time": 10,
       "end_time": 200,
       "file": "/animations/Idle_cup_holding.fbx"
     },
@@ -173,15 +173,43 @@
       "type": "EMOTION",
       "actor": "Beta",
       "start_time": 43,
-      "end_time": 120,
+      "end_time": 150,
       "emotion": "HAPPY"
     },
     {
       "type": "EMOTION",
       "actor": "Sarge",
-      "start_time": 0,
+      "start_time": 50,
+      "end_time": 110,
+      "emotion": "SURPRISED"
+    },
+    {
+      "type": "EMOTION",
+      "actor": "Sarge",
+      "start_time": 110,
       "end_time": 150,
       "emotion": "ANGRY"
+    },
+    {
+      "type": "TRANSFORM",
+      "actor": "Camera",
+      "start_time": 90,
+      "end_time": 91,
+      "location": {
+        "x": -2.41696,
+        "y": 1.30318,
+        "z": 1.70676
+      },
+      "rotation": {
+        "x": 85.8001,
+        "y": 0,
+        "z": 26.6
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      }
     }
   ],
   "render_sequence": {
@@ -192,7 +220,6 @@
     },
     "frame_rate": 24,
     "quality": 100,
-    "max_frames": 300
+    "max_frames": 140
   }
 }
-  

@@ -45,10 +45,12 @@ def _setup_scene_settings():
 
     # Bernardo's settings
     bpy.context.scene.cycles.samples = 256
+    bpy.context.scene.cycles.preview_samples = 2
     bpy.context.scene.cycles.max_bounces = 24
     bpy.context.scene.cycles.transparent_max_bounces = 24
     bpy.context.scene.render.use_simplify = True
-    bpy.context.scene.cycles.texture_limit = '4096'
+    bpy.context.scene.cycles.texture_limit = '512'
+    bpy.context.scene.cycles.texture_limit_render = '4096'
     bpy.context.scene.cycles.use_camera_cull = True
 
     print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
@@ -104,6 +106,7 @@ def _setup_world(data: dict):
     # Get the new world and set it as active
     new_worlds = [world for world in bpy.data.worlds if world not in worlds]
     if new_worlds:
+        print(f"INFO: Changing world from {bpy.context.scene.world.name} to {new_worlds[0].name}")
         bpy.context.scene.world = new_worlds[0]
 
 

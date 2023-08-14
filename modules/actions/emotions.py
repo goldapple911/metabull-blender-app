@@ -3,8 +3,8 @@ import bpy
 from .. import utils
 
 arkit_to_emotion = {
-    "HAPPY": [{"name": "mouthSmileLeft", "weight": 0.9},  # TODO: Change both back to 0.6
-              {"name": "mouthSmileRight", "weight": 0.9},
+    "HAPPY": [{"name": "mouthSmileLeft", "weight": 0.7},  # TODO: Change both back to 0.6
+              {"name": "mouthSmileRight", "weight": 0.7},
               {"name": "eyeSquintLeft", "weight": 1},
               {"name": "eyeSquintRight", "weight": 1},
               {"name": "cheekSquintLeft", "weight": 1},

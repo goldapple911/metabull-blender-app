@@ -7,57 +7,29 @@ from .. import utils
 
 # 
 arkit_to_visemes = {
-    "AE": [{"name":"mouthPucker", "weight": 0.1},
-          {"name": "jawOpen", "weight": 0.15},
-          {"name": "mouthClose", "weight": 0.1}],
-    "A": [{"name": "jawOpen", "weight": 0.3},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "FO": [{"name": "mouthFunnel", "weight": 0.7},
-          {"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.5},
-          {"name": "mouthDimpleRight", "weight": 0.5},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
+    "A": [{"name": "jawOpen", "weight": 0.4}],
+    "Ch": [{"name": "mouthFunnel", "weight": 0.8}],
     "E": [{"name": "jawOpen", "weight": 0.2},
           {"name": "mouthClose", "weight": 0.1},
           {"name": "mouthDimpleLeft", "weight": 0.5},
           {"name": "mouthDimpleRight", "weight": 0.5},
           {"name": "mouthShrugLower", "weight": -1},
           {"name": "mouthShrugUpper", "weight": 0.4}],
-    "EO": [{"name": "jawOpen", "weight": 0.15},
-          {"name": "mouthFunnel", "weight": 0.4}],
-    "I": [{"name": "jawOpen", "weight": 0.2},
+    "F": [{"name": "jawOpen", "weight": 0.25},
           {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.7},
-          {"name": "mouthDimpleRight", "weight": 0.7},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "U": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugUpper", "weight": 0.4},
-          {"name": "mouthFunnel", "weight": 0.3}],
-    "O": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugUpper", "weight": 0.4},
-          {"name": "mouthFunnel", "weight": 0.3}],
-    "H": [{"name": "jawOpen", "weight": 0.1}],
-    "R": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name":"mouthShrugUpper", "weight": 0.8}],
-    "L": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name":"mouthShrugUpper", "weight": 0.8}],
-    "Z": [{"name": "mouthShrugLower", "weight": 1}],
-    "ZH": [{"name":"mouthShrugLower", "weight": -1}],
-    "TH": [{"name": "mouthPucker", "weight": 0.5}],
-    "FV": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthShrugUpper", "weight": 0.6}],
-    "DT": [{"name": "mouthShrugLower", "weight": 1}],
-    "KG": [{"name": "mouthShrugLower", "weight": 1}],
-    "MN": [{"name": "jawOpen", "weight": 0.1}],
+          {"name": "mouthRollLower", "weight": 0.7},
+          {"name": "mouthRollUpper", "weight": 0.1}],
+    "P": [{"name": "jawOpen", "weight": 0.3},
+          {"name": "mouthClose", "weight": 0.35},
+          {"name": "mouthPucker", "weight": -0.8}],
+    "L": [{"name": "jawOpen", "weight": 0.4}],
+    "O": [{"name": "jawOpen", "weight": 0.35},
+          {"name": "mouthClose", "weight": 0.25},
+          {"name": "mouthFunnel", "weight": 0.8}],
+    "U": [{"name": "jawOpen", "weight": 0.15},
+          {"name": "mouthClose", "weight": 0.25},
+          {"name": "mouthFunnel", "weight": 0.8}],
+    "X": [],
 }
 
 
@@ -106,7 +78,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         except Exception as e:
             print("Couldn't reading audio, re-encoding file..")
 
-        # Reread the audio file
+        # If there was an error reading the audio, try again by reencoding the audio file
         if not results:
             # Read and rewrite the file with soundfile to make sure it's readable by the recognizer
             file_path = audio_file
@@ -122,7 +94,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 print("[ERROR] Error reading audio:", e)
                 return
 
-        # Turn results fro mthe audio file voice recognition into a phoneme list (start, duration, phoneme)
+        # Turn results from the audio file voice recognition into a phoneme list (start, duration, phoneme)
         phonemes = []
         for phoneme_item in results.split("\n"):
             items = phoneme_item.split(" ")
@@ -145,16 +117,12 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             start_frame = 0
             for item in phonemes:
                 # Get the shapekey
-                shapekeys = get_shapekey_from_phoneme(mesh, item[2])
-                shapekey = shapekeys[0]
+                shapekey = get_shapekey_from_phoneme(mesh, item[2])
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 # end_frame = int((item[0] + item[1]) * 24)
-                during = 3
-                if shapekeys[1] == "VW":
-                    during = 5
                 end_frame = start_frame + 6
 
-                print(shapekey, start_frame, end_frame, item)
+                # print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
@@ -188,44 +156,26 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "AE": ["æ", "ə", "ʌ"],
-        "A": ["ɑ", "a"],
-        "FO": ["ɔ"],
-        "E": ["e", "ɛ", "ʊ"],
-        "EO": ["ɚ"],
-        "I": ["i", "ɪ", "iː", "j"],
-        "U": ["u", "uː"],
+        "A": ["a", "ɒ", "ʌ", "x", "ɾ", "ɾʲ", "ɛ", "h", "ɑ"],
+        "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
+        "E": ["e", "i", "j", "s", "ʃ", "z", "iː", "c", "zʲ", "s̪", "ʂ", "ʒ", "ɨ", "ʐ", "ə", "ɪ", "æ"],
+        "F": ["f", "v", "ɯ", "y", "ʏ"],
+        "P": ["p", "b", "m", "p", "mʲ", "b̞", "b̤", "pʲ"],
+        "L": ["l", "ð", "ɔ", "lʲ", "l̪"],
         "O": ["o"],
-        "H": ["h"],
-        "R": ["ɾ", "w"],
-        "L": ["l"],
-        "Z": ["s", "z"],
-        "ZH": ["ʃ", "ʧ", "dʒ", "ʒ"],
-        "TH": ["ɵ", "ð"],
-        "FV": ["b", "f", "v"],
-        "DT": ["d", "t", "tʰ"],
-        "KG": ["p", "k", "ŋ", "ɡ"],
-        "MN": ["m", "n"],
+        "U": ["u", "w", "uː", "uə", "œ"],
+        "X": ["X"],  # X means silent
     }
     shapekey_dict = {
-        "AE": "VW",
-        "A": "VW",
-        "FO": "VW",
-        "E": "VW", 
-        "EO": "VW",
-        "I": "VW", 
-        "U": "VW", 
-        "O": "VW", 
-        "H": "CS", 
-        "R": "CS", 
-        "L": "CS", 
-        "Z": "CS", 
-        "ZH": "CS",
-        "TH": "CS",
-        "FV": "CS",
-        "DT": "CS",
-        "KG": "CS",
-        "MN": "CS",
+        "A": "Ah",
+        "Ch": "Ch",
+        "E": "E",
+        "F": "U",
+        "P": "Mouth wo Upper",
+        "L": "E",
+        "O": "Oh",
+        "U": "U",
+        "X": "Silent",
     }
 
     # Find the parent phoneme
@@ -243,8 +193,8 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
     # Get the shapekey
     shapekey = None
     for sk in mesh.data.shape_keys.key_blocks:
-        if sk.name == shapekey_names[0]:
-            shapekey = [sk, shapekey_names[1]]
+        if sk.name in shapekey_names:
+            shapekey = sk
             break
 
     return shapekey

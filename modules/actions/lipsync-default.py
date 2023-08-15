@@ -157,8 +157,8 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
         "A": ["a", "ɒ", "ʌ", "x", "ɾ", "ɾʲ", "ɛ", "h", "ɑ"],
-        "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
         "E": ["e", "i", "j", "s", "ʃ", "z", "iː", "c", "zʲ", "s̪", "ʂ", "ʒ", "ɨ", "ʐ", "ə", "ɪ", "æ"],
+        "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
         "F": ["f", "v", "ɯ", "y", "ʏ"],
         "P": ["p", "b", "m", "p", "mʲ", "b̞", "b̤", "pʲ"],
         "L": ["l", "ð", "ɔ", "lʲ", "l̪"],

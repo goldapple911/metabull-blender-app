@@ -7,57 +7,63 @@ from .. import utils
 
 # 
 arkit_to_visemes = {
-    "AE": [{"name":"mouthPucker", "weight": 0.1},
-          {"name": "jawOpen", "weight": 0.15},
-          {"name": "mouthClose", "weight": 0.1}],
-    "A": [{"name": "jawOpen", "weight": 0.3},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "FO": [{"name": "mouthFunnel", "weight": 0.7},
-          {"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.5},
-          {"name": "mouthDimpleRight", "weight": 0.5},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "E": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.5},
-          {"name": "mouthDimpleRight", "weight": 0.5},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "EO": [{"name": "jawOpen", "weight": 0.15},
-          {"name": "mouthFunnel", "weight": 0.4}],
-    "I": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.7},
-          {"name": "mouthDimpleRight", "weight": 0.7},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "U": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugUpper", "weight": 0.4},
-          {"name": "mouthFunnel", "weight": 0.3}],
-    "O": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthShrugUpper", "weight": 0.4},
-          {"name": "mouthFunnel", "weight": 0.3}],
-    "H": [{"name": "jawOpen", "weight": 0.1}],
-    "R": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name":"mouthShrugUpper", "weight": 0.8}],
-    "L": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name":"mouthShrugUpper", "weight": 0.8}],
-    "Z": [{"name": "mouthShrugLower", "weight": 1}],
-    "ZH": [{"name":"mouthShrugLower", "weight": -1}],
-    "TH": [{"name": "mouthPucker", "weight": 0.5}],
-    "FV": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthShrugUpper", "weight": 0.6}],
-    "DT": [{"name": "mouthShrugLower", "weight": 1}],
-    "KG": [{"name": "mouthShrugLower", "weight": 1}],
-    "MN": [{"name": "jawOpen", "weight": 0.1}],
+    "AE": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "E": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.5},
+            {"name": "mouthDimpleRight", "weight": 0.5},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "I": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.7},
+            {"name": "mouthDimpleRight", "weight": 0.7},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "O": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "U": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "MN": [
+            {"name": "mouthShrugUpper", "weight": 1}
+        ],
+    "P": [
+            {"name": "mouthShrugLower", "weight": 1},
+        ],
+    "FV": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthShrugUpper", "weight": 0.6}
+        ],
+    "RL": [
+            {"name": "mouthShrugUpper", "weight": 0.8}
+        ],
+    "Y": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.7},
+            {"name": "mouthDimpleRight", "weight": 0.7},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "ZH": [
+            {"name": "mouthShrugLower", "weight": -1},
+        ],
+    "H": [],
 }
 
 
@@ -145,13 +151,11 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             start_frame = 0
             for item in phonemes:
                 # Get the shapekey
-                shapekeys = get_shapekey_from_phoneme(mesh, item[2])
-                shapekey = shapekeys[0]
+                shapekey = get_shapekey_from_phoneme(mesh, item[2])
+                print(shapekey)
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 # end_frame = int((item[0] + item[1]) * 24)
                 during = 3
-                if shapekeys[1] == "VW":
-                    during = 5
                 end_frame = start_frame + 6
 
                 print(shapekey, start_frame, end_frame, item)
@@ -188,44 +192,32 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "AE": ["æ", "ə", "ʌ"],
-        "A": ["ɑ", "a"],
-        "FO": ["ɔ"],
-        "E": ["e", "ɛ", "ʊ"],
-        "EO": ["ɚ"],
-        "I": ["i", "ɪ", "iː", "j"],
-        "U": ["u", "uː"],
-        "O": ["o"],
-        "H": ["h"],
-        "R": ["ɾ", "w"],
-        "L": ["l"],
-        "Z": ["s", "z"],
-        "ZH": ["ʃ", "ʧ", "dʒ", "ʒ"],
-        "TH": ["ɵ", "ð"],
-        "FV": ["b", "f", "v"],
-        "DT": ["d", "t", "tʰ"],
-        "KG": ["p", "k", "ŋ", "ɡ"],
+        "AE": ["a", "æ", "ɑ", "ɒ"],
+        "E": ["e", "ə", "ɛ", "ɚ"],
+        "I": ["i", "ɪ", "iː"],
+        "O": ["ɔ", "o"],
+        "U": ["u", "uː", "ʊ"],
         "MN": ["m", "n"],
+        "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
+        "FV": ["b", "f", "v"],
+        "RL": ["r", "l", "w"],
+        "Y": ["y"],
+        "ZH": ["ʃ", "j", "ʧ", "dʒ", "ʒ"],
+        "H": ["h"],
     }
     shapekey_dict = {
         "AE": "VW",
-        "A": "VW",
-        "FO": "VW",
-        "E": "VW", 
-        "EO": "VW",
-        "I": "VW", 
-        "U": "VW", 
+        "E": "VW",
+        "I":  "VW",
         "O": "VW", 
+        "U":  "VW",
+        "MN":"CS", 
+        "P": "CS", 
+        "FV":"CS", 
+        "RL":"CS", 
+        "Y": "CS", 
+        "ZH":"CS", 
         "H": "CS", 
-        "R": "CS", 
-        "L": "CS", 
-        "Z": "CS", 
-        "ZH": "CS",
-        "TH": "CS",
-        "FV": "CS",
-        "DT": "CS",
-        "KG": "CS",
-        "MN": "CS",
     }
 
     # Find the parent phoneme
@@ -236,15 +228,15 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
             break
 
     # Get the shapekey name from the parent phoneme
-    shapekey_names = [parent_phoneme, shapekey_dict.get(parent_phoneme)]
+    shapekey_names = parent_phoneme
     if not shapekey_names:
         return None
 
     # Get the shapekey
     shapekey = None
     for sk in mesh.data.shape_keys.key_blocks:
-        if sk.name == shapekey_names[0]:
-            shapekey = [sk, shapekey_names[1]]
+        if sk.name == shapekey_names:
+            shapekey = sk
             break
 
     return shapekey

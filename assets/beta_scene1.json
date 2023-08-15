@@ -1,186 +1,186 @@
 {
   "result": [
-        {
-            "scene": {
-              "environment": "DefaultEnvironment",
-              "time": "s3://metabull3dassets/Blender_TestAssets/PHC_Scene_RenderTemplate_WithWorldLighting_001.blend",
-              "lighting": [
-                {
-                  "type": "PointLight",
-                  "location": {
-                    "x": 2,
-                    "y": 3,
-                    "z": 5
-                  },
-                  "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "scale": {
-                    "x": 1,
-                    "y": 1,
-                    "z": 1
-                  }
-                }
-              ],
-              "camera": {
-                "location": {
-                  "x": -3.0676,
-                  "y": 2.56424,
-                  "z": 0.956495
-                },
-                "rotation": {
-                  "x": 87.4001,
-                  "y": 0,
-                  "z": -68.9999
-                },
-                "scale": {
-                  "x": 1,
-                  "y": 1,
-                  "z": 1
-                }
-              },
-              "objects": [
-                {
-                  "name": "Coffee_Cup",
-                  "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.blend",
-                  "prompt": "The coffee cup is in front of Cookie.",
-                  "bone_name": "mixamorig:RightHandThumb1",
-                  "actor":"Beta",
-                  "location": {
-                    "x": -4, 
-                    "y": -1.21709,
-                    "z": 1.41035
-                  },
-                  "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "scale": {
-                    "x": 1,
-                    "y": 1,
-                    "z": 1
-                  }
-                },
-                {
-                  "name": "Pie_Hole_Cafe",
-                  "file": "s3://metabull3dassets/Approved_Production_Assets/Pie_Hole_Cafe_Light_Half_Intensity.blend",
-                  "location": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                  },
-                  "scale": {
-                    "x": 1,
-                    "y": 1,
-                    "z": 1
-                  }
-                }
-              ],
-              "actors": [
-                {
-                  "name": "Beta",
-                  "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
-                  "prompt": "Sarge is in front of the bar.",
-                  "location": {
-                    "x": -1.51243,
-                    "y": 3.27606,
-                    "z": 0
-                  },
-                  "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -23.8357
-                  },
-                  "scale": {
-                    "x": 1,
-                    "y": 1,
-                    "z": 1
-                  }
-                }
-              ]
+    {
+      "scene": {
+        "environment": "DefaultEnvironment",
+        "time": "s3://metabull3dassets/Blender_TestAssets/PHC_Scene_RenderTemplate_WithWorldLighting_001.blend",
+        "lighting": [
+          {
+            "type": "PointLight",
+            "location": {
+              "x": 2,
+              "y": 3,
+              "z": 5
             },
-            "actions": [
-              {
-                "type": "AUDIO",
-                "actor": null,
-                "start_time": 0,
-                "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut1_Beta_ElevenLabs.wav"
-              },
-              {
-                "type": "ANIM",
-                "actor": "Beta",
-                "start_time": 0,
-                "end_time": 200,
-                "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Motions_WITHOUT_Zero Root Animation/greeting_walkanddrink_m_270750.fbx"
-              },
-              {
-                "type": "EMOTION",
-                "actor": "Beta",
-                "start_time": 60,
-                "end_time": 200,
-                "emotion": "HAPPY"
-              },
-              {
-                "type": "TRANSFORM",
-                "actor": "Camera",
-                "start_time": 2,
-                "end_time": 70,
-                "location": {
-                  "x": -2.19231,
-                  "y": 0.081134,
-                  "z": 1.63187
-                },
-                "rotation": {
-                  "x": 83.3652,
-                  "y": 0.00001,
-                  "z": 3.14022
-                },
-                "scale": {
-                  "x": 1,
-                  "y": 1,
-                  "z": 1
-                }
-              },
-              {
-                "type": "TRANSFORM",
-                "actor": "Camera",
-                "start_time": 115,
-                "end_time": 185,
-                "location": {
-                  "x": -3.0668,
-                  "y": -1.55497,
-                  "z": 1.36666
-                },
-                "rotation": {
-                  "x": 96.5651,
-                  "y": 0.00001,
-                  "z": 3.1402
-                },
-                "scale": {
-                  "x": 1,
-                  "y": 1,
-                  "z": 1
-                }
-              }
-            ],
-            "render_sequence": {
-              "output_name": "Scene1",
-              "resolution": {
-                "x": 1920,
-                "y": 1080
-              },
-              "frame_rate": 24,
-              "quality": 100,
-              "max_frames": 183
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
             }
           }
-    ]
+        ],
+        "camera": {
+          "location": {
+            "x": -3.0676,
+            "y": 2.56424,
+            "z": 0.956495
+          },
+          "rotation": {
+            "x": 87.4001,
+            "y": 0,
+            "z": -68.9999
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        "objects": [
+          {
+            "name": "Coffee_Cup",
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Prop_Coffee_Cup_Procedural.blend",
+            "prompt": "The coffee cup is in front of Cookie.",
+            "bone_name": "mixamorig:RightHandThumb1",
+            "actor": "Beta",
+            "location": {
+              "x": -4,
+              "y": -1.21709,
+              "z": 1.41035
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          },
+          {
+            "name": "Pie_Hole_Cafe",
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Pie_Hole_Cafe_Light_Half_Intensity.blend",
+            "location": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        ],
+        "actors": [
+          {
+            "name": "Beta",
+            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+            "prompt": "Sarge is in front of the bar.",
+            "location": {
+              "x": -1.51243,
+              "y": 3.27606,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": -23.8357
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        ]
+      },
+      "actions": [
+        {
+          "type": "AUDIO",
+          "actor": null,
+          "start_time": 0,
+          "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Sound_Files/Announcer VO - ElevenLabs_2023-08-14T16_48_17.000Z_Brian - Slow speaking and deep_dCmefTZ6BekZthmHN7pi.wav"
+        },
+        {
+          "type": "ANIM",
+          "actor": "Beta",
+          "start_time": 0,
+          "end_time": 200,
+          "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Motions_WITHOUT_Zero Root Animation/greeting_walkanddrink_m_270750.fbx"
+        },
+        {
+          "type": "EMOTION",
+          "actor": "Beta",
+          "start_time": 60,
+          "end_time": 200,
+          "emotion": "HAPPY"
+        },
+        {
+          "type": "TRANSFORM",
+          "actor": "Camera",
+          "start_time": 2,
+          "end_time": 70,
+          "location": {
+            "x": -2.19231,
+            "y": 0.081134,
+            "z": 1.63187
+          },
+          "rotation": {
+            "x": 83.3652,
+            "y": 0.00001,
+            "z": 3.14022
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "TRANSFORM",
+          "actor": "Camera",
+          "start_time": 115,
+          "end_time": 185,
+          "location": {
+            "x": -3.0668,
+            "y": -1.55497,
+            "z": 1.36666
+          },
+          "rotation": {
+            "x": 96.5651,
+            "y": 0.00001,
+            "z": 3.1402
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "render_sequence": {
+        "output_name": "Scene1",
+        "resolution": {
+          "x": 1920,
+          "y": 1080
+        },
+        "frame_rate": 24,
+        "quality": 100,
+        "max_frames": 183
+      }
+    }
+  ]
 }

@@ -175,7 +175,7 @@ def retarget(actors: dict, actions: list[dict]):
 
         # Get the animations file
         anim_file = utils.get_resource(action["file"])
-        print(f"Adding animation '{anim_file.name}' to actor '{action_actor}'")
+        print(f"Adding animation '{anim_file.name}' to actor '{action_actor}', armature: '{armature.name}'")
         anim = utils.import_file(anim_file)
         anim.name = "Anim Armature"
 

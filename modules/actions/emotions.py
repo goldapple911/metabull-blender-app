@@ -70,7 +70,7 @@ def add_emotions(actors: dict, actions: list[dict]):
         if not armature:
             raise Exception("No armature found in imported file.")
 
-        for mesh in armature.children:
+        for mesh in armature.children_recursive:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
                 continue
             if mesh.name not in bpy.context.view_layer.objects:

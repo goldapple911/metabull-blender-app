@@ -219,10 +219,9 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
     collection_faceit = utils.find_layer_collection("Faceit_Collection", collection)
     if not collection_faceit:
         print("No Faceit_Collection found in character:", asset.name)
-        return
-
-    # Delete the full faceit collection and all its children
-    utils.delete_hierarchy(collection_faceit)
+    else:
+        # Delete the full faceit collection and all its children
+        utils.delete_hierarchy(collection_faceit)
 
     # Delete faceit actions
     for action in bpy.data.actions:
@@ -242,85 +241,107 @@ def _setup_character(asset: bpy.types.Object, collection: bpy.types.LayerCollect
     # Look for the armature
     armature = None
     for obj in asset.children_recursive:
-        if obj.type == "ARMATURE":
-            if obj.name.lower().startswith("cs"):
-                continue
+        if obj.type != "ARMATURE":
+            continue
+        if obj.name.lower().startswith("cs"):
+            continue
 
-            # If the armature ends with rigify, use that, otherwise use the first one found
-            if obj.name.lower().endswith("rigify"):
-                armature = obj
-                is_actor_v4 = True
-                break
+        # Check if obj is in view layer
+        if obj.name not in bpy.context.view_layer.objects:
+            continue
 
-            if not armature:
-                armature = obj
+        # If the armature ends with rigify, use that, otherwise use the first one found
+        if obj.name.lower().endswith("rigify"):
+            armature = obj
+            is_actor_v4 = True
+            break
+
+        # If the armature ends with rigify, use that, otherwise use the first one found
+        if obj.name.lower().endswith("_rig"):
+            armature = obj
+            is_actor_v4 = True
+            break
+
+        if not armature:
+            armature = obj
 
     if not armature:
         print("No armature found in character:", asset.name)
         return
 
+    print("Found Armature:", armature.name)
     # Rename armature
     armature.name = f"metabull_{asset.name}_rig"
 
     # If the actor is v4, don't do anything else currently
     if is_actor_v4:
         armature.name = f"metabull_{asset.name}_rig_v4"
-        return
 
+    # Delete not needed elements
     for obj in armature.children:
         if obj.type != "MESH":
             continue
-
         # Delete the expression control panel
         if obj.name.startswith("expression_controlpanel"):
             utils.delete_hierarchy(obj)
             continue
 
-        # Transfer shapekeys from the deformer mesh to the child meshes
-        if obj.name.endswith("_deformer"):
-            _deformer_to_shapekeys(obj)
-            continue
+    return
 
-    # If any child meshes of the armature have no armature modifier,
-    # weight paint the mesh to the head bone and add an armature modifier
-    for obj in armature.children:
-        # bpy.context.object.parent_bone = ""
-
-        # Get the list of armature mods
-        armature_mods = [mod for mod in obj.modifiers if mod.type == "ARMATURE"]
-        if not armature_mods:
-            utils.weight_paint_obj_to_bone(obj, armature, "head.x")
-
-        # Remove the armature modifier if the mesh is controlled by bone parenting
-        if obj.parent_type == "BONE" and obj.parent_bone:
-            for mod in obj.modifiers:
-                if mod.type == "ARMATURE":
-                    obj.modifiers.remove(mod)
-
-    # Join all child meshes of the armature
-    bpy.ops.object.select_all(action='DESELECT')
     # for obj in armature.children:
-    #     if obj.type != "MESH" or obj.children:
+    #     if obj.type != "MESH":
     #         continue
     #
-    #     # Rename all UVMaps to the same name to they are merged correctly
-    #     for uv_layer in obj.data.uv_layers:
-    #         uv_layer.name = "UVMap"
-    #     # Rename all the curves UV data to UVMap
-    #     # for child in obj.children:
-    #     #     if child.type == "CURVES":
-    #     #         child.data.surface_uv_map = "UVMap"
+    #     # Delete the expression control panel
+    #     if obj.name.startswith("expression_controlpanel"):
+    #         utils.delete_hierarchy(obj)
+    #         continue
     #
-    #     utils.set_active(obj, select=True)
-
-    # This is specific for the new character sarge
+    #     # Transfer shapekeys from the deformer mesh to the child meshes
+    #     if obj.name.endswith("_deformer"):
+    #         _deformer_to_shapekeys(obj)
+    #         continue
+    #
+    # # If any child meshes of the armature have no armature modifier,
+    # # weight paint the mesh to the head bone and add an armature modifier
     # for obj in armature.children:
-    #     if obj.type == "MESH" and obj.children:
-    #         utils.set_active(obj, select=True)
-
-    # bpy.ops.object.join()
-    body_mesh = utils.get_active()
-    body_mesh.name = f"metabull_{asset.name}_body"
+    #     # bpy.context.object.parent_bone = ""
+    #
+    #     # Get the list of armature mods
+    #     armature_mods = [mod for mod in obj.modifiers if mod.type == "ARMATURE"]
+    #     if not armature_mods:
+    #         utils.weight_paint_obj_to_bone(obj, armature, "head.x")
+    #
+    #     # Remove the armature modifier if the mesh is controlled by bone parenting
+    #     if obj.parent_type == "BONE" and obj.parent_bone:
+    #         for mod in obj.modifiers:
+    #             if mod.type == "ARMATURE":
+    #                 obj.modifiers.remove(mod)
+    #
+    # # Join all child meshes of the armature
+    # bpy.ops.object.select_all(action='DESELECT')
+    # # for obj in armature.children:
+    # #     if obj.type != "MESH" or obj.children:
+    # #         continue
+    # #
+    # #     # Rename all UVMaps to the same name to they are merged correctly
+    # #     for uv_layer in obj.data.uv_layers:
+    # #         uv_layer.name = "UVMap"
+    # #     # Rename all the curves UV data to UVMap
+    # #     # for child in obj.children:
+    # #     #     if child.type == "CURVES":
+    # #     #         child.data.surface_uv_map = "UVMap"
+    # #
+    # #     utils.set_active(obj, select=True)
+    #
+    # # This is specific for the new character sarge
+    # # for obj in armature.children:
+    # #     if obj.type == "MESH" and obj.children:
+    # #         utils.set_active(obj, select=True)
+    #
+    # # bpy.ops.object.join()
+    # body_mesh = utils.get_active()
+    # body_mesh.name = f"metabull_{asset.name}_body"
 
 
 def _deformer_to_shapekeys(obj: bpy.types.Object):

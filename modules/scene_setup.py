@@ -64,12 +64,11 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.use_camera_cull = True
 
     # Speed Render settings (for testing)
-    bpy.context.scene.cycles.samples = 2
-    bpy.context.scene.cycles.max_bounces = 2
-    bpy.context.scene.cycles.transparent_max_bounces = 2
-    bpy.context.scene.cycles.adaptive_threshold = 0.2
-    bpy.context.scene.cycles.texture_limit_render = '512'
-
+    # bpy.context.scene.cycles.samples = 2
+    # bpy.context.scene.cycles.max_bounces = 2
+    # bpy.context.scene.cycles.transparent_max_bounces = 2
+    # bpy.context.scene.cycles.adaptive_threshold = 0.2
+    # bpy.context.scene.cycles.texture_limit_render = '512'
 
     print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
           f"Threshold: {round(bpy.context.scene.cycles.adaptive_threshold, 4)}, "

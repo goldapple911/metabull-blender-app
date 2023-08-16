@@ -7,74 +7,29 @@ from .. import utils
 
 # 
 arkit_to_visemes = {
-    "AE": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthShrugLower", "weight": -1},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "E": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthDimpleLeft", "weight": 0.5},
-            {"name": "mouthDimpleRight", "weight": 0.5},
-            {"name": "mouthShrugLower", "weight": -1},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "I": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthDimpleLeft", "weight": 0.7},
-            {"name": "mouthDimpleRight", "weight": 0.7},
-            {"name": "mouthShrugLower", "weight": -1},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "O": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthPucker", "weight": 0.75},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "U": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthPucker", "weight": 0.75},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "MN": [
-            {"name": "jawOpen", "weight": 0.1},
-            {"name": "mouthShrugUpper", "weight": 1}
-        ],
-    "P": [
-            {"name": "jawOpen", "weight": 0.15},
-            {"name": "mouthShrugLower", "weight": 1},
-        ],
-    "FV": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthShrugUpper", "weight": 0.6}
-        ],
-    "RL": [
-            {"name": "jawOpen", "weight": 0.1},
-            {"name": "mouthShrugUpper", "weight": 0.8}
-        ],
-    "Y": [
-            {"name": "jawOpen", "weight": 0.4},
-            {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthDimpleLeft", "weight": 0.7},
-            {"name": "mouthDimpleRight", "weight": 0.7},
-            {"name": "mouthShrugLower", "weight": -1},
-            {"name": "mouthShrugUpper", "weight": 0.4}
-        ],
-    "ZH": [
-            {"name": "jawOpen", "weight": 0.1},
-            {"name": "mouthShrugLower", "weight": -1},
-        ],
-    "H": [
-            {"name": "jawOpen", "weight": 0.15}
-        ],
-    "X": [
-            {"name": "jawOpen", "weight": 0.15},
-        ],
+    "A": [{"name": "jawOpen", "weight": 0.4}],
+    "Ch": [{"name": "mouthFunnel", "weight": 0.8}],
+    "E": [{"name": "jawOpen", "weight": 0.2},
+          {"name": "mouthClose", "weight": 0.1},
+          {"name": "mouthDimpleLeft", "weight": 0.5},
+          {"name": "mouthDimpleRight", "weight": 0.5},
+          {"name": "mouthShrugLower", "weight": -1},
+          {"name": "mouthShrugUpper", "weight": 0.4}],
+    "F": [{"name": "jawOpen", "weight": 0.25},
+          {"name": "mouthClose", "weight": 0.1},
+          {"name": "mouthRollLower", "weight": 0.7},
+          {"name": "mouthRollUpper", "weight": 0.1}],
+    "P": [{"name": "jawOpen", "weight": 0.3},
+          {"name": "mouthClose", "weight": 0.35},
+          {"name": "mouthPucker", "weight": -0.8}],
+    "L": [{"name": "jawOpen", "weight": 0.4}],
+    "O": [{"name": "jawOpen", "weight": 0.35},
+          {"name": "mouthClose", "weight": 0.25},
+          {"name": "mouthFunnel", "weight": 0.8}],
+    "U": [{"name": "jawOpen", "weight": 0.15},
+          {"name": "mouthClose", "weight": 0.25},
+          {"name": "mouthFunnel", "weight": 0.8}],
+    "X": [],
 }
 
 
@@ -160,30 +115,34 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # Add every phoneme as a shapekey to the animation
             prev_shapekey = None
             start_frame = 0
-            speed = 4
-            for item in phonemes:
+            for item in phonemes[::2]:
+                # Shapekey anim values
+                sk_windup = 4
+                sk_min_hold = 5
+                sk_winddown = 3
+
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[2])
-                start_frame = int(item[0] * fps) + action_start_frame - 2
-                # end_frame = int((item[0] + item[1]) * 24)
-                end_frame = start_frame + 6
+                start_frame = int(item[0] * fps) + action_start_frame - sk_windup
+                end_frame = start_frame + sk_windup + sk_min_hold + sk_winddown
 
-                print(shapekey, start_frame, end_frame, item)
+                # print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
                 # End the animation of the previous shapekey
+                # This means the shapekey is held until the start of the next shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_min_hold)
                     prev_shapekey.value = 0
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_min_hold + sk_winddown)
 
                 # Set the shapekey values and save them as keyframes
                 shapekey.value = 0
                 shapekey.keyframe_insert(data_path="value", frame=start_frame)
                 shapekey.value = 1
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_windup)
                 prev_shapekey = shapekey
 
                 # Set frame_end in the scene
@@ -195,40 +154,32 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_min_hold)
                 prev_shapekey.value = 0
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_min_hold + sk_winddown)
 
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "AE": ["a", "æ", "ɑ", "ɒ", "ʌ"],
-        "E": ["e", "ə", "ɛ", "ɚ"],
-        "I": ["i", "ɪ", "iː"],
-        "O": ["ɔ", "o"],
-        "U": ["u", "uː", "ʊ"],
-        "MN": ["m", "n"],
-        "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
-        "FV": ["b", "f", "v"],
-        "RL": ["r", "l", "w"],
-        "Y": ["y"],
-        "ZH": ["ʃ", "j", "ʧ", "dʒ", "ʒ"],
-        "H": ["h"],
+        "A": ["a", "ɒ", "ʌ", "x", "ɾ", "ɾʲ", "ɛ", "h", "ɑ"],
+        "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
+        "E": ["e", "i", "j", "s", "ʃ", "z", "iː", "c", "zʲ", "s̪", "ʂ", "ʒ", "ɨ", "ʐ", "ə", "ɪ", "æ"],
+        "F": ["f", "v", "ɯ", "y", "ʏ"],
+        "P": ["p", "b", "m", "p", "mʲ", "b̞", "b̤", "pʲ"],
+        "L": ["l", "ð", "ɔ", "lʲ", "l̪"],
+        "O": ["o"],
+        "U": ["u", "w", "uː", "uə", "œ"],
         "X": ["X"],  # X means silent
     }
     shapekey_dict = {
-        "AE": "Ah",
+        "A": "Ah",
+        "Ch": "Ch",
         "E": "E",
-        "I": "I",
+        "F": "U",
+        "P": "Mouth wo Upper",
+        "L": "E",
         "O": "Oh",
         "U": "U",
-        "MN": "MN",
-        "P": "Mouth wo Upper",
-        "FV": "U",
-        "RL": "E",
-        "Y": "Y",
-        "Zh": "Ch",
-        "H": "H",
         "X": "Silent",
     }
 

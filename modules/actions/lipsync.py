@@ -148,7 +148,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         # print(phonemes)
 
         # Add the lip sync to every mesh in the armature
-        for mesh in armature.children:
+        for mesh in armature.children_recursive:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
                 continue
             if mesh.name not in bpy.context.view_layer.objects:

@@ -8,13 +8,13 @@ from .. import utils
 # 
 arkit_to_visemes = {
     "AE": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "E": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.5},
             {"name": "mouthDimpleRight", "weight": 0.5},
@@ -22,7 +22,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "I": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.7},
             {"name": "mouthDimpleRight", "weight": 0.7},
@@ -30,31 +30,35 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "O": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthPucker", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "U": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthPucker", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "MN": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugUpper", "weight": 1}
         ],
     "P": [
-            {"name": "mouthClose", "weight": 0.1},
+            {"name": "jawOpen", "weight": 0.15},
             {"name": "mouthShrugLower", "weight": 1},
         ],
     "FV": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthShrugUpper", "weight": 0.6}
         ],
     "RL": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugUpper", "weight": 0.8}
         ],
     "Y": [
-            {"name": "jawOpen", "weight": 0.2},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.7},
             {"name": "mouthDimpleRight", "weight": 0.7},
@@ -62,10 +66,15 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "ZH": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
         ],
-    "H": [],
-    "X": [],
+    "H": [
+            {"name": "jawOpen", "weight": 0.15}
+        ],
+    "X": [
+            {"name": "jawOpen", "weight": 0.15},
+        ],
 }
 
 
@@ -158,22 +167,22 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 # end_frame = int((item[0] + item[1]) * 24)
                 end_frame = start_frame + 6
 
-                # print(shapekey, start_frame, end_frame, item)
+                print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
                 # End the animation of the previous shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                     prev_shapekey.value = 0
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 3)
 
                 # Set the shapekey values and save them as keyframes
                 shapekey.value = 0
-                shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame - 1)
                 shapekey.value = 1
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                 prev_shapekey = shapekey
 
                 # Set frame_end in the scene
@@ -192,7 +201,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "AE": ["a", "æ", "ɑ", "ɒ"],
+        "AE": ["a", "æ", "ɑ", "ɒ", "ʌ"],
         "E": ["e", "ə", "ɛ", "ɚ"],
         "I": ["i", "ɪ", "iː"],
         "O": ["ɔ", "o"],
@@ -207,19 +216,19 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
         "X": ["X"],  # X means silent
     }
     shapekey_dict = {
-        "AE": "Ah",
-        "E": "E",
-        "I": "I",
-        "O": "Oh",
-        "U": "U",
+        "AE": "VW",
+        "E": "VW",
+        "I": "VW",
+        "O": "VW",
+        "U": "VW",
         "MN": "MN",
-        "P": "Mouth wo Upper",
-        "FV": "U",
-        "RL": "E",
-        "Y": "Y",
-        "Zh": "Ch",
-        "H": "H",
-        "X": "Silent",
+        "P": "CN",
+        "FV": "CN",
+        "RL": "CN",
+        "Y": "CN",
+        "Zh": "CN",
+        "H": "CN",
+        "X": "X",
     }
 
     # Find the parent phoneme

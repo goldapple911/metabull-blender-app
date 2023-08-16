@@ -16,12 +16,12 @@ def handle_actions(actors: dict, data: dict):
     utils.logger.log("Retargeting..")
     retargeting.retarget(actors, actions)
 
+    # Add emotions
+    emotions.add_emotions(actors, actions)
+
     # Add lip sync to the actors
     utils.logger.log("Adding lip sync and emotions..")
     lipsync.add_lip_sync(actors, actions)
-
-    # Add emotions
-    emotions.add_emotions(actors, actions)
 
     # Add random blinking
     # TODO

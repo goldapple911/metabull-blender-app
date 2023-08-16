@@ -123,7 +123,7 @@ from .. import utils
 #         #fbx_object.scale = bone.scale
 
 
-def retarget(actors: dict, actions: list[dict]):
+def retarget(actors: dict, actions: list[dict], data: dict):
     # Filter the animations per actor down to one
     actions_tmp = []
     for actor_name in actors.keys():
@@ -190,13 +190,13 @@ def retarget(actors: dict, actions: list[dict]):
 
         # Retarget animation to the actor
         # copy_keyframes(source=anim, target=armature, start_frame=action_start_frame, end_frame=action_end_frame)
-        retarget_arp(source=anim, target=armature)
+        retarget_arp(source=anim, target=armature, max_anim_length=data["render_sequence"]["max_frames"])
 
         # Delete anim object
         utils.delete_hierarchy(anim)
 
 
-def retarget_arp(source, target):
+def retarget_arp(source, target, max_anim_length=None):
     # Get the top parent of the target and reset its rotation
     target_parent = utils.get_top_parent(target)
     rot_tmp = target_parent.rotation_euler.copy()
@@ -228,6 +228,8 @@ def retarget_arp(source, target):
     # Retarget animation
     frame_start = int(source.animation_data.action.frame_range[0])
     frame_end = int(source.animation_data.action.frame_range[1])
+    if max_anim_length and max_anim_length < frame_end:
+        frame_end = max_anim_length
     bpy.ops.arp.retarget("EXEC_DEFAULT",
                          frame_start=frame_start,
                          frame_end=frame_end,

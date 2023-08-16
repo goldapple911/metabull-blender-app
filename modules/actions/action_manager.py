@@ -14,7 +14,7 @@ def handle_actions(actors: dict, data: dict):
     
     # Add animations to actors
     utils.logger.log("Retargeting..")
-    retargeting.retarget(actors, actions)
+    retargeting.retarget(actors, actions, data)
 
     # Add lip sync to the actors
     utils.logger.log("Adding lip sync and emotions..")

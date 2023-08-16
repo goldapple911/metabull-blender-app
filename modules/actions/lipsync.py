@@ -32,15 +32,17 @@ arkit_to_visemes = {
     "O": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthPucker", "weight": 0.5},
+            {"name": "mouthPucker", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "U": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthPucker", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "MN": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugUpper", "weight": 1}
         ],
     "P": [
@@ -52,6 +54,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.6}
         ],
     "RL": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugUpper", "weight": 0.8}
         ],
     "Y": [
@@ -63,10 +66,15 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "ZH": [
+            {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
         ],
-    "H": [],
-    "X": [],
+    "H": [
+            {"name": "jawOpen", "weight": 0.15}
+        ],
+    "X": [
+            {"name": "jawOpen", "weight": 0.15},
+        ],
 }
 
 
@@ -152,6 +160,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # Add every phoneme as a shapekey to the animation
             prev_shapekey = None
             start_frame = 0
+            speed = 4
             for item in phonemes:
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[2])
@@ -166,15 +175,15 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 # End the animation of the previous shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
                     prev_shapekey.value = 0
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
 
                 # Set the shapekey values and save them as keyframes
                 shapekey.value = 0
                 shapekey.keyframe_insert(data_path="value", frame=start_frame)
                 shapekey.value = 1
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
                 prev_shapekey = shapekey
 
                 # Set frame_end in the scene
@@ -186,14 +195,14 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
                 prev_shapekey.value = 0
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
 
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "AE": ["a", "æ", "ɑ", "ɒ"],
+        "AE": ["a", "æ", "ɑ", "ɒ", "ʌ"],
         "E": ["e", "ə", "ɛ", "ɚ"],
         "I": ["i", "ɪ", "iː"],
         "O": ["ɔ", "o"],

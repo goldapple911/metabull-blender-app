@@ -7,28 +7,63 @@ from .. import utils
 
 # 
 arkit_to_visemes = {
-    "A": [{"name": "jawOpen", "weight": 0.4}],
-    "Ch": [{"name": "mouthFunnel", "weight": 0.8}],
-    "E": [{"name": "jawOpen", "weight": 0.2},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthDimpleLeft", "weight": 0.5},
-          {"name": "mouthDimpleRight", "weight": 0.5},
-          {"name": "mouthShrugLower", "weight": -1},
-          {"name": "mouthShrugUpper", "weight": 0.4}],
-    "F": [{"name": "jawOpen", "weight": 0.25},
-          {"name": "mouthClose", "weight": 0.1},
-          {"name": "mouthRollLower", "weight": 0.7},
-          {"name": "mouthRollUpper", "weight": 0.1}],
-    "P": [{"name": "jawOpen", "weight": 0.3},
-          {"name": "mouthClose", "weight": 0.35},
-          {"name": "mouthPucker", "weight": -0.8}],
-    "L": [{"name": "jawOpen", "weight": 0.4}],
-    "O": [{"name": "jawOpen", "weight": 0.35},
-          {"name": "mouthClose", "weight": 0.25},
-          {"name": "mouthFunnel", "weight": 0.8}],
-    "U": [{"name": "jawOpen", "weight": 0.15},
-          {"name": "mouthClose", "weight": 0.25},
-          {"name": "mouthFunnel", "weight": 0.8}],
+    "AE": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "E": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.5},
+            {"name": "mouthDimpleRight", "weight": 0.5},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "I": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.7},
+            {"name": "mouthDimpleRight", "weight": 0.7},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "O": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "U": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "MN": [
+            {"name": "mouthShrugUpper", "weight": 1}
+        ],
+    "P": [
+            {"name": "mouthShrugLower", "weight": 1},
+        ],
+    "FV": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthShrugUpper", "weight": 0.6}
+        ],
+    "RL": [
+            {"name": "mouthShrugUpper", "weight": 0.8}
+        ],
+    "Y": [
+            {"name": "jawOpen", "weight": 0.2},
+            {"name": "mouthClose", "weight": 0.1},
+            {"name": "mouthDimpleLeft", "weight": 0.7},
+            {"name": "mouthDimpleRight", "weight": 0.7},
+            {"name": "mouthShrugLower", "weight": -1},
+            {"name": "mouthShrugUpper", "weight": 0.4}
+        ],
+    "ZH": [
+            {"name": "mouthShrugLower", "weight": -1},
+        ],
+    "H": [],
     "X": [],
 }
 
@@ -156,23 +191,27 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
     phoneme_dict = {
-        "A": ["a", "ɒ", "ʌ", "x", "ɾ", "ɾʲ", "ɛ", "h", "ɑ"],
-        "E": ["e", "i", "j", "s", "ʃ", "z", "iː", "c", "zʲ", "s̪", "ʂ", "ʒ", "ɨ", "ʐ", "ə", "ɪ", "æ"],
-        "Ch": ["ch", "k", "d", "n", "ŋ", "ɡ", "d͡ʒ", "ɴ", "kʰ", "ɳ", "dʒ", "k̟ʲ", "ɲ", "ŋ̟", "dʲ", "t", "tʰ"],
-        "F": ["f", "v", "ɯ", "y", "ʏ"],
-        "P": ["p", "b", "m", "p", "mʲ", "b̞", "b̤", "pʲ"],
-        "L": ["l", "ð", "ɔ", "lʲ", "l̪"],
-        "O": ["o"],
-        "U": ["u", "w", "uː", "uə", "œ"],
+        "AE": ["a", "æ", "ɑ", "ɒ"],
+        "E": ["e", "ə", "ɛ", "ɚ"],
+        "I": ["i", "ɪ", "iː"],
+        "O": ["ɔ", "o"],
+        "U": ["u", "uː", "ʊ"],
+        "MN": ["m", "n"],
+        "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
+        "FV": ["b", "f", "v"],
+        "RL": ["r", "l", "w"],
+        "Y": ["y"],
+        "ZH": ["ʃ", "j", "ʧ", "dʒ", "ʒ"],
+        "H": ["h"],
         "X": ["X"],  # X means silent
     }
     shapekey_dict = {
-        "A": "Ah",
-        "Ch": "Ch",
+        "AE": "Ah",
+        "Zh": "Ch",
         "E": "E",
-        "F": "U",
+        "FV": "U",
         "P": "Mouth wo Upper",
-        "L": "E",
+        "RL": "E",
         "O": "Oh",
         "U": "U",
         "X": "Silent",

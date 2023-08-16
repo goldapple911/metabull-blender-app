@@ -43,6 +43,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 1}
         ],
     "P": [
+            {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": 1},
         ],
     "FV": [
@@ -64,6 +65,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugLower", "weight": -1},
         ],
     "H": [],
+    "X": [],
 }
 
 
@@ -112,7 +114,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         except Exception as e:
             print("Couldn't reading audio, re-encoding file..")
 
-        # Reread the audio file
+        # If there was an error reading the audio, try again by reencoding the audio file
         if not results:
             # Read and rewrite the file with soundfile to make sure it's readable by the recognizer
             file_path = audio_file
@@ -128,7 +130,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 print("[ERROR] Error reading audio:", e)
                 return
 
-        # Turn results fro mthe audio file voice recognition into a phoneme list (start, duration, phoneme)
+        # Turn results from the audio file voice recognition into a phoneme list (start, duration, phoneme)
         phonemes = []
         for phoneme_item in results.split("\n"):
             items = phoneme_item.split(" ")
@@ -152,13 +154,11 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             for item in phonemes:
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[2])
-                print(shapekey)
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 # end_frame = int((item[0] + item[1]) * 24)
-                during = 3
                 end_frame = start_frame + 6
 
-                print(shapekey, start_frame, end_frame, item)
+                # print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
@@ -204,20 +204,22 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
         "Y": ["y"],
         "ZH": ["ʃ", "j", "ʧ", "dʒ", "ʒ"],
         "H": ["h"],
+        "X": ["X"],  # X means silent
     }
     shapekey_dict = {
-        "AE": "VW",
-        "E": "VW",
-        "I":  "VW",
-        "O": "VW", 
-        "U":  "VW",
-        "MN":"CS", 
-        "P": "CS", 
-        "FV":"CS", 
-        "RL":"CS", 
-        "Y": "CS", 
-        "ZH":"CS", 
-        "H": "CS", 
+        "AE": "Ah",
+        "E": "E",
+        "I": "I",
+        "O": "Oh",
+        "U": "U",
+        "MN": "MN",
+        "P": "Mouth wo Upper",
+        "FV": "U",
+        "RL": "E",
+        "Y": "Y",
+        "Zh": "Ch",
+        "H": "H",
+        "X": "Silent",
     }
 
     # Find the parent phoneme
@@ -228,14 +230,14 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types
             break
 
     # Get the shapekey name from the parent phoneme
-    shapekey_names = parent_phoneme
+    shapekey_names = [parent_phoneme, shapekey_dict.get(parent_phoneme)]
     if not shapekey_names:
         return None
 
     # Get the shapekey
     shapekey = None
     for sk in mesh.data.shape_keys.key_blocks:
-        if sk.name == shapekey_names:
+        if sk.name in shapekey_names:
             shapekey = sk
             break
 

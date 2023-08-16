@@ -160,7 +160,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # Add every phoneme as a shapekey to the animation
             prev_shapekey = None
             start_frame = 0
-            speed = 4
             for item in phonemes:
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[2])
@@ -175,15 +174,15 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 # End the animation of the previous shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                     prev_shapekey.value = 0
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
                 # Set the shapekey values and save them as keyframes
                 shapekey.value = 0
                 shapekey.keyframe_insert(data_path="value", frame=start_frame)
                 shapekey.value = 1
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                 prev_shapekey = shapekey
 
                 # Set frame_end in the scene
@@ -195,9 +194,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                 prev_shapekey.value = 0
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + speed + 2)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:

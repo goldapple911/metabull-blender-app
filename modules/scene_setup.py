@@ -8,6 +8,7 @@ from . import utils
 def setup_scene(data: dict) -> dict:
     # Setup scene
     utils.clear_scene()
+    # _setup_render_template()  # Todo: Enable this
     _setup_scene_settings()
     _setup_view_layers()
     _setup_world(data)
@@ -19,6 +20,15 @@ def setup_scene(data: dict) -> dict:
     # Combine objects and actors dicts
     actors.update(objects)
     return actors
+
+
+def _setup_render_template():
+    # Download the latest render templates and load that blend file
+    render_template_path = "s3://metabull3dassets/Blender_TestAssets/PHC_Scene_RenderTemplate_001.blend"
+    file_path = utils.get_resource(render_template_path)
+
+    # Load the render template blend file
+    bpy.ops.wm.open_mainfile(filepath=file_path)
 
 
 def _setup_scene_settings():
@@ -44,7 +54,7 @@ def _setup_scene_settings():
     bpy.context.scene.sync_mode = 'FRAME_DROP'
 
     # Bernardo's settings
-    bpy.context.scene.cycles.samples = 256
+    bpy.context.scene.cycles.samples = 750
     bpy.context.scene.cycles.preview_samples = 2
     bpy.context.scene.cycles.max_bounces = 24
     bpy.context.scene.cycles.transparent_max_bounces = 24
@@ -52,6 +62,14 @@ def _setup_scene_settings():
     bpy.context.scene.cycles.texture_limit = '512'
     bpy.context.scene.cycles.texture_limit_render = '4096'
     bpy.context.scene.cycles.use_camera_cull = True
+
+    # Speed Render settings (for testing)
+    bpy.context.scene.cycles.samples = 2
+    bpy.context.scene.cycles.max_bounces = 2
+    bpy.context.scene.cycles.transparent_max_bounces = 2
+    bpy.context.scene.cycles.adaptive_threshold = 0.2
+    bpy.context.scene.cycles.texture_limit_render = '512'
+
 
     print(f"INFO: Samples: {bpy.context.scene.cycles.samples}, "
           f"Threshold: {round(bpy.context.scene.cycles.adaptive_threshold, 4)}, "

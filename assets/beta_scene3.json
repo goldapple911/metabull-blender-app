@@ -24,14 +24,14 @@
     ],
     "camera": {
       "location": {
-        "x": 5.94303,
-        "y": 3.79084,
+        "x": -2.47313,
+        "y": -0.973587,
         "z": 1.54027
       },
       "rotation": {
         "x": 87.4002,
         "y": 0,
-        "z": 51.7499
+        "z": 28.4677
       },
       "scale": {
         "x": 1,
@@ -63,17 +63,17 @@
     "actors": [
       {
         "name": "Sarge",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Sarge_rigged.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
-          "x": 4.63156,
-          "y": 5.01485,
+          "x": -3.57575,
+          "y": 0.564537,
           "z": 0
         },
         "rotation": {
           "x": 0,
           "y": 0,
-          "z": -52.3356
+          "z": 59.8536
         },
         "scale": {
           "x": 1,
@@ -108,17 +108,17 @@
     {
       "type": "TRANSFORM",
       "actor": "Camera",
-      "start_time": 70,
-      "end_time": 75,
+      "start_time": 44,
+      "end_time": 70,
       "location": {
-        "x": 5.72451,
-        "y": 3.96311,
-        "z": 1.52764
+        "x": -2.87607,
+        "y": -0.44798,
+        "z": 1.57451
       },
       "rotation": {
         "x": 87.4002,
         "y": 0.00001,
-        "z": 51.7499
+        "z": 28.4677
       },
       "scale": {
         "x": 1,
@@ -135,6 +135,6 @@
     },
     "frame_rate": 24,
     "quality": 100,
-    "max_frames": 110
+    "max_frames": 170
   }
 }

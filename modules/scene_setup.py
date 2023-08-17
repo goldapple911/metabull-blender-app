@@ -54,7 +54,7 @@ def _setup_scene_settings():
     bpy.context.scene.sync_mode = 'FRAME_DROP'
 
     # Bernardo's settings
-    bpy.context.scene.cycles.samples = 750
+    bpy.context.scene.cycles.samples = 250
     bpy.context.scene.cycles.preview_samples = 2
     bpy.context.scene.cycles.max_bounces = 24
     bpy.context.scene.cycles.transparent_max_bounces = 24

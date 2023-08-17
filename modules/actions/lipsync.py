@@ -5,16 +5,17 @@ import soundfile
 from allosaurus.app import read_recognizer
 from .. import utils
 
+import json
 # 
 arkit_to_visemes = {
-    "AE": [
-            {"name": "jawOpen", "weight": 0.4},
+    "A": [
+            {"name": "jawOpen", "weight": 0.5},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "E": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.3},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.5},
             {"name": "mouthDimpleRight", "weight": 0.5},
@@ -22,7 +23,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "I": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.2},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.7},
             {"name": "mouthDimpleRight", "weight": 0.7},
@@ -41,19 +42,19 @@ arkit_to_visemes = {
             {"name": "mouthPucker", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
-    "MN": [
-            {"name": "jawOpen", "weight": 0.1},
+    "M": [
+            {"name": "jawOpen", "weight": 0.05},
             {"name": "mouthShrugUpper", "weight": 1}
         ],
     "P": [
-            {"name": "jawOpen", "weight": 0.15},
+            {"name": "jawOpen", "weight": 0.05},
             {"name": "mouthShrugLower", "weight": 1},
         ],
-    "FV": [
+    "F": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthShrugUpper", "weight": 0.6}
         ],
-    "RL": [
+    "R": [
             {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugUpper", "weight": 0.8}
         ],
@@ -65,16 +66,12 @@ arkit_to_visemes = {
             {"name": "mouthShrugLower", "weight": -1},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
-    "ZH": [
+    "Z": [
             {"name": "jawOpen", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
         ],
-    "H": [
-            {"name": "jawOpen", "weight": 0.15}
-        ],
-    "X": [
-            {"name": "jawOpen", "weight": 0.15},
-        ],
+    "H": [],
+    "X": [],
 }
 
 
@@ -84,6 +81,37 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
     fps = bpy.context.scene.render.fps
     prev_dialogue_end = 0
+    
+    shapekey_dict = {
+        "A": "VW",
+        "E": "VW",
+        "I": "VW",
+        "O": "VW",
+        "U": "VW",
+        "M": "CN",
+        "P": "CN",
+        "F": "CN",
+        "R": "CN",
+        "Y": "CN",
+        "Z": "CN",
+        "H": "CN",
+        "X": "X",
+    }
+    phoneme_dict = {
+        "A": ["a", "æ", "ɑ", "ɒ", "ʌ"],
+        "E": ["e", "ə", "ɛ", "ɚ"],
+        "I": ["i", "ɪ", "iː", "j"],
+        "O": ["ɔ", "o"],
+        "U": ["u", "uː", "ʊ"],
+        "M": ["m", "n"],
+        "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
+        "F": ["b", "f", "v"],
+        "R": ["r", "l", "w"],
+        "Y": ["y"],
+        "Z": ["ʃ", "ʧ", "dʒ", "ʒ"],
+        "H": ["h"],
+        "X": ["X"],  # X means silent
+    }
 
     for action in actions:
         action_type = action["type"]
@@ -140,12 +168,40 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 return
 
         # Turn results from the audio file voice recognition into a phoneme list (start, duration, phoneme)
+        pre_phonemes = []
         phonemes = []
-        for phoneme_item in results.split("\n"):
-            items = phoneme_item.split(" ")
-            item = (float(items[0]), float(items[1]), items[2])
-            phonemes.append(item)
-        # print(phonemes)
+        split_array = results.split("\n")
+        print("\nkkkkkkkkkkkkk", split_array, "\njjjjjjjjjjjjj")
+        items_len = len(split_array)
+        for i in range(items_len):
+            items = split_array[i].split(" ")
+
+            # Find the parent phoneme
+            parent_phoneme = None
+            for key, value in phoneme_dict.items():
+                if items[2] in value:
+                    parent_phoneme = key
+                    break
+            item = (float(items[0]), parent_phoneme, shapekey_dict[parent_phoneme])
+            # print(item, items[2])
+            pre_phonemes.append(item)
+        print("2@@@@@@@@@")
+        print(pre_phonemes)
+        print("3@@@@@@@@@")
+
+        for i in range(items_len):
+            item = pre_phonemes[i]
+            flag = False
+            if item[2] == "VW":
+                out = checkNext(i, checkPrevious(i, pre_phonemes, phonemes), pre_phonemes, items_len)
+                print("pre", i)
+                phonemes.append(out)
+            else:
+                if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
+                    phonemes.append([item[0], item[1]])
+
+        print(phonemes)
+        print(json.dumps(arkit_to_visemes, indent=3))
 
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
@@ -162,12 +218,13 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             start_frame = 0
             for item in phonemes:
                 # Get the shapekey
-                shapekey = get_shapekey_from_phoneme(mesh, item[2])
+                shapekey = get_shapekey_from_phoneme(mesh, item[1])
+                # generate_shapekeys(mesh)
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 # end_frame = int((item[0] + item[1]) * 24)
                 end_frame = start_frame + 6
 
-                print(shapekey, start_frame, end_frame, item)
+                # print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
@@ -199,47 +256,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
 
-def get_shapekey_from_phoneme(mesh: bpy.types.Object, phoneme: str) -> bpy.types.ShapeKey | None:
-    phoneme_dict = {
-        "AE": ["a", "æ", "ɑ", "ɒ", "ʌ"],
-        "E": ["e", "ə", "ɛ", "ɚ"],
-        "I": ["i", "ɪ", "iː"],
-        "O": ["ɔ", "o"],
-        "U": ["u", "uː", "ʊ"],
-        "MN": ["m", "n"],
-        "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
-        "FV": ["b", "f", "v"],
-        "RL": ["r", "l", "w"],
-        "Y": ["y"],
-        "ZH": ["ʃ", "j", "ʧ", "dʒ", "ʒ"],
-        "H": ["h"],
-        "X": ["X"],  # X means silent
-    }
-    shapekey_dict = {
-        "AE": "VW",
-        "E": "VW",
-        "I": "VW",
-        "O": "VW",
-        "U": "VW",
-        "MN": "MN",
-        "P": "CN",
-        "FV": "CN",
-        "RL": "CN",
-        "Y": "CN",
-        "Zh": "CN",
-        "H": "CN",
-        "X": "X",
-    }
-
-    # Find the parent phoneme
-    parent_phoneme = None
-    for key, value in phoneme_dict.items():
-        if phoneme in value:
-            parent_phoneme = key
-            break
-
+def get_shapekey_from_phoneme(mesh: bpy.types.Object, parent_phoneme: str) -> bpy.types.ShapeKey | None:
     # Get the shapekey name from the parent phoneme
-    shapekey_names = [parent_phoneme, shapekey_dict.get(parent_phoneme)]
+    shapekey_names = [parent_phoneme]
     if not shapekey_names:
         return None
 
@@ -267,7 +286,7 @@ def generate_shapekeys(mesh: bpy.types.Object):
 
     print(f"Generating viseme shapekeys in {mesh.name} from ARKit blendshapes..")
     utils.set_active(mesh, select=True)
-
+    # print("\nblocks\n", mesh.data.shape_keys.key_blocks, "\n")
     # Set the shapekey values
     for key, items in arkit_to_visemes.items():
         for item in items:
@@ -290,3 +309,62 @@ def generate_shapekeys(mesh: bpy.types.Object):
             if sk.value != 0:
                 sk.value = 0
 
+
+def combine(viseme1, viseme2):
+    vise1 = None
+    for key, item in arkit_to_visemes.items():
+        if key == viseme1:
+            vise1 = item
+    vise2 = None
+    for key, item in arkit_to_visemes.items():
+        if key == viseme2:
+            vise2 = item
+
+    result = {}
+    for item in vise2:
+        result[item["name"]] = item["weight"]
+    for item in vise1:
+        if item["name"] in result.keys():
+            result[item["name"]] = max(result[item["name"]], item["weight"])
+        else:
+            result[item["name"]] = item["weight"]
+
+    out = []
+    for key in result:
+        out.append({"name": key, "weight": result[key]})
+    arkit_to_visemes[viseme1 + viseme2] = out
+    # print(json.dumps(arkit_to_visemes, indent = 4))
+    return viseme1 + viseme2
+
+
+def checkPrevious(index, pre_phonemes, phonemes):
+    item = pre_phonemes[index]
+    if index == 0:
+        return item[1]
+    
+    pre_item = pre_phonemes[index - 1]
+    if pre_item[2] != "CN":
+        return item[1]
+    
+    if item[0] - pre_item[0] > 0.07:
+        phonemes.append([pre_item[0], pre_item[1]])
+        return item[1]
+    
+    # print("time: ", index, pre_item[0], item[0])
+    
+    # print(item[1], ':', pre_item[1])
+    return combine(pre_item[1], item[1])
+
+
+def checkNext(index, mouthFormat, pre_phonemes, items_len):
+    if index - 2 > items_len:
+        return [pre_phonemes[index][0], mouthFormat]
+    
+    next_item = pre_phonemes[index + 1]
+    if next_item[2] != "CN":
+        return [pre_phonemes[index][0], mouthFormat]
+    if next_item[0] - pre_phonemes[index][0] > 0.07:
+        return [pre_phonemes[index][0], mouthFormat]
+    # print(next_item[1], ':', item[1])
+
+    return [pre_phonemes[index][0], combine(mouthFormat, next_item[1])]

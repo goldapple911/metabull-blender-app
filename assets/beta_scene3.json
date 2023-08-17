@@ -63,7 +63,7 @@
     "actors": [
       {
         "name": "Sarge",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Sarge_rigged.blend",
+        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": -3.57575,
@@ -88,7 +88,7 @@
       "type": "AUDIO",
       "actor": "Sarge",
       "start_time": 44,
-      "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Approved_Sound_Files/Cut3_Sarge_ElevenLabs_2023-08-13T21_37_08.000Z_WT-Sarge_dO6XCvXXbKlAg9Eusici.wav",
+      "file": "s3://metabull3dassets/Approved_Production_Assets/Approved_Sound_Files/Cut3_Beta_ElevenLabs_2023-08-16T09_57_27.000Z_WT-Cliff_61oeIM6Q68ZPMnSQEk0N.wav",
       "line": "People are so bat-shit crazy!"
     },
     {
@@ -103,7 +103,7 @@
       "actor": "Sarge",
       "start_time": 40,
       "end_time": 170,
-      "emotion": "ANGRY"
+      "emotion": "LESS_ANGRY"
     },
     {
       "type": "TRANSFORM",
@@ -111,9 +111,9 @@
       "start_time": 44,
       "end_time": 70,
       "location": {
-        "x": -2.87607,
-        "y": -0.44798,
-        "z": 1.57451
+        "x": -2.99419,
+        "y": -0.230144,
+        "z": 1.62569
       },
       "rotation": {
         "x": 87.4002,

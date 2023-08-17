@@ -1,4 +1,3 @@
-
 import bpy
 from .. import utils
 
@@ -19,10 +18,10 @@ arkit_to_emotion = {
     "ANGRY": [{"name": "mouthUpperUpLeft", "weight": 1},
               {"name": "browInnerUp", "weight": -2},
               ],
-    "LESS_ANGRY": [{"name": "mouthUpperUpLeft", "weight": 0.3},
-        {"name": "mouthUpperUpRight", "weight": 0.3},
-              {"name": "browInnerUp", "weight": -1},
-              ],
+    "LESS_ANGRY2": [{"name": "mouthUpperUpLeft", "weight": 0.3},
+                    {"name": "mouthUpperUpRight", "weight": 0.3},
+                    {"name": "browInnerUp", "weight": -1},
+                    ],
     "DISGUST": [{"name": "mouthFrownLeft", "weight": 1},
                 {"name": "mouthFrownRight", "weight": 1},
                 {"name": "mouthShrugLower", "weight": -1},

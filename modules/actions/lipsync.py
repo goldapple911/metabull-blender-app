@@ -115,7 +115,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # Add every phoneme as a shapekey to the animation
             prev_shapekey = None
             start_frame = 0
-            for item in phonemes[::2]:
+            for item in phonemes[1::2]:
                 # Shapekey anim values
                 sk_windup = 4
                 sk_min_hold = 5

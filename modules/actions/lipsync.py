@@ -185,7 +185,8 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 if items[2] in value:
                     parent_phoneme = key
                     break
-            item = (float(items[0]), parent_phoneme, shapekey_dict[parent_phoneme])
+            item = (float(items[0]), parent_phoneme, shapekey_dict[parent_phoneme], items[2])
+            print(item)
             pre_phonemes.append(item)
 
         for i in range(items_len):
@@ -199,8 +200,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
                     phonemes.append([item[0], item[1]])
 
-        print("pre\n", pre_phonemes)
-        print("\nresults\n", phonemes)
+        # print("pre\n", pre_phonemes)
+        # print("\nresults\n", phonemes) 
+        for item in phonemes: print(item)
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
@@ -216,7 +218,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             start_frame = 0
             for item in phonemes:
                 # Get the shapekey
-                shapekey = get_shapekey_from_phoneme(mesh, item[1])
+                shapekeys = get_shapekey_from_phoneme(mesh, item[1])
+                shapekey = shapekeys[0]
+                consonant_shapekey = shapekeys[1]
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 end_frame = start_frame + 6
 
@@ -231,11 +235,19 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                     prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
                 # Set the shapekey values and save them as keyframes
+                consonant_shapekey.value = 0
+                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame - 1)
+                consonant_shapekey.value = 1
+                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                consonant_shapekey.value = 0
+                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                 shapekey.value = 0
                 shapekey.keyframe_insert(data_path="value", frame=start_frame)
                 shapekey.value = 1
                 shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                 prev_shapekey = shapekey
+
+                print(start_frame)
 
                 # Set frame_end in the scene
                 action_end = end_frame + 20
@@ -253,30 +265,34 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, parent_phoneme: str) -> bpy.types.ShapeKey | None:
     # Get the shapekey name from the parent phoneme
-    shapekey_names = [parent_phoneme]
+    shapekey_names = parent_phoneme
     if not shapekey_names:
         return None
 
     # Get the shapekey
     shapekey = None
     for sk in mesh.data.shape_keys.key_blocks:
-        if sk.name in shapekey_names:
+        if sk.name == shapekey_names:
             shapekey = sk
             break
-
-    return shapekey
+    consonant = None
+    for sk in mesh.data.shape_keys.key_blocks:
+        if sk.name == shapekey_names[0]:
+            consonant = sk
+            break
+    return [shapekey, consonant]
 
 
 def generate_shapekeys(mesh: bpy.types.Object):
     """If the character is using the ARKit blendshapes, mix them into visemes (mouth shapes)"""
 
     # Return if the character doesn't have the ARKit shapekeys
-    if "mouthFunnel" not in mesh.data.shape_keys.key_blocks \
-            or "mouthRollLower" not in mesh.data.shape_keys.key_blocks:
+    if "mouthClose" not in mesh.data.shape_keys.key_blocks \
+            or "jawOpen" not in mesh.data.shape_keys.key_blocks:
         return
     # If the character already has the generated visemes, return
-    if "Ch" in mesh.data.shape_keys.key_blocks \
-            or "L" in mesh.data.shape_keys.key_blocks:
+    if "A" in mesh.data.shape_keys.key_blocks \
+            or "Z" in mesh.data.shape_keys.key_blocks:
         return
 
     print(f"Generating viseme shapekeys in {mesh.name} from ARKit blendshapes..")
@@ -334,11 +350,11 @@ def checkPrevious(index, mouthFormat, pre_phonemes, phonemes):
     item = pre_phonemes[index]
     if index == 0:
         return [item[0], mouthFormat]
-    
+
     pre_item = pre_phonemes[index - 1]
     if pre_item[2] != "CN":
         return [item[0], mouthFormat]
-    
+
     if flag[index - 1] == 1:
         return [item[0], mouthFormat]
     
@@ -346,7 +362,7 @@ def checkPrevious(index, mouthFormat, pre_phonemes, phonemes):
     if item[0] - pre_item[0] > 0.07:
         phonemes.append([pre_item[0], pre_item[1]])
         return [item[0], mouthFormat]
-    
+
     flag[index] = 1
     return [pre_item[0], combine(pre_item[1], mouthFormat)]
 
@@ -355,16 +371,16 @@ def checkNext(index, pre_phonemes, items_len):
     item = pre_phonemes[index]
     if index + 2 > items_len:
         return item[1]
-    
+
     next_item = pre_phonemes[index + 1]
     if next_item[2] != "CN":
         return item[1]
-    
+
     if next_item[0] - item[0] > 0.07:
         return item[1]
 
     if flag[index + 1] == 1:
         return item[1]
-    
+
     flag[index + 1] = 1
     return combine(item[1], next_item[1])

@@ -74,6 +74,7 @@ arkit_to_visemes = {
     "X": [],
 }
 
+flag = []
 
 def add_lip_sync(actors: dict, actions: list[dict]):
     # Load lip sync model
@@ -172,6 +173,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         phonemes = []
         split_array = results.split("\n")
         items_len = len(split_array)
+        global flag
+        flag = [0 for i in range(items_len)] 
+
         for i in range(items_len):
             items = split_array[i].split(" ")
 
@@ -185,18 +189,18 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             pre_phonemes.append(item)
 
         for i in range(items_len):
+            if flag[i] == 1:
+                continue
             item = pre_phonemes[i]
-            flag = False
             if item[2] == "VW":
-                out = checkNext(i, checkPrevious(i, pre_phonemes, phonemes), pre_phonemes, items_len)
+                out = checkPrevious(i, checkNext(i, pre_phonemes, items_len), pre_phonemes, phonemes)
                 phonemes.append(out)
             else:
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
                     phonemes.append([item[0], item[1]])
 
-        print(phonemes)
-        print(json.dumps(arkit_to_visemes, indent=3))
-
+        print("pre\n", pre_phonemes)
+        print("\nresults\n", phonemes)
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
@@ -326,30 +330,41 @@ def combine(viseme1, viseme2):
     return viseme1 + viseme2
 
 
-def checkPrevious(index, pre_phonemes, phonemes):
+def checkPrevious(index, mouthFormat, pre_phonemes, phonemes):
     item = pre_phonemes[index]
     if index == 0:
-        return item[1]
+        return [item[0], mouthFormat]
     
     pre_item = pre_phonemes[index - 1]
     if pre_item[2] != "CN":
-        return item[1]
+        return [item[0], mouthFormat]
     
+    if flag[index - 1] == 1:
+        return [item[0], mouthFormat]
+    
+    flag[index - 1] = 1
     if item[0] - pre_item[0] > 0.07:
         phonemes.append([pre_item[0], pre_item[1]])
-        return item[1]
+        return [item[0], mouthFormat]
     
-    return combine(pre_item[1], item[1])
+    flag[index] = 1
+    return [pre_item[0], combine(pre_item[1], mouthFormat)]
 
 
-def checkNext(index, mouthFormat, pre_phonemes, items_len):
-    if index - 2 > items_len:
-        return [pre_phonemes[index][0], mouthFormat]
+def checkNext(index, pre_phonemes, items_len):
+    item = pre_phonemes[index]
+    if index + 2 > items_len:
+        return item[1]
     
     next_item = pre_phonemes[index + 1]
     if next_item[2] != "CN":
-        return [pre_phonemes[index][0], mouthFormat]
-    if next_item[0] - pre_phonemes[index][0] > 0.07:
-        return [pre_phonemes[index][0], mouthFormat]
+        return item[1]
+    
+    if next_item[0] - item[0] > 0.07:
+        return item[1]
 
-    return [pre_phonemes[index][0], combine(mouthFormat, next_item[1])]
+    if flag[index + 1] == 1:
+        return item[1]
+    
+    flag[index + 1] = 1
+    return combine(item[1], next_item[1])

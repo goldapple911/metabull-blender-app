@@ -9,7 +9,7 @@ import json
 # 
 arkit_to_visemes = {
     "A": [
-            {"name": "jawOpen", "weight": 0.5},
+            {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthShrugLower", "weight": -1},
             {"name": "mouthShrugUpper", "weight": 0.4}
@@ -171,7 +171,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         pre_phonemes = []
         phonemes = []
         split_array = results.split("\n")
-        print("\nkkkkkkkkkkkkk", split_array, "\njjjjjjjjjjjjj")
         items_len = len(split_array)
         for i in range(items_len):
             items = split_array[i].split(" ")
@@ -183,18 +182,13 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                     parent_phoneme = key
                     break
             item = (float(items[0]), parent_phoneme, shapekey_dict[parent_phoneme])
-            # print(item, items[2])
             pre_phonemes.append(item)
-        print("2@@@@@@@@@")
-        print(pre_phonemes)
-        print("3@@@@@@@@@")
 
         for i in range(items_len):
             item = pre_phonemes[i]
             flag = False
             if item[2] == "VW":
                 out = checkNext(i, checkPrevious(i, pre_phonemes, phonemes), pre_phonemes, items_len)
-                print("pre", i)
                 phonemes.append(out)
             else:
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
@@ -219,12 +213,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             for item in phonemes:
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[1])
-                # generate_shapekeys(mesh)
                 start_frame = int(item[0] * fps) + action_start_frame - 2
-                # end_frame = int((item[0] + item[1]) * 24)
                 end_frame = start_frame + 6
 
-                # print(shapekey, start_frame, end_frame, item)
                 if not shapekey:
                     continue
 
@@ -286,7 +277,6 @@ def generate_shapekeys(mesh: bpy.types.Object):
 
     print(f"Generating viseme shapekeys in {mesh.name} from ARKit blendshapes..")
     utils.set_active(mesh, select=True)
-    # print("\nblocks\n", mesh.data.shape_keys.key_blocks, "\n")
     # Set the shapekey values
     for key, items in arkit_to_visemes.items():
         for item in items:
@@ -325,7 +315,7 @@ def combine(viseme1, viseme2):
         result[item["name"]] = item["weight"]
     for item in vise1:
         if item["name"] in result.keys():
-            result[item["name"]] = max(result[item["name"]], item["weight"])
+            result[item["name"]] = max(result[item["name"]], item["weight"]) * 0.7 + min(result[item["name"]], item["weight"]) * 0.3
         else:
             result[item["name"]] = item["weight"]
 
@@ -333,7 +323,6 @@ def combine(viseme1, viseme2):
     for key in result:
         out.append({"name": key, "weight": result[key]})
     arkit_to_visemes[viseme1 + viseme2] = out
-    # print(json.dumps(arkit_to_visemes, indent = 4))
     return viseme1 + viseme2
 
 
@@ -350,9 +339,6 @@ def checkPrevious(index, pre_phonemes, phonemes):
         phonemes.append([pre_item[0], pre_item[1]])
         return item[1]
     
-    # print("time: ", index, pre_item[0], item[0])
-    
-    # print(item[1], ':', pre_item[1])
     return combine(pre_item[1], item[1])
 
 
@@ -365,6 +351,5 @@ def checkNext(index, mouthFormat, pre_phonemes, items_len):
         return [pre_phonemes[index][0], mouthFormat]
     if next_item[0] - pre_phonemes[index][0] > 0.07:
         return [pre_phonemes[index][0], mouthFormat]
-    # print(next_item[1], ':', item[1])
 
     return [pre_phonemes[index][0], combine(mouthFormat, next_item[1])]

@@ -156,8 +156,8 @@
       "y": 1080
     },
     "frame_rate": 24,
-    "quality": 100,
-    "max_frames": 100
+    "quality": 50,
+    "max_frames": 80
   }
 }
   

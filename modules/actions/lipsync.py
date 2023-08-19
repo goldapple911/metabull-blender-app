@@ -11,8 +11,6 @@ arkit_to_visemes = {
     "A": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthShrugLower", "weight": -1},
-            {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "E": [
             {"name": "jawOpen", "weight": 0.27},
@@ -33,13 +31,13 @@ arkit_to_visemes = {
     "O": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthFunnel", "weight": 0.75},
+            {"name": "mouthFunnel", "weight": 0.8},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "U": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthFunnel", "weight": 0.75},
+            {"name": "mouthFunnel", "weight": 0.8},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "M": [
@@ -230,21 +228,29 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 # End the animation of the previous shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                     prev_shapekey.value = 0
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
 
                 # Set the shapekey values and save them as keyframes
-                consonant_shapekey.value = 0
-                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame - 1)
-                consonant_shapekey.value = 1
-                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame)
-                consonant_shapekey.value = 0
-                consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-                shapekey.value = 0
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-                shapekey.value = 1
-                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                if consonant_shapekey:
+                    consonant_shapekey.value = 0
+                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame - 1)
+                    consonant_shapekey.value = 1
+                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                    consonant_shapekey.value = 0
+                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
+                    shapekey.value = 0
+                    shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                    shapekey.value = 1
+                    shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
+
+                else:
+                    shapekey.value = 0
+                    shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                    shapekey.value = 1
+                    shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+
                 prev_shapekey = shapekey
 
                 # Set frame_end in the scene
@@ -256,9 +262,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                 prev_shapekey.value = 0
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
 
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, parent_phoneme: str) -> bpy.types.ShapeKey | None:

@@ -15,7 +15,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "E": [
-            {"name": "jawOpen", "weight": 0.3},
+            {"name": "jawOpen", "weight": 0.27},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.5},
             {"name": "mouthDimpleRight", "weight": 0.5},
@@ -33,13 +33,13 @@ arkit_to_visemes = {
     "O": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthPucker", "weight": 0.75},
+            {"name": "mouthFunnel", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "U": [
             {"name": "jawOpen", "weight": 0.4},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthPucker", "weight": 0.75},
+            {"name": "mouthFunnel", "weight": 0.75},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "M": [
@@ -48,7 +48,7 @@ arkit_to_visemes = {
         ],
     "P": [
             {"name": "jawOpen", "weight": 0.05},
-            {"name": "mouthShrugLower", "weight": 1},
+            {"name": "mouthShrugLower", "weight": 0},
         ],
     "F": [
             {"name": "jawOpen", "weight": 0.4},
@@ -99,10 +99,10 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         "X": "X",
     }
     phoneme_dict = {
-        "A": ["a", "æ", "ɑ", "ɒ", "ʌ"],
-        "E": ["e", "ə", "ɛ", "ɚ"],
+        "A": ["a", "ɑ", "ɒ", "ʌ"],
+        "E": ["e", "æ", "ɛ", "ɚ"],
         "I": ["i", "ɪ", "iː", "j"],
-        "O": ["ɔ", "o"],
+        "O": ["ɔ", "o", "ə"],
         "U": ["u", "uː", "ʊ"],
         "M": ["m", "n"],
         "P": ["ɵ","p", "t", "d", "ð", "s", "z", "k", "ŋ", "ɡ", "tʰ"],
@@ -242,12 +242,10 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 consonant_shapekey.value = 0
                 consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                 shapekey.value = 0
-                shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
                 shapekey.value = 1
                 shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
                 prev_shapekey = shapekey
-
-                print(start_frame)
 
                 # Set frame_end in the scene
                 action_end = end_frame + 20

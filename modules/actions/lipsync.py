@@ -5,8 +5,6 @@ import soundfile
 from allosaurus.app import read_recognizer
 from .. import utils
 
-import json
-# 
 arkit_to_visemes = {
     "A": [
             {"name": "jawOpen", "weight": 0.4},
@@ -29,15 +27,15 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "O": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.3},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthFunnel", "weight": 0.8},
+            {"name": "mouthFunnel", "weight": 1},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "U": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.3},
             {"name": "mouthClose", "weight": 0.1},
-            {"name": "mouthFunnel", "weight": 0.8},
+            {"name": "mouthFunnel", "weight": 1},
             {"name": "mouthShrugUpper", "weight": 0.4}
         ],
     "M": [
@@ -49,7 +47,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugLower", "weight": 0},
         ],
     "F": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.25},
             {"name": "mouthShrugUpper", "weight": 0.6}
         ],
     "R": [
@@ -57,7 +55,7 @@ arkit_to_visemes = {
             {"name": "mouthShrugUpper", "weight": 0.8}
         ],
     "Y": [
-            {"name": "jawOpen", "weight": 0.4},
+            {"name": "jawOpen", "weight": 0.3},
             {"name": "mouthClose", "weight": 0.1},
             {"name": "mouthDimpleLeft", "weight": 0.7},
             {"name": "mouthDimpleRight", "weight": 0.7},
@@ -109,7 +107,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         "Y": ["y"],
         "Z": ["ʃ", "ʧ", "dʒ", "ʒ"],
         "H": ["h"],
-        "X": ["X"],  # X means silent
+        "X": ["X"],
     }
 
     for action in actions:
@@ -197,10 +195,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             else:
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
                     phonemes.append([item[0], item[1]])
-
-        # print("pre\n", pre_phonemes)
-        # print("\nresults\n", phonemes) 
-        for item in phonemes: print(item)
+        phonemes = [[0, 'A'], [80, 'A']]
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
@@ -216,9 +211,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             start_frame = 0
             for item in phonemes:
                 # Get the shapekey
-                shapekeys = get_shapekey_from_phoneme(mesh, item[1])
-                shapekey = shapekeys[0]
-                consonant_shapekey = shapekeys[1]
+                shapekey = get_shapekey_from_phoneme(mesh, item[1])
                 start_frame = int(item[0] * fps) + action_start_frame - 2
                 end_frame = start_frame + 6
 
@@ -228,28 +221,15 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 # End the animation of the previous shapekey
                 if prev_shapekey:
                     prev_shapekey.value = 0.6
-                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-                    prev_shapekey.value = 0
                     prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                    prev_shapekey.value = 0
+                    prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
                 # Set the shapekey values and save them as keyframes
-                if consonant_shapekey:
-                    consonant_shapekey.value = 0
-                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame - 1)
-                    consonant_shapekey.value = 1
-                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame)
-                    consonant_shapekey.value = 0
-                    consonant_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-                    shapekey.value = 0
-                    shapekey.keyframe_insert(data_path="value", frame=start_frame)
-                    shapekey.value = 1
-                    shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-
-                else:
-                    shapekey.value = 0
-                    shapekey.keyframe_insert(data_path="value", frame=start_frame)
-                    shapekey.value = 1
-                    shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                shapekey.value = 0
+                shapekey.keyframe_insert(data_path="value", frame=start_frame)
+                shapekey.value = 1
+                shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
 
                 prev_shapekey = shapekey
 
@@ -262,9 +242,9 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # End the animation of the last shapekey
             if prev_shapekey:
                 prev_shapekey.value = 0.6
-                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 1)
-                prev_shapekey.value = 0
                 prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 2)
+                prev_shapekey.value = 0
+                prev_shapekey.keyframe_insert(data_path="value", frame=start_frame + 4)
 
 
 def get_shapekey_from_phoneme(mesh: bpy.types.Object, parent_phoneme: str) -> bpy.types.ShapeKey | None:
@@ -279,12 +259,8 @@ def get_shapekey_from_phoneme(mesh: bpy.types.Object, parent_phoneme: str) -> bp
         if sk.name == shapekey_names:
             shapekey = sk
             break
-    consonant = None
-    for sk in mesh.data.shape_keys.key_blocks:
-        if sk.name == shapekey_names[0]:
-            consonant = sk
-            break
-    return [shapekey, consonant]
+
+    return shapekey
 
 
 def generate_shapekeys(mesh: bpy.types.Object):
@@ -339,7 +315,7 @@ def combine(viseme1, viseme2):
         result[item["name"]] = item["weight"]
     for item in vise1:
         if item["name"] in result.keys():
-            result[item["name"]] = max(result[item["name"]], item["weight"]) * 0.7 + min(result[item["name"]], item["weight"]) * 0.3
+            result[item["name"]] = max(result[item["name"]], item["weight"]) * 0.8 + min(result[item["name"]], item["weight"]) * 0.3
         else:
             result[item["name"]] = item["weight"]
 

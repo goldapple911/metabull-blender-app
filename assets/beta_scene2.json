@@ -110,7 +110,7 @@
       "type": "AUDIO",
       "actor": "Cliff",
       "start_time": 0,
-      "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut2_Beta_ElevenLabs.wav",
+      "file": "s3://metabull3dassets/Blender_TestAssets/TestVersion1/Cut1_Beta_ElevenLabs.wav",
       "line": "I always do a double in case they forget and only put in one shot."
     },
     {
@@ -155,9 +155,9 @@
       "x": 1920,
       "y": 1080
     },
-    "frame_rate": 24,
+    "frame_rate": 100,
     "quality": 50,
-    "max_frames": 80
+    "max_frames": 1800
   }
 }
   

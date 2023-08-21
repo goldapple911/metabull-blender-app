@@ -105,7 +105,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         "F": ["b", "f", "v"],
         "R": ["r", "l", "w"],
         "Y": ["y"],
-        "Z": ["ʃ", "ʧ", "dʒ", "ʒ"],
+        "Z": ["ʃ", "ʧ", "dʒ", "ʒ", "ɹ", "θ", "ʔ", "x"],
         "H": ["h"],
         "X": ["X"],
     }
@@ -174,7 +174,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
         for i in range(items_len):
             items = split_array[i].split(" ")
-
             # Find the parent phoneme
             parent_phoneme = None
             for key, value in phoneme_dict.items():
@@ -195,7 +194,6 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             else:
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
                     phonemes.append([item[0], item[1]])
-        phonemes = [[0, 'A'], [80, 'A']]
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
             if mesh.type != "MESH" or not mesh.data.shape_keys:

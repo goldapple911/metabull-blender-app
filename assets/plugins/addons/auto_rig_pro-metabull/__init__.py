@@ -42,7 +42,7 @@ from .src import auto_rig_remap
 from .src import auto_rig_ge
 from .src.export_fbx import arp_fbx_init
 from .src import utils
- 
+
 
 # gltf export specials 
 class glTF2ExportUserExtension:
@@ -66,7 +66,7 @@ class glTF2ExportUserExtension:
                         act_list.append(act)  
                     elif self.export_action_only == act.name:
                         act_list.append(act)
-   
+
         params.blender_actions = act_list
         
         params.blender_tracks = {k:v for (k, v) in params.blender_tracks.items() if k in [act.name for act in params.blender_actions]}
@@ -103,7 +103,7 @@ def menu_func_export(self, context):
     self.layout.operator(auto_rig_ge.ARP_OT_GE_export_fbx_panel.bl_idname, text="Auto-Rig Pro FBX (.fbx)")
     if bpy.app.version >= (3, 4, 0):
         self.layout.operator(auto_rig_ge.ARP_OT_GE_export_gltf_panel.bl_idname, text="Auto-Rig Pro GLTF (.glb/.gltf)")    
-    
+
 
 def cleanse_modules():
     import sys
@@ -123,7 +123,7 @@ def register():
     rig_functions.register()
     arp_fbx_init.register()
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)   
-    
+
 
 def unregister():
     auto_rig_prefs.unregister()
@@ -135,7 +135,7 @@ def unregister():
     arp_fbx_init.unregister()
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)        
     cleanse_modules()
-    
+
 
 if __name__ == "__main__":
     register()

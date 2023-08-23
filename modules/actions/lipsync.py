@@ -194,6 +194,8 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             else:
                 if (i + 1 < items_len and pre_phonemes[i + 1][2] == "CN" and pre_phonemes[i - 1][2] == "CN") or i + 1 == items_len:
                     phonemes.append([item[0], item[1]])
+        
+        print(phonemes)
         # Add the lip sync to every mesh in the armature
         for mesh in armature.children:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
@@ -210,7 +212,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             for item in phonemes:
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[1])
-                start_frame = int(item[0] * fps) + action_start_frame - 2
+                start_frame = int(item[0] * fps) + action_start_frame - 3
                 end_frame = start_frame + 6
 
                 if not shapekey:

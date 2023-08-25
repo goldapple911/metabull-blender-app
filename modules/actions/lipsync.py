@@ -95,11 +95,22 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 return
 
         # Turn results from the audio file voice recognition into a phoneme list (start, duration, phoneme)
-        phonemes = []
+        pre_phonemes = []
+        i = 0
         for phoneme_item in results.split("\n"):
             items = phoneme_item.split(" ")
             item = (float(items[0]), float(items[1]), items[2])
-            phonemes.append(item)
+            print(i, item)
+            i += 1
+            pre_phonemes.append(item)
+        
+        viseme_len = len(pre_phonemes)
+        invalid_viseme = [2, 3, 6, 14, 17, 21, 29, 32, 34, 35, 40, 42, 45]
+        phonemes = []
+        for index in range(viseme_len):
+            if index not in invalid_viseme:
+                phonemes.append(pre_phonemes[index])
+
         # print(phonemes)
 
         # Add the lip sync to every mesh in the armature
@@ -115,7 +126,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             # Add every phoneme as a shapekey to the animation
             prev_shapekey = None
             start_frame = 0
-            for item in phonemes[1::2]:
+            for item in phonemes:
                 # Shapekey anim values
                 sk_windup = 4
                 sk_min_hold = 5
@@ -144,6 +155,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 shapekey.value = 1
                 shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_windup)
                 prev_shapekey = shapekey
+                print(item,start_frame + sk_windup)
 
                 # Set frame_end in the scene
                 action_end = end_frame + 20

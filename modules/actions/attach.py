@@ -32,6 +32,12 @@ def attach(actors, data):
             raise Exception(f"Actor '{target}' from actions not found.")
         armature = utils.find_armature(target_asset)
 
+        # Check if the armature has the bone name
+        if bone_name not in armature.pose.bones:
+            print(f"Warning: Can't attack: Bone '{bone_name}' not found in armature '{armature.name}'")
+            return
+            # raise Exception(f"Bone '{bone_name}' not found in armature '{armature.name}'")
+
         # Set the assets as active
         utils.set_active(asset, select=True, deselect_others=True)
 

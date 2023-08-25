@@ -103,6 +103,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
         # print(phonemes)
 
         # Add the lip sync to every mesh in the armature
+        print("Adding lip sync to all meshes under armature:", armature.name)
         for mesh in armature.children_recursive:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
                 continue

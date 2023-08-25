@@ -204,7 +204,10 @@ def retarget_arp(source, target, max_anim_length=None):
 
     # Set the armature to a t-pose with ARP
     utils.set_active(target, select=True, deselect_others=True)
-    bpy.ops.arp.set_pose("EXEC_DEFAULT", pose_type="TPOSE")
+    try:
+        bpy.ops.arp.set_pose("EXEC_DEFAULT", pose_type="TPOSE")
+    except RuntimeError as e:
+        print("Warning: Couldn't set T-pose:", e)
 
     # Setup ARP for retargeting
     bpy.context.scene.source_rig = source.name

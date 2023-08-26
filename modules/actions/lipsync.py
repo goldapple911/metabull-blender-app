@@ -105,7 +105,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             pre_phonemes.append(item)
         
         viseme_len = len(pre_phonemes)
-        invalid_viseme = [2, 3, 6, 10, 12, 14, 16, 17, 20, 22, 29, 32, 34, 35, 40, 42, 45]
+        invalid_viseme = [1, 2, 3, 5, 6, 7, 9, 10, 12, 14, 16, 17, 18, 20, 21, 22, 29, 32, 34, 35, 40, 42, 45]
         phonemes = []
         for index in range(viseme_len):
             if index not in invalid_viseme:
@@ -134,7 +134,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
 
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[2])
-                start_frame = int(item[0] * fps) + action_start_frame - sk_windup
+                start_frame = round(item[0] * fps-0.2) + action_start_frame - sk_windup
                 end_frame = start_frame + sk_windup + sk_min_hold + sk_winddown
 
                 # print(shapekey, start_frame, end_frame, item)
@@ -155,7 +155,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                 shapekey.value = 1
                 shapekey.keyframe_insert(data_path="value", frame=start_frame + sk_windup)
                 prev_shapekey = shapekey
-                print(item,start_frame + sk_windup)
+                if mesh.name == "face": print(item,start_frame + sk_windup)
 
                 # Set frame_end in the scene
                 action_end = end_frame + 20

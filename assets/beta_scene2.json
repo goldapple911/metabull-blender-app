@@ -157,7 +157,7 @@
     },
     "frame_rate": 100,
     "quality": 50,
-    "max_frames": 1800
+    "max_frames": 80
   }
 }
   

@@ -105,7 +105,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             pre_phonemes.append(item)
         
         viseme_len = len(pre_phonemes)
-        invalid_viseme = [2, 3, 6, 14, 17, 21, 29, 32, 34, 35, 40, 42, 45]
+        invalid_viseme = [2, 3, 6, 10, 12, 14, 16, 17, 20, 22, 29, 32, 34, 35, 40, 42, 45]
         phonemes = []
         for index in range(viseme_len):
             if index not in invalid_viseme:

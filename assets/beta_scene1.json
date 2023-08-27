@@ -87,7 +87,7 @@
         "actors": [
           {
             "name": "Beta",
-            "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+            "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/cookie_rigged.blend",
             "prompt": "Sarge is in front of the bar.",
             "location": {
               "x": -1.51243,

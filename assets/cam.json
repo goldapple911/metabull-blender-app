@@ -64,7 +64,7 @@
       },
       {
         "name": "Pie_Hole_Cafe",
-        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/Pie_Hole_Cafe_Packed_4k_Textures_08.01.blend",
+        "file": "https://metabull3dassets.s3.amazonaws.com/Approved_Production_Assets/cookie_rigged.blend",
         "location": {
           "x": 0,
           "y": 0,
@@ -85,7 +85,7 @@
     "actors": [
       {
         "name": "Cliff",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/Beta_rig_rreallstudio.blend",
+        "file": "3dmodels/cookie_stripped.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": -3.34,

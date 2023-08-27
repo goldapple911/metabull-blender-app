@@ -63,7 +63,7 @@
     "actors": [
       {
         "name": "Sarge",
-        "file": "s3://metabull3dassets/Approved_Production_Assets/cookie_rigged.blend",
+        "file": "3dmodels/objects/cookie_stripped.blend",
         "prompt": "Cliff is in front of the bar.",
         "location": {
           "x": -3.57575,
@@ -92,7 +92,7 @@
       "line": "I always do a double in case they forget and only put in one shot."
     },
     {
-      "type": "ANIMo",
+      "type": "ANIM",
       "actor": "Sarge",
       "start_time": 0,
       "end_time": 200,

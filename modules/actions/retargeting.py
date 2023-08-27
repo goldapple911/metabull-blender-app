@@ -190,7 +190,18 @@ def retarget(actors: dict, actions: list[dict], data: dict):
 
         # Retarget animation to the actor
         # copy_keyframes(source=anim, target=armature, start_frame=action_start_frame, end_frame=action_end_frame)
-        retarget_arp(source=anim, target=armature, max_anim_length=data["render_sequence"]["max_frames"])
+        # check the name for the bones
+        bones = armature.pose.bones
+        CC_flag = False
+        for bone in bones:
+            if "CC_" in bone.name:
+                CC_flag = True
+                break
+            
+        if CC_flag:
+            retarget_cc(source=anim, target=armature)
+        else:
+            retarget_arp(source=anim, target=armature, max_anim_length=data["render_sequence"]["max_frames"])
 
         # Delete anim object
         utils.delete_hierarchy(anim)
@@ -245,3 +256,12 @@ def retarget_arp(source, target, max_anim_length=None):
     # Restore the rotation of the top parent
     target_parent.rotation_euler = rot_tmp
 
+
+def retarget_cc(source, target):
+    
+    bpy.ops.object.select_all(action='DESELECT')
+    source.select_set(True)
+    target.select_set(True)
+    bpy.context.view_layer.objects.active = source
+    bpy.ops.object.make_links_data(type='ANIMATION')
+    bpy.ops.object.select_all(action='DESELECT')

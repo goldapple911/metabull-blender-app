@@ -1,5 +1,5 @@
 
-from . import retargeting, lipsync, emotions, attach, transform
+from . import retargeting, lipsync, emotions, attach, transform, blinking
 from ..camera_movement import camera_movement
 from .. import utils
 
@@ -8,7 +8,7 @@ def handle_actions(actors: dict, data: dict):
     # Sort the actions by their start time
     actions: list[dict] = data["actions"]
     actions.sort(key=lambda x: x.get("start_time"))
-    
+
     # Attach objects to the armature
     attach.attach(actors, data)
     
@@ -24,7 +24,7 @@ def handle_actions(actors: dict, data: dict):
     emotions.add_emotions(actors, actions)
 
     # Add random blinking
-    # TODO
+    blinking.add_blinking(actors)
 
     # Add camera animations
     camera_movement.set_camera_movement(actions)

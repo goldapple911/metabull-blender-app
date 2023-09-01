@@ -235,7 +235,7 @@ def add_lip_sync(actors: dict, actions: list[dict]):
                         [item[0], item[1], item[0] - phonemes[-1][0]])
 
         # Add the lip sync to every mesh in the armature
-        for mesh in armature.children:
+        for mesh in armature.children_recursive:
             if mesh.type != "MESH" or not mesh.data.shape_keys:
                 continue
             if mesh.name not in bpy.context.view_layer.objects:
@@ -248,6 +248,11 @@ def add_lip_sync(actors: dict, actions: list[dict]):
             prev_shapekey = None
             start_frame = 0
             for item in phonemes:
+                # Shapekey anim values
+                sk_windup = 4
+                sk_min_hold = 5
+                sk_winddown = 3
+
                 # Get the shapekey
                 shapekey = get_shapekey_from_phoneme(mesh, item[1])
                 start_frame = item[0]

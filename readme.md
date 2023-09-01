@@ -6,7 +6,7 @@ export PATH=/Applications/Blender.app/Contents/MacOS/blender:$PATH
 
 Run blender in headless mode (example):
 
-`blender -b -P main.py -- scene1-01.json --open --render`
+`blender -b -P main.py -- cookie_scene.json --open --render --use-mp4`
 
 ### Documentation:
 `blender -b -P main.py -- <json file> [arguments]`
